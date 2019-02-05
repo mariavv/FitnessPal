@@ -1,4 +1,4 @@
-package mariavv.fitnesspal;
+package mariavv.fitnesspal.ui.navigate;
 
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -7,7 +7,11 @@ import android.support.v7.app.AppCompatActivity;
 import android.view.MenuItem;
 import android.widget.TextView;
 
-public class MainActivity extends AppCompatActivity {
+import mariavv.fitnesspal.R;
+import mariavv.fitnesspal.ui.UiTools;
+import mariavv.fitnesspal.ui.handbook.HandBookFragment;
+
+public class NavigateActivity extends AppCompatActivity {
 
     private TextView mTextMessage;
 
@@ -24,6 +28,7 @@ public class MainActivity extends AppCompatActivity {
                     mTextMessage.setText(R.string.title_dashboard);
                     return true;
                 case R.id.navigation_notifications:
+                    UiTools.replaceFragment(HandBookFragment.newInstance(), getSupportFragmentManager());
                     mTextMessage.setText(R.string.title_notifications);
                     return true;
             }
