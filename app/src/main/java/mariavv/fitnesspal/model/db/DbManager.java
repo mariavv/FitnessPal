@@ -86,22 +86,22 @@ public class DbManager {
 
     // todo
     public class HandBookCursor {
-        private final Cursor mCursor;
+        private final Cursor сursor;
 
         private HandBookCursor(Cursor c) {
-            mCursor = c;
+            сursor = c;
         }
 
         public int getCount() {
-            return mCursor.getCount();
+            return сursor.getCount();
         }
 
         public boolean moveToPosition(int pos) {
-            return mCursor.moveToPosition(pos);
+            return сursor.moveToPosition(pos);
         }
 
         public String getName() {
-            return mCursor.getString(mCursor.getColumnIndex(SQLiteHelper.HB_COLUMN_NAME));
+            return сursor.getString(сursor.getColumnIndex(SQLiteHelper.HB_COLUMN_NAME));
         }
     }
 }
