@@ -23,7 +23,7 @@ class SQLiteHelper extends SQLiteOpenHelper {
     private static final String DB_NAME = "fitness_pal";
     private static final int DB_VERSION = 1;
 
-    public SQLiteHelper(Context context, String name, SQLiteDatabase.CursorFactory factory, int version) {
+    SQLiteHelper(Context context, String name, SQLiteDatabase.CursorFactory factory, int version) {
         super(context, DB_NAME, factory, DB_VERSION);
     }
 

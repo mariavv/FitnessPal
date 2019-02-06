@@ -2,11 +2,11 @@ package mariavv.fitnesspal.model.entity;
 
 public class Food {
     private String name;
-    private String protein;
-    private String fat;
-    private String carb;
+    private int protein;
+    private int fat;
+    private int carb;
 
-    public Food(String name, String protein, String fat, String carb) {
+    public Food(String name, int protein, int fat, int carb) {
         this.name = name;
         this.protein = protein;
         this.fat = fat;
@@ -17,15 +17,15 @@ public class Food {
         return name;
     }
 
-    public String getProtein() {
+    public int getProtein() {
         return protein;
     }
 
-    public String getFat() {
+    public int getFat() {
         return fat;
     }
 
-    public String getCarb() {
+    public int getCarb() {
         return carb;
     }
 }

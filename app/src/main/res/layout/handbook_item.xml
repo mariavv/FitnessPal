@@ -1,43 +1,44 @@
 <?xml version="1.0" encoding="utf-8"?>
 <android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_height="wrap_content">
 
     <TextView
-        android:id="@+id/name"
-        android:layout_width="wrap_content"
+        android:id="@+id/nameTv"
+        android:layout_width="@dimen/hb_name_width"
         android:layout_height="wrap_content"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toLeftOf="@id/protein"
-        android:text="@string/handbook_food_title"/>
+        app:layout_constraintRight_toLeftOf="@id/proteinTv"
+        tools:text="@string/handbook_food_title" />
 
     <TextView
-        android:id="@+id/protein"
-        android:layout_width="wrap_content"
+        android:id="@+id/proteinTv"
+        android:layout_width="@dimen/hb_nutrent_width"
         android:layout_height="wrap_content"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintLeft_toRightOf="@id/name"
-        app:layout_constraintRight_toLeftOf="@id/fat"
-        android:text="@string/handbook_protein_title"/>
+        app:layout_constraintLeft_toRightOf="@id/nameTv"
+        app:layout_constraintRight_toLeftOf="@id/fatTv"
+        tools:text="@string/handbook_protein_title" />
 
     <TextView
-        android:id="@+id/fat"
-        android:layout_width="wrap_content"
+        android:id="@+id/fatTv"
+        android:layout_width="@dimen/hb_nutrent_width"
         android:layout_height="wrap_content"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintLeft_toRightOf="@id/protein"
-        app:layout_constraintRight_toLeftOf="@id/carb"
-        android:text="@string/handbook_fat_title"/>
+        app:layout_constraintLeft_toRightOf="@id/proteinTv"
+        app:layout_constraintRight_toLeftOf="@id/carbTv"
+        tools:text="@string/handbook_fat_title" />
 
     <TextView
-        android:id="@+id/carb"
-        android:layout_width="wrap_content"
+        android:id="@+id/carbTv"
+        android:layout_width="@dimen/hb_nutrent_width"
         android:layout_height="wrap_content"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintLeft_toRightOf="@id/fat"
+        app:layout_constraintLeft_toRightOf="@id/fatTv"
         app:layout_constraintRight_toRightOf="parent"
-        android:text="@string/handbook_carb_title"/>
+        tools:text="@string/handbook_carb_title" />
 
 </android.support.constraint.ConstraintLayout>
