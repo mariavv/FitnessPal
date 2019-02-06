@@ -5,15 +5,13 @@ import android.support.annotation.NonNull;
 import android.support.design.widget.BottomNavigationView;
 import android.support.v7.app.AppCompatActivity;
 import android.view.MenuItem;
-import android.widget.TextView;
 
 import mariavv.fitnesspal.R;
 import mariavv.fitnesspal.ui.UiTools;
 import mariavv.fitnesspal.ui.handbook.HandBookFragment;
+import mariavv.fitnesspal.ui.journal.JournalFragment;
 
 public class NavigateActivity extends AppCompatActivity {
-
-    private TextView mTextMessage;
 
     private BottomNavigationView.OnNavigationItemSelectedListener mOnNavigationItemSelectedListener
             = new BottomNavigationView.OnNavigationItemSelectedListener() {
@@ -22,14 +20,12 @@ public class NavigateActivity extends AppCompatActivity {
         public boolean onNavigationItemSelected(@NonNull MenuItem item) {
             switch (item.getItemId()) {
                 case R.id.navigation_home:
-                    mTextMessage.setText(R.string.title_new_record);
                     return true;
                 case R.id.navigation_dashboard:
-                    mTextMessage.setText(R.string.title_journal);
+                    UiTools.replaceFragment(JournalFragment.newInstance(), getSupportFragmentManager());
                     return true;
                 case R.id.navigation_notifications:
                     UiTools.replaceFragment(HandBookFragment.newInstance(), getSupportFragmentManager());
-                    mTextMessage.setText("");
                     return true;
             }
             return false;
@@ -41,7 +37,6 @@ public class NavigateActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_navigation);
 
-        mTextMessage = findViewById(R.id.message);
         BottomNavigationView navigation = findViewById(R.id.navigation);
         navigation.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener);
     }

@@ -7,7 +7,9 @@ import mariavv.fitnesspal.model.db.DbManager;
 import mariavv.fitnesspal.model.entity.Food;
 
 public class Repo {
+
     private static Repo instance;
+
     private DbManager db;
 
     private Repo(Context context) {

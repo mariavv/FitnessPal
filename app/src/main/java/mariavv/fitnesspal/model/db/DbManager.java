@@ -21,6 +21,10 @@ public class DbManager {
 
     private SQLiteHelper sqliteHelper;
 
+    private DbManager(Context context) {
+        sqliteHelper = new SQLiteHelper(context, "", null, 1);
+    }
+
     public static synchronized DbManager getInstance(Context context) {
         if (instance == null) {
             instance = new DbManager(context);
@@ -35,10 +39,6 @@ public class DbManager {
                 + " from " + SQLiteHelper.FOOD_HANDBOOK_TABLE_NAME + " as hb "
                 + " order by " + SQLiteHelper.HB_COLUMN_NAME;
         return getSQLiteDatabase().rawQuery(sqlQuery, null);
-    }
-
-    private DbManager(Context context) {
-        sqliteHelper = new SQLiteHelper(context, "", null, 1);
     }
 
     public long insertFoodInHandbook(Food food) {

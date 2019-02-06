@@ -1,4 +1,4 @@
-package mariavv.fitnesspal.ui.journal.daycards;
+package mariavv.fitnesspal.ui.journal;
 
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
@@ -6,9 +6,11 @@ import android.support.v4.app.FragmentPagerAdapter;
 
 import java.util.Date;
 
+import mariavv.fitnesspal.ui.journal.daycard.DayCardFragment;
+
 class PagerAdapter extends FragmentPagerAdapter {
 
-    public PagerAdapter(FragmentManager fm) {
+    PagerAdapter(FragmentManager fm) {
         super(fm);
     }
 
@@ -21,6 +23,6 @@ class PagerAdapter extends FragmentPagerAdapter {
     @Override
     public int getCount() {
         //todo
-        return 0;
+        return 2;
     }
 }

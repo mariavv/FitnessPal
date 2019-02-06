@@ -1,4 +1,4 @@
-package mariavv.fitnesspal.ui.journal.daycards;
+package mariavv.fitnesspal.ui.journal.daycard;
 
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -16,6 +16,8 @@ import mariavv.fitnesspal.R;
 public class DayCardFragment extends MvpAppCompatFragment implements DayCardView {
 
     private static final String ARG_DATE = "date";
+
+    View view;
 
     @InjectPresenter
     DayCardPresenter presenter;
@@ -36,7 +38,7 @@ public class DayCardFragment extends MvpAppCompatFragment implements DayCardView
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        View v = inflater.inflate(R.layout.fragment_day_card, container, false);
+        view = inflater.inflate(R.layout.fragment_day_card, container, false);
 
         Bundle args = getArguments();
         if (args != null) {
@@ -44,12 +46,17 @@ public class DayCardFragment extends MvpAppCompatFragment implements DayCardView
             presenter.onGetDateArg(date);
         }
 
-        return v;
+        return view;
     }
 
     @Override
     public void onDestroyView() {
         super.onDestroyView();
         presenter = null;
+    }
+
+    @Override
+    public void updateCard() {
+
     }
 }
