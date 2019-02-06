@@ -13,13 +13,10 @@ import com.arellomobile.mvp.MvpAppCompatFragment;
 import com.arellomobile.mvp.presenter.InjectPresenter;
 
 import mariavv.fitnesspal.R;
-import mariavv.fitnesspal.model.db.DbManager;
-import mariavv.fitnesspal.model.entity.Food;
 
 public class HandBookFragment extends MvpAppCompatFragment implements HandBookView {
 
-    View view;
-    DbManager db;
+    private View view;
     private RecyclerView recycler;
 
     @InjectPresenter
@@ -37,21 +34,14 @@ public class HandBookFragment extends MvpAppCompatFragment implements HandBookVi
 
         configureViews();
 
-        db = DbManager.getInstance(this.getContext());
-        db.insertFoodInHandbook(new Food("Омлет", 15, 18, 3));
-        db.insertFoodInHandbook(new Food("Кофе с молоком", 1, 1, 3));
-        db.insertFoodInHandbook(new Food("Мясной салат", 5, 5, 10));
-        db.insertFoodInHandbook(new Food("Салат овощной", 1, 2, 5));
-        db.insertFoodInHandbook(new Food("Котлеты", 15, 14, 8));
-        db.insertFoodInHandbook(new Food("Пюре", 1, 13, 18));
-        db.insertFoodInHandbook(new Food("Сырники", 5, 15, 25));
-        db.insertFoodInHandbook(new Food("Малиновый чизкейк", 5, 15, 40));
-        db.insertFoodInHandbook(new Food("Макароны с сыром", 3, 9, 22));
-        db.insertFoodInHandbook(new Food("Гуляш", 18, 11, 2));
-        Cursor c = db.getFoodsFromHandbook();
-        adapter.updateItems(c);
+        presenter.onCreateView(this.getContext());
 
         return view;
+    }
+
+    @Override
+    public void updateFeed(Cursor c) {
+        adapter.updateItems(c);
     }
 
     @Override
@@ -59,7 +49,6 @@ public class HandBookFragment extends MvpAppCompatFragment implements HandBookVi
         super.onDestroyView();
         presenter = null;
     }
-
 
     private void configureViews() {
         recycler = view.findViewById(R.id.recycler);

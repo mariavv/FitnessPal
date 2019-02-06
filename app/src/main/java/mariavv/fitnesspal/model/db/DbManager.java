@@ -8,6 +8,7 @@ import android.database.sqlite.SQLiteDatabase;
 import java.util.Objects;
 
 import mariavv.fitnesspal.model.entity.Food;
+import mariavv.fitnesspal.model.entity.Meal;
 
 public class DbManager {
 
@@ -19,10 +20,6 @@ public class DbManager {
     private static DbManager instance;
 
     private SQLiteHelper sqliteHelper;
-
-    private DbManager(Context context) {
-        sqliteHelper = new SQLiteHelper(context, "", null, 1);
-    }
 
     public static synchronized DbManager getInstance(Context context) {
         if (instance == null) {
@@ -40,6 +37,10 @@ public class DbManager {
         return getSQLiteDatabase().rawQuery(sqlQuery, null);
     }
 
+    private DbManager(Context context) {
+        sqliteHelper = new SQLiteHelper(context, "", null, 1);
+    }
+
     public long insertFoodInHandbook(Food food) {
         if (!hasFood(food)) {
             return insertFood(food);
@@ -47,9 +48,30 @@ public class DbManager {
         return -1;
     }
 
+    public Cursor getJournal() {
+        String sqlQuery = "select " + " hb." + SQLiteHelper.HB_COLUMN_NAME
+                + ", j." + SQLiteHelper.JOURNAL_COLUMN_DATE
+                + " , j." + SQLiteHelper.JOURNAL_COLUMN_MASS
+                + " , hb." + SQLiteHelper.HB_COLUMN_PROTEIN
+                + " , hb." + SQLiteHelper.HB_COLUMN_FAT
+                + " , hb." + SQLiteHelper.HB_COLUMN_CARB
+                + " from " + SQLiteHelper.FOOD_HANDBOOK_TABLE_NAME + " as hb, "
+                + SQLiteHelper.JOURNAL_TABLE_NAME + " as hb "
+                + " order by " + SQLiteHelper.JOURNAL_COLUMN_DATE;
+        return getSQLiteDatabase().rawQuery(sqlQuery, null);
+    }
+
     public void clearTables() {
         getSQLiteDatabase().delete(SQLiteHelper.JOURNAL_TABLE_NAME, null, null);
         getSQLiteDatabase().delete(SQLiteHelper.FOOD_HANDBOOK_TABLE_NAME, null, null);
+    }
+
+    public long insertMealInJournal(Meal meal) {
+        ContentValues cv = new ContentValues();
+        cv.put(SQLiteHelper.JOURNAL_COLUMN_DATE, meal.getDate().toString());
+        cv.put(SQLiteHelper.JOURNAL_COLUMN_HB_ID, meal.getFood_id());
+        cv.put(SQLiteHelper.JOURNAL_COLUMN_MASS, meal.getMass());
+        return getSQLiteDatabase().insert(SQLiteHelper.JOURNAL_TABLE_NAME, null, cv);
     }
 
     private long insertFood(Food food) {
