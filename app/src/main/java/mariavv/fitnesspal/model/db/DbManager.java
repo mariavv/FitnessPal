@@ -7,8 +7,8 @@ import android.database.sqlite.SQLiteDatabase;
 
 import java.util.Objects;
 
+import mariavv.fitnesspal.model.entity.Dish;
 import mariavv.fitnesspal.model.entity.Food;
-import mariavv.fitnesspal.model.entity.Meal;
 
 public class DbManager {
 
@@ -56,7 +56,7 @@ public class DbManager {
                 + " , hb." + SQLiteHelper.HB_COLUMN_FAT
                 + " , hb." + SQLiteHelper.HB_COLUMN_CARB
                 + " from " + SQLiteHelper.FOOD_HANDBOOK_TABLE_NAME + " as hb, "
-                + SQLiteHelper.JOURNAL_TABLE_NAME + " as hb "
+                + SQLiteHelper.JOURNAL_TABLE_NAME + " as j "
                 + " order by " + SQLiteHelper.JOURNAL_COLUMN_DATE;
         return getSQLiteDatabase().rawQuery(sqlQuery, null);
     }
@@ -66,11 +66,11 @@ public class DbManager {
         getSQLiteDatabase().delete(SQLiteHelper.FOOD_HANDBOOK_TABLE_NAME, null, null);
     }
 
-    public long insertMealInJournal(Meal meal) {
+    public long insertDishInJournal(Dish dish) {
         ContentValues cv = new ContentValues();
-        cv.put(SQLiteHelper.JOURNAL_COLUMN_DATE, meal.getDate().toString());
-        cv.put(SQLiteHelper.JOURNAL_COLUMN_HB_ID, meal.getFood_id());
-        cv.put(SQLiteHelper.JOURNAL_COLUMN_MASS, meal.getMass());
+        cv.put(SQLiteHelper.JOURNAL_COLUMN_DATE, dish.getDate().toString());
+        cv.put(SQLiteHelper.JOURNAL_COLUMN_HB_ID, dish.getFoodId());
+        cv.put(SQLiteHelper.JOURNAL_COLUMN_MASS, dish.getMass());
         return getSQLiteDatabase().insert(SQLiteHelper.JOURNAL_TABLE_NAME, null, cv);
     }
 
@@ -104,6 +104,20 @@ public class DbManager {
 
     private SQLiteDatabase getSQLiteDatabase() {
         return sqliteHelper.getWritableDatabase();
+    }
+
+    public Cursor getJournalDaysCount() {
+        String sqlQuery = "select count(*) as count"
+                + " from ( select distinct " + SQLiteHelper.JOURNAL_COLUMN_DATE + " from " + SQLiteHelper.JOURNAL_TABLE_NAME + ")";
+        return getSQLiteDatabase().rawQuery(sqlQuery, null);
+    }
+
+    public Cursor getJournalDateByIndex(int i) {
+        String sqlQuery = "select " + SQLiteHelper.JOURNAL_COLUMN_DATE + "from ("
+                + "select counter(0) as i, " + SQLiteHelper.JOURNAL_COLUMN_DATE
+                + " from " + SQLiteHelper.JOURNAL_TABLE_NAME + " order by " + SQLiteHelper.JOURNAL_COLUMN_DATE
+                + ") where i = " + String.valueOf(i);
+        return getSQLiteDatabase().rawQuery(sqlQuery, null);
     }
 
     // todo

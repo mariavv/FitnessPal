@@ -1,16 +1,22 @@
 package mariavv.fitnesspal.ui.journal;
 
+import android.database.Cursor;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
-import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewPager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.arellomobile.mvp.MvpAppCompatFragment;
+import com.arellomobile.mvp.presenter.InjectPresenter;
+
 import mariavv.fitnesspal.R;
 
-public class JournalFragment extends Fragment {
+public class JournalFragment extends MvpAppCompatFragment implements JournalView {
+
+    @InjectPresenter
+    JournalPresenter presenter;
 
     public static JournalFragment newInstance() {
         return new JournalFragment();
@@ -31,5 +37,10 @@ public class JournalFragment extends Fragment {
         viewPager.setAdapter(pagerAdapter);
 
         return v;
+    }
+
+    @Override
+    public void updateData(Cursor c) {
+
     }
 }

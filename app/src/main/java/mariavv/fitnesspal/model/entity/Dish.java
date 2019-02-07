@@ -2,14 +2,14 @@ package mariavv.fitnesspal.model.entity;
 
 import java.util.Date;
 
-public class Meal {
+public class Dish {
     private Date date;
-    private int food_id;
+    private int foodId;
     private int mass;
 
-    public Meal(Date date, int food_id, int mass) {
+    public Dish(Date date, int foodId, int mass) {
         this.date = date;
-        this.food_id = food_id;
+        this.foodId = foodId;
         this.mass = mass;
     }
 
@@ -17,8 +17,8 @@ public class Meal {
         return date;
     }
 
-    public int getFood_id() {
-        return food_id;
+    public int getFoodId() {
+        return foodId;
     }
 
     public int getMass() {
