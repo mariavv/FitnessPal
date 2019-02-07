@@ -30,9 +30,9 @@ public class JournalFragment extends MvpAppCompatFragment implements JournalView
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        View v = inflater.inflate(R.layout.fragment_journal, container, false);
+        final View v = inflater.inflate(R.layout.fragment_journal, container, false);
 
-        ViewPager viewPager = v.findViewById(R.id.viewPager);
+        final ViewPager viewPager = v.findViewById(R.id.viewPager);
         final PagerAdapter pagerAdapter = new PagerAdapter(getChildFragmentManager());
         viewPager.setAdapter(pagerAdapter);
 
@@ -41,6 +41,6 @@ public class JournalFragment extends MvpAppCompatFragment implements JournalView
 
     @Override
     public void updateData(Cursor c) {
-
+        c.close();
     }
 }

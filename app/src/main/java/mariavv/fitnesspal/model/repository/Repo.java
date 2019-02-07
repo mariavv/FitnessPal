@@ -1,14 +1,12 @@
 package mariavv.fitnesspal.model.repository;
 
-import android.content.Context;
 import android.database.Cursor;
-import android.support.annotation.Nullable;
 
 import java.util.Date;
 
 import mariavv.fitnesspal.model.db.DbManager;
-import mariavv.fitnesspal.model.entity.Dish;
-import mariavv.fitnesspal.model.entity.Food;
+import mariavv.fitnesspal.model.model.Dish;
+import mariavv.fitnesspal.model.model.Food;
 
 public class Repo {
 
@@ -16,18 +14,13 @@ public class Repo {
 
     private DbManager db;
 
-    private Repo(Context context) {
-        db = DbManager.getInstance(context);
+    private Repo() {
+        db = DbManager.getInstance();
     }
 
-    @Nullable
     public static synchronized Repo getInstance() {
-        return instance;
-    }
-
-    public static synchronized Repo getInstance(Context context) {
         if (instance == null) {
-            instance = new Repo(context);
+            instance = new Repo();
         }
         return instance;
     }
@@ -40,15 +33,11 @@ public class Repo {
         return db.getJournal();
     }
 
-    public long insertFoodInHandbook(Food food) {
-        return db.insertFoodInHandbook(food);
+    public void insertFoodInHandbook(Food food) {
+        db.insertFoodInHandbook(food);
     }
 
     public int getJournalDaysCount() {
-        Cursor c = db.getJournalDaysCount();
-        c.moveToFirst();
-        int i = c.getCount();
-        int f = c.getPosition();
         return db.getJournalDaysCount().getInt(0);
     }
 

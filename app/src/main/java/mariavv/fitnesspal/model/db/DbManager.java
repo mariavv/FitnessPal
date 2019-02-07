@@ -1,14 +1,11 @@
 package mariavv.fitnesspal.model.db;
 
-import android.content.ContentValues;
-import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
+import android.support.annotation.NonNull;
 
-import java.util.Objects;
-
-import mariavv.fitnesspal.model.entity.Dish;
-import mariavv.fitnesspal.model.entity.Food;
+import mariavv.fitnesspal.model.model.Dish;
+import mariavv.fitnesspal.model.model.Food;
 
 public class DbManager {
 
@@ -21,35 +18,45 @@ public class DbManager {
 
     private SQLiteHelper sqliteHelper;
 
-    private DbManager(Context context) {
-        sqliteHelper = new SQLiteHelper(context, "", null, 1);
+    private DbManager() {
+        sqliteHelper = new SQLiteHelper("", null, 1);
     }
 
-    public static synchronized DbManager getInstance(Context context) {
+    public static synchronized DbManager getInstance() {
         if (instance == null) {
-            instance = new DbManager(context);
+            instance = new DbManager();
         }
         return instance;
     }
 
     public Cursor getFoodsFromHandbook() {
-        String sqlQuery = "select distinct hb." + SQLiteHelper.HB_COLUMN_NAME
+        final String q = "select distinct hb." + SQLiteHelper.HB_COLUMN_NAME
                 + " , hb." + SQLiteHelper.HB_COLUMN_PROTEIN
                 + " , hb." + SQLiteHelper.HB_COLUMN_FAT + " , hb." + SQLiteHelper.HB_COLUMN_CARB
                 + " from " + SQLiteHelper.FOOD_HANDBOOK_TABLE_NAME + " as hb "
                 + " order by " + SQLiteHelper.HB_COLUMN_NAME;
-        return getSQLiteDatabase().rawQuery(sqlQuery, null);
+        return getSQLiteDatabase().rawQuery(q, null);
     }
 
-    public long insertFoodInHandbook(Food food) {
-        if (!hasFood(food)) {
-            return insertFood(food);
-        }
-        return -1;
+    public void insertFoodInHandbook(Food food) {
+        final String q = "insert or ignore into " + SQLiteHelper.FOOD_HANDBOOK_TABLE_NAME + " ("
+                + SQLiteHelper.HB_COLUMN_NAME + ", " + SQLiteHelper.HB_COLUMN_PROTEIN
+                + ", " + SQLiteHelper.HB_COLUMN_FAT + ", " + SQLiteHelper.HB_COLUMN_CARB + ") "
+                + " values ( "
+                + "'" + food.name + "'" + ", " + food.protein + ", " + food.fat + ", " + food.carb + ") ";
+
+        getSQLiteDatabase().execSQL(q);
+    }
+
+    public void insertDishInJournal(Dish dish) {
+        final String q = "insert or ignore into " + SQLiteHelper.JOURNAL_TABLE_NAME
+                + " values ( "
+                + "'" + dish.date.toString() + "'" + ", " + dish.foodId + ", " + dish.mass + ") ";
+        getSQLiteDatabase().execSQL(q);
     }
 
     public Cursor getJournal() {
-        String sqlQuery = "select " + " hb." + SQLiteHelper.HB_COLUMN_NAME
+        final String q = "select " + " hb." + SQLiteHelper.HB_COLUMN_NAME
                 + ", j." + SQLiteHelper.JOURNAL_COLUMN_DATE
                 + " , j." + SQLiteHelper.JOURNAL_COLUMN_MASS
                 + " , hb." + SQLiteHelper.HB_COLUMN_PROTEIN
@@ -58,7 +65,7 @@ public class DbManager {
                 + " from " + SQLiteHelper.FOOD_HANDBOOK_TABLE_NAME + " as hb, "
                 + SQLiteHelper.JOURNAL_TABLE_NAME + " as j "
                 + " order by " + SQLiteHelper.JOURNAL_COLUMN_DATE;
-        return getSQLiteDatabase().rawQuery(sqlQuery, null);
+        return getSQLiteDatabase().rawQuery(q, null);
     }
 
     public void clearTables() {
@@ -66,65 +73,30 @@ public class DbManager {
         getSQLiteDatabase().delete(SQLiteHelper.FOOD_HANDBOOK_TABLE_NAME, null, null);
     }
 
-    public long insertDishInJournal(Dish dish) {
-        ContentValues cv = new ContentValues();
-        cv.put(SQLiteHelper.JOURNAL_COLUMN_DATE, dish.getDate().toString());
-        cv.put(SQLiteHelper.JOURNAL_COLUMN_HB_ID, dish.getFoodId());
-        cv.put(SQLiteHelper.JOURNAL_COLUMN_MASS, dish.getMass());
-        return getSQLiteDatabase().insert(SQLiteHelper.JOURNAL_TABLE_NAME, null, cv);
-    }
-
-    private long insertFood(Food food) {
-        ContentValues cv = new ContentValues();
-        cv.put(SQLiteHelper.HB_COLUMN_NAME, food.getName());
-        cv.put(SQLiteHelper.HB_COLUMN_PROTEIN, food.getProtein());
-        cv.put(SQLiteHelper.HB_COLUMN_FAT, food.getFat());
-        cv.put(SQLiteHelper.HB_COLUMN_CARB, food.getCarb());
-        return getSQLiteDatabase().insert(SQLiteHelper.FOOD_HANDBOOK_TABLE_NAME, null, cv);
-    }
-
-    private boolean hasFood(Food food) {
-        Cursor c = getSQLiteDatabase().query(SQLiteHelper.FOOD_HANDBOOK_TABLE_NAME, null, null, null,
-                null, null, null);
-
-        if (c.moveToFirst()) {
-            int idColIndex = c.getColumnIndex(SQLiteHelper.HB_COLUMN_NAME);
-
-            do {
-                if (Objects.equals(food.getName(), c.getString(idColIndex))) {
-                    c.close();
-                    return true;
-                }
-            } while (c.moveToNext());
-        }
-
-        c.close();
-        return false;
-    }
-
     private SQLiteDatabase getSQLiteDatabase() {
         return sqliteHelper.getWritableDatabase();
     }
 
     public Cursor getJournalDaysCount() {
-        String sqlQuery = "select count(*) as count"
+        String q = "select count(*) as count"
                 + " from ( select distinct " + SQLiteHelper.JOURNAL_COLUMN_DATE + " from " + SQLiteHelper.JOURNAL_TABLE_NAME + ")";
-        return getSQLiteDatabase().rawQuery(sqlQuery, null);
+        q = "select 1";
+        return getSQLiteDatabase().rawQuery(q, null);
     }
 
     public Cursor getJournalDateByIndex(int i) {
-        String sqlQuery = "select " + SQLiteHelper.JOURNAL_COLUMN_DATE + "from ("
+        final String q = "select " + SQLiteHelper.JOURNAL_COLUMN_DATE + "from ("
                 + "select counter(0) as i, " + SQLiteHelper.JOURNAL_COLUMN_DATE
                 + " from " + SQLiteHelper.JOURNAL_TABLE_NAME + " order by " + SQLiteHelper.JOURNAL_COLUMN_DATE
                 + ") where i = " + String.valueOf(i);
-        return getSQLiteDatabase().rawQuery(sqlQuery, null);
+        return getSQLiteDatabase().rawQuery(q, null);
     }
 
     // todo
     public class HandBookCursor {
         private final Cursor сursor;
 
-        private HandBookCursor(Cursor c) {
+        private HandBookCursor(@NonNull Cursor c) {
             сursor = c;
         }
 

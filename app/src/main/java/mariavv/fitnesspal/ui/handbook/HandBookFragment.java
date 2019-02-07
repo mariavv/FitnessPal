@@ -34,8 +34,6 @@ public class HandBookFragment extends MvpAppCompatFragment implements HandBookVi
 
         configureViews();
 
-        presenter.onCreateView(this.getContext());
-
         return view;
     }
 

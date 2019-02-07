@@ -13,9 +13,9 @@ import java.util.Date;
 
 import mariavv.fitnesspal.R;
 
-public class DayCardFragment extends MvpAppCompatFragment implements DayCardView {
+import static mariavv.fitnesspal.BundleArg.ARG_DATE;
 
-    private static final String ARG_DATE = "date";
+public class DayCardFragment extends MvpAppCompatFragment implements DayCardView {
 
     View view;
 
@@ -23,8 +23,8 @@ public class DayCardFragment extends MvpAppCompatFragment implements DayCardView
     DayCardPresenter presenter;
 
     public static DayCardFragment newInstance(Date date) {
-        DayCardFragment fragment = new DayCardFragment();
-        Bundle args = new Bundle();
+        final DayCardFragment fragment = new DayCardFragment();
+        final Bundle args = new Bundle();
         args.putSerializable(ARG_DATE, date.toString());
         fragment.setArguments(args);
         return fragment;
@@ -40,7 +40,7 @@ public class DayCardFragment extends MvpAppCompatFragment implements DayCardView
                              Bundle savedInstanceState) {
         view = inflater.inflate(R.layout.fragment_day_card, container, false);
 
-        Bundle args = getArguments();
+        final Bundle args = getArguments();
         if (args != null) {
             String date = (String) args.getSerializable(ARG_DATE);
             presenter.onGetDateArg(date);

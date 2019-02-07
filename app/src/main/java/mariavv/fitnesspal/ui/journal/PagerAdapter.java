@@ -4,9 +4,7 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 
-import java.util.Date;
-
-import mariavv.fitnesspal.model.repository.Repo;
+import mariavv.fitnesspal.FitnessPal;
 import mariavv.fitnesspal.ui.journal.daycard.DayCardFragment;
 
 class PagerAdapter extends FragmentPagerAdapter {
@@ -17,21 +15,11 @@ class PagerAdapter extends FragmentPagerAdapter {
 
     @Override
     public Fragment getItem(int i) {
-        //todo
-        Repo repo = Repo.getInstance();
-        if (repo != null) {
-            return DayCardFragment.newInstance(repo.getDateByIndex(i));
-        }
-        return DayCardFragment.newInstance(new Date());
+        return DayCardFragment.newInstance(FitnessPal.getRepo().getDateByIndex(i));
     }
 
     @Override
     public int getCount() {
-        //todo
-        Repo repo = Repo.getInstance();
-        if (repo != null) {
-            return repo.getJournalDaysCount();
-        }
-        return 0;
+        return FitnessPal.getRepo().getJournalDaysCount();
     }
 }
