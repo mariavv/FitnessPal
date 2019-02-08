@@ -32,11 +32,6 @@ public class DayCardFragment extends MvpAppCompatFragment implements DayCardView
     }
 
     @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-    }
-
-    @Override
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         view = inflater.inflate(R.layout.fragment_day_card, container, false);
@@ -59,7 +54,7 @@ public class DayCardFragment extends MvpAppCompatFragment implements DayCardView
     public void updateCard(String date, Cursor c) {
         final TextView textView = view.findViewById(R.id.text);
         c.moveToFirst();
-        StringBuilder s = new StringBuilder(c.getString(c.getColumnIndex(DbManager.FOOD_NAME)));
+        StringBuilder s = new StringBuilder("");
         do {
             s = s.append(", ").append(c.getString(c.getColumnIndex(DbManager.FOOD_NAME)));
         } while (c.moveToNext());

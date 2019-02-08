@@ -22,7 +22,7 @@ class SQLiteHelper extends SQLiteOpenHelper {
     static final String JOURNAL_COLUMN_MASS = "mass";
 
     private static final String DB_NAME = "fitness_pal";
-    private static final int DB_VERSION = 1;
+    private static final int DB_VERSION = 2;
 
     SQLiteHelper(String name, SQLiteDatabase.CursorFactory factory, int version) {
         super(FitnessPal.appContext, DB_NAME, factory, DB_VERSION);
@@ -49,7 +49,11 @@ class SQLiteHelper extends SQLiteOpenHelper {
         );
     }
 
+    //todo
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
+        db.execSQL("drop table " + JOURNAL_TABLE_NAME + ";");
+        db.execSQL("drop table " + FOOD_HANDBOOK_TABLE_NAME + ";");
+        onCreate(db);
     }
 }
