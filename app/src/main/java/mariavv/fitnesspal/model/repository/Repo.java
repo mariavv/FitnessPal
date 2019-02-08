@@ -2,8 +2,6 @@ package mariavv.fitnesspal.model.repository;
 
 import android.database.Cursor;
 
-import java.util.Date;
-
 import mariavv.fitnesspal.model.db.DbManager;
 import mariavv.fitnesspal.model.model.Dish;
 import mariavv.fitnesspal.model.model.Food;
@@ -29,8 +27,8 @@ public class Repo {
         return db.getFoodsFromHandbook();
     }
 
-    public Cursor getJournal() {
-        return db.getJournal();
+    public Cursor getJournal(String date) {
+        return db.getJournal(date);
     }
 
     public void insertFoodInHandbook(Food food) {
@@ -38,15 +36,28 @@ public class Repo {
     }
 
     public int getJournalDaysCount() {
-        return db.getJournalDaysCount().getInt(0);
+        final Cursor c = db.getJournalDaysCount();
+        c.moveToFirst();
+        final int count = c.getInt(0);
+        c.close();
+        return count;
     }
 
-    public Date getDateByIndex(int i) {
-        String date = db.getJournalDateByIndex(i).getString(0);
-        return new Date();
+    public String getDateByIndex(int i) {
+        final Cursor c = db.getJournalDates();
+        c.moveToPosition(i);
+        return c.getString(0);
     }
 
     public void insertDishInJournal(Dish dish) {
         db.insertDishInJournal(dish);
+    }
+
+    public void clearJournal() {
+        db.clearJournal();
+    }
+
+    public void clearHandbook() {
+        db.clearHandbook();
     }
 }

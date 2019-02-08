@@ -45,7 +45,6 @@ public class HandBookFragment extends MvpAppCompatFragment implements HandBookVi
     @Override
     public void onDestroyView() {
         super.onDestroyView();
-        presenter = null;
     }
 
     private void configureViews() {

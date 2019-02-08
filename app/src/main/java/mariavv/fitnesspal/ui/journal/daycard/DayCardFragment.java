@@ -1,17 +1,18 @@
 package mariavv.fitnesspal.ui.journal.daycard;
 
+import android.database.Cursor;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 
 import com.arellomobile.mvp.MvpAppCompatFragment;
 import com.arellomobile.mvp.presenter.InjectPresenter;
 
-import java.util.Date;
-
 import mariavv.fitnesspal.R;
+import mariavv.fitnesspal.model.db.DbManager;
 
 import static mariavv.fitnesspal.BundleArg.ARG_DATE;
 
@@ -22,10 +23,10 @@ public class DayCardFragment extends MvpAppCompatFragment implements DayCardView
     @InjectPresenter
     DayCardPresenter presenter;
 
-    public static DayCardFragment newInstance(Date date) {
+    public static DayCardFragment newInstance(String date) {
         final DayCardFragment fragment = new DayCardFragment();
         final Bundle args = new Bundle();
-        args.putSerializable(ARG_DATE, date.toString());
+        args.putSerializable(ARG_DATE, date);
         fragment.setArguments(args);
         return fragment;
     }
@@ -42,8 +43,7 @@ public class DayCardFragment extends MvpAppCompatFragment implements DayCardView
 
         final Bundle args = getArguments();
         if (args != null) {
-            String date = (String) args.getSerializable(ARG_DATE);
-            presenter.onGetDateArg(date);
+            presenter.onGetDateArg((String) args.getSerializable(ARG_DATE));
         }
 
         return view;
@@ -52,11 +52,17 @@ public class DayCardFragment extends MvpAppCompatFragment implements DayCardView
     @Override
     public void onDestroyView() {
         super.onDestroyView();
-        presenter = null;
+        //????? presenter = null;
     }
 
     @Override
-    public void updateCard() {
-
+    public void updateCard(String date, Cursor c) {
+        final TextView textView = view.findViewById(R.id.text);
+        c.moveToFirst();
+        StringBuilder s = new StringBuilder(c.getString(c.getColumnIndex(DbManager.FOOD_NAME)));
+        do {
+            s = s.append(", ").append(c.getString(c.getColumnIndex(DbManager.FOOD_NAME)));
+        } while (c.moveToNext());
+        textView.setText(s.toString());
     }
 }

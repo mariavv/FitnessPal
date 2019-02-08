@@ -5,21 +5,19 @@ import android.database.Cursor;
 import com.arellomobile.mvp.InjectViewState;
 import com.arellomobile.mvp.MvpPresenter;
 
-import mariavv.fitnesspal.FitnessPal;
-import mariavv.fitnesspal.model.model.Food;
 import mariavv.fitnesspal.model.repository.Repo;
 
 @InjectViewState
 public class HandBookPresenter extends MvpPresenter<HandBookView> {
 
-    private Repo repo;
-
     @Override
     protected void onFirstViewAttach() {
         super.onFirstViewAttach();
 
-        repo = FitnessPal.getRepo();
+        final Repo repo = Repo.getInstance();
 
+        //test
+        /*repo.clearHandbook();
         repo.insertFoodInHandbook(new Food("Омлет", 15, 18, 3));
         repo.insertFoodInHandbook(new Food("Кофе с молоком", 1, 1, 3));
         repo.insertFoodInHandbook(new Food("Мясной салат", 5, 5, 10));
@@ -32,7 +30,8 @@ public class HandBookPresenter extends MvpPresenter<HandBookView> {
         repo.insertFoodInHandbook(new Food("Гуляш", 18, 11, 2));
         repo.insertFoodInHandbook(new Food("Творог 2%", 18, 2, 0));
         repo.insertFoodInHandbook(new Food("Фрукты", 1, 1, 10));
-        repo.insertFoodInHandbook(new Food("Хлеб", 7, 3, 44));
+        repo.insertFoodInHandbook(new Food("Хлеб", 7, 3, 44));*/
+
         final Cursor c = repo.getFoodsFromHandbook();
 
         getViewState().updateFeed(c);

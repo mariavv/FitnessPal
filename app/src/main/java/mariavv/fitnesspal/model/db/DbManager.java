@@ -2,7 +2,6 @@ package mariavv.fitnesspal.model.db;
 
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
-import android.support.annotation.NonNull;
 
 import mariavv.fitnesspal.model.model.Dish;
 import mariavv.fitnesspal.model.model.Food;
@@ -29,8 +28,12 @@ public class DbManager {
         return instance;
     }
 
+    private SQLiteDatabase getSQLiteDatabase() {
+        return sqliteHelper.getWritableDatabase();
+    }
+
     public Cursor getFoodsFromHandbook() {
-        final String q = "select distinct hb." + SQLiteHelper.HB_COLUMN_NAME
+        final String q = "select hb." + SQLiteHelper.HB_COLUMN_NAME
                 + " , hb." + SQLiteHelper.HB_COLUMN_PROTEIN
                 + " , hb." + SQLiteHelper.HB_COLUMN_FAT + " , hb." + SQLiteHelper.HB_COLUMN_CARB
                 + " from " + SQLiteHelper.FOOD_HANDBOOK_TABLE_NAME + " as hb "
@@ -49,67 +52,53 @@ public class DbManager {
     }
 
     public void insertDishInJournal(Dish dish) {
-        final String q = "insert or ignore into " + SQLiteHelper.JOURNAL_TABLE_NAME
+        final String q = "insert into " + SQLiteHelper.JOURNAL_TABLE_NAME + " ("
+                + SQLiteHelper.JOURNAL_COLUMN_DATE + ", " + SQLiteHelper.JOURNAL_COLUMN_HB_ID
+                + ", " + SQLiteHelper.JOURNAL_COLUMN_MASS + ") "
                 + " values ( "
                 + "'" + dish.date.toString() + "'" + ", " + dish.foodId + ", " + dish.mass + ") ";
         getSQLiteDatabase().execSQL(q);
     }
 
-    public Cursor getJournal() {
-        final String q = "select " + " hb." + SQLiteHelper.HB_COLUMN_NAME
+    public Cursor getJournal(String date) {
+        final String q = "select distinct " + " hb." + SQLiteHelper.HB_COLUMN_NAME
                 + ", j." + SQLiteHelper.JOURNAL_COLUMN_DATE
                 + " , j." + SQLiteHelper.JOURNAL_COLUMN_MASS
                 + " , hb." + SQLiteHelper.HB_COLUMN_PROTEIN
                 + " , hb." + SQLiteHelper.HB_COLUMN_FAT
                 + " , hb." + SQLiteHelper.HB_COLUMN_CARB
                 + " from " + SQLiteHelper.FOOD_HANDBOOK_TABLE_NAME + " as hb, "
-                + SQLiteHelper.JOURNAL_TABLE_NAME + " as j "
-                + " order by " + SQLiteHelper.JOURNAL_COLUMN_DATE;
+                + SQLiteHelper.JOURNAL_TABLE_NAME + " as j where j." + SQLiteHelper.JOURNAL_COLUMN_DATE + " = '" + date + "' and j."
+                + SQLiteHelper.JOURNAL_COLUMN_HB_ID + " = hb." + SQLiteHelper.HB_COLUMN_ID;
         return getSQLiteDatabase().rawQuery(q, null);
     }
 
     public void clearTables() {
-        getSQLiteDatabase().delete(SQLiteHelper.JOURNAL_TABLE_NAME, null, null);
-        getSQLiteDatabase().delete(SQLiteHelper.FOOD_HANDBOOK_TABLE_NAME, null, null);
+        clearJournal();
+        clearHandbook();
     }
 
-    private SQLiteDatabase getSQLiteDatabase() {
-        return sqliteHelper.getWritableDatabase();
+    public void clearHandbook() {
+        deleteTable(SQLiteHelper.FOOD_HANDBOOK_TABLE_NAME);
+    }
+
+    public void clearJournal() {
+        deleteTable(SQLiteHelper.JOURNAL_TABLE_NAME);
+    }
+
+    private void deleteTable(String table) {
+        getSQLiteDatabase().delete(table, null, null);
     }
 
     public Cursor getJournalDaysCount() {
-        String q = "select count(*) as count"
+        final String q = "select count(*) as count"
                 + " from ( select distinct " + SQLiteHelper.JOURNAL_COLUMN_DATE + " from " + SQLiteHelper.JOURNAL_TABLE_NAME + ")";
-        q = "select 1";
         return getSQLiteDatabase().rawQuery(q, null);
     }
 
-    public Cursor getJournalDateByIndex(int i) {
-        final String q = "select " + SQLiteHelper.JOURNAL_COLUMN_DATE + "from ("
-                + "select counter(0) as i, " + SQLiteHelper.JOURNAL_COLUMN_DATE
-                + " from " + SQLiteHelper.JOURNAL_TABLE_NAME + " order by " + SQLiteHelper.JOURNAL_COLUMN_DATE
-                + ") where i = " + String.valueOf(i);
+    public Cursor getJournalDates() {
+        final String q = "select distinct " + SQLiteHelper.JOURNAL_COLUMN_DATE
+                + " from " + SQLiteHelper.JOURNAL_TABLE_NAME + " order by " + SQLiteHelper.JOURNAL_COLUMN_DATE;
         return getSQLiteDatabase().rawQuery(q, null);
-    }
-
-    // todo
-    public class HandBookCursor {
-        private final Cursor сursor;
-
-        private HandBookCursor(@NonNull Cursor c) {
-            сursor = c;
-        }
-
-        public int getCount() {
-            return сursor.getCount();
-        }
-
-        public boolean moveToPosition(int pos) {
-            return сursor.moveToPosition(pos);
-        }
-
-        public String getName() {
-            return сursor.getString(сursor.getColumnIndex(SQLiteHelper.HB_COLUMN_NAME));
-        }
     }
 }

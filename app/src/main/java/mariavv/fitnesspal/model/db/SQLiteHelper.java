@@ -10,7 +10,7 @@ class SQLiteHelper extends SQLiteOpenHelper {
     static final String FOOD_HANDBOOK_TABLE_NAME = "food_handbook";
     static final String JOURNAL_TABLE_NAME = "journal";
 
-    private static final String HB_COLUMN_ID = "id";
+    static final String HB_COLUMN_ID = "id";
     static final String HB_COLUMN_NAME = "name";
     static final String HB_COLUMN_PROTEIN = "protein";
     static final String HB_COLUMN_FAT = "fat";
@@ -32,7 +32,7 @@ class SQLiteHelper extends SQLiteOpenHelper {
     public void onCreate(SQLiteDatabase db) {
         db.execSQL(" create table " + FOOD_HANDBOOK_TABLE_NAME + " ( "
                 + HB_COLUMN_ID + " integer primary key, "
-                + HB_COLUMN_NAME + " text, "
+                + HB_COLUMN_NAME + " text UNIQUE, "
                 + HB_COLUMN_PROTEIN + " integer, "
                 + HB_COLUMN_FAT + " integer, "
                 + HB_COLUMN_CARB + " integer "
