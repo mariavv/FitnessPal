@@ -1,15 +1,18 @@
-package mariavv.fitnesspal;
+package mariavv.fitnesspal.ui.navigate;
 
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.BottomNavigationView;
 import android.support.v7.app.AppCompatActivity;
 import android.view.MenuItem;
-import android.widget.TextView;
 
-public class MainActivity extends AppCompatActivity {
+import mariavv.fitnesspal.R;
+import mariavv.fitnesspal.ui.UiTools;
+import mariavv.fitnesspal.ui.enter.EnterFragment;
+import mariavv.fitnesspal.ui.handbook.HandBookFragment;
+import mariavv.fitnesspal.ui.journal.JournalFragment;
 
-    private TextView mTextMessage;
+public class NavigateActivity extends AppCompatActivity {
 
     private BottomNavigationView.OnNavigationItemSelectedListener mOnNavigationItemSelectedListener
             = new BottomNavigationView.OnNavigationItemSelectedListener() {
@@ -18,13 +21,13 @@ public class MainActivity extends AppCompatActivity {
         public boolean onNavigationItemSelected(@NonNull MenuItem item) {
             switch (item.getItemId()) {
                 case R.id.navigation_home:
-                    mTextMessage.setText(R.string.title_home);
+                    UiTools.replaceFragment(EnterFragment.newInstance(), getSupportFragmentManager());
                     return true;
                 case R.id.navigation_dashboard:
-                    mTextMessage.setText(R.string.title_dashboard);
+                    UiTools.replaceFragment(JournalFragment.newInstance(), getSupportFragmentManager());
                     return true;
                 case R.id.navigation_notifications:
-                    mTextMessage.setText(R.string.title_notifications);
+                    UiTools.replaceFragment(HandBookFragment.newInstance(), getSupportFragmentManager());
                     return true;
             }
             return false;
@@ -34,10 +37,9 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
+        setContentView(R.layout.activity_navigation);
 
-        mTextMessage = (TextView) findViewById(R.id.message);
-        BottomNavigationView navigation = (BottomNavigationView) findViewById(R.id.navigation);
+        BottomNavigationView navigation = findViewById(R.id.navigation);
         navigation.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener);
     }
 

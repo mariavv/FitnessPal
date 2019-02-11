@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="utf-8"?>
+<TableLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:padding="@dimen/day_header_padding"
+    android:stretchColumns="*">
+
+    <TableRow android:padding="@dimen/day_header_padding">
+
+        <TextView
+            android:id="@+id/protein_tv"
+            android:gravity="center_horizontal"
+            tools:text="Б" />
+
+        <TextView
+            android:id="@+id/fat_tv"
+            android:gravity="center_horizontal"
+            tools:text="Ж" />
+    </TableRow>
+
+    <TableRow android:padding="@dimen/day_header_padding">
+
+        <TextView
+            android:id="@+id/carb_tv"
+            android:gravity="center_horizontal"
+            tools:text="У" />
+
+        <TextView
+            android:id="@+id/energy_tv"
+            android:gravity="center_horizontal"
+            tools:text="ккал" />
+    </TableRow>
+
+</TableLayout>
+
+    <!--<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:paddingTop="40dp"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        xmlns:tools="http://schemas.android.com/tools">
+
+
+        <TextView
+            android:id="@+id/protein_tv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            tools:text="Б"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="@id/fat_tv" />
+
+        <TextView
+            android:id="@+id/fat_tv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            tools:text="Ж"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintLeft_toRightOf="@id/protein_tv"
+            app:layout_constraintRight_toRightOf="parent"/>
+
+        <TextView
+            android:id="@+id/carb_tv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            tools:text="У"
+            app:layout_constraintTop_toBottomOf="@id/protein_tv"
+            app:layout_constraintLeft_toLeftOf="@id/protein_tv"/>
+
+        <TextView
+            android:id="@+id/energy_tv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            tools:text="ккал"
+            app:layout_constraintTop_toBottomOf="@id/fat_tv"
+            app:layout_constraintRight_toRightOf="parent"/>
+
+    </android.support.constraint.ConstraintLayout>-->
