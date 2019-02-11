@@ -34,13 +34,13 @@ public class DayCardPresenter extends MvpPresenter<DayCardView> {
             //meal.mealNum.value = c.getInt(c.getColumnIndex(DbManager.JOURNAL_MEAL_NUM));
 
             FoodName foodName = new FoodName(c.getString(c.getColumnIndex(DbManager.FOOD_NAME)));
-            MacroNutrients macroNutrients = new MacroNutrients(c.getInt(c.getColumnIndex(DbManager.JOURNAL_WEIGHT)),
-                    c.getInt(c.getColumnIndex(DbManager.JOURNAL_WEIGHT)),
-                    c.getInt(c.getColumnIndex(DbManager.JOURNAL_WEIGHT)));
+            MacroNutrients macroNutrients = new MacroNutrients(c.getInt(c.getColumnIndex(DbManager.FOOD_PROTEIN)),
+                    c.getInt(c.getColumnIndex(DbManager.FOOD_FAT)),
+                    c.getInt(c.getColumnIndex(DbManager.FOOD_CARB)));
             Weight weight = new Weight(c.getInt(c.getColumnIndex(DbManager.JOURNAL_WEIGHT)));
             DishListItem dish = new DishListItem(foodName, macroNutrients, weight);
 
-            dataSet.add(0, dish);
+            dataSet.add(dish);
 
            /* while (c.getInt(c.getColumnIndex(DbManager.JOURNAL_MEAL_NUM)) == meal.mealNum.value) {
                 dishCount++;
@@ -49,7 +49,7 @@ public class DayCardPresenter extends MvpPresenter<DayCardView> {
             }*/
         } while (c.moveToNext());
 
-        dataSet.add(1, headerListItem);
+        //dataSet.add(1, headerListItem);
 
         getViewState().updateCard(dataSet);
     }

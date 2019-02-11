@@ -4,7 +4,7 @@ public class Energy {
     private static final int proteinEnergy = 4;
     private static final int fatEnergy = 9;
     private static final int carbEnergy = 4;
-    private static final int PER_WEIGHT = 100;
+    public static final int PER_WEIGHT = 100;
 
     private int value;
 

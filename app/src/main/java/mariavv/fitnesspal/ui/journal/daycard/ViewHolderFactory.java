@@ -53,8 +53,8 @@ public class ViewHolderFactory {
 
     public static class ListItemViewHolder extends RecyclerView.ViewHolder {
 
-        public TextView mealTitle;
-        public TextView weight;
+        public TextView mealTitleTv;
+        public TextView weightTv;
         public TextView proteinTv;
         public TextView fatTv;
         public TextView carbTv;
@@ -63,8 +63,8 @@ public class ViewHolderFactory {
         ListItemViewHolder(View itemView) {
             super(itemView);
 
-            mealTitle = itemView.findViewById(R.id.meal_title_tv);
-            weight = itemView.findViewById(R.id.weight_tv);
+            mealTitleTv = itemView.findViewById(R.id.meal_title_tv);
+            weightTv = itemView.findViewById(R.id.weight_tv);
             proteinTv = itemView.findViewById(R.id.protein_tv);
             fatTv = itemView.findViewById(R.id.fat_tv);
             carbTv = itemView.findViewById(R.id.carb_tv);
