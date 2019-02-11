@@ -6,38 +6,38 @@
     android:layout_height="wrap_content">
 
     <TextView
-        android:id="@+id/nameTv"
+        android:id="@+id/name_tv"
         android:layout_width="@dimen/hb_name_width"
         android:layout_height="wrap_content"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toLeftOf="@id/proteinTv"
+        app:layout_constraintRight_toLeftOf="@id/protein_tv"
         tools:text="@string/handbook_food_title" />
 
     <TextView
-        android:id="@+id/proteinTv"
+        android:id="@+id/protein_tv"
         android:layout_width="@dimen/hb_nutrent_width"
         android:layout_height="wrap_content"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintLeft_toRightOf="@id/nameTv"
-        app:layout_constraintRight_toLeftOf="@id/fatTv"
+        app:layout_constraintLeft_toRightOf="@id/name_tv"
+        app:layout_constraintRight_toLeftOf="@id/fat_tv"
         tools:text="@string/handbook_protein_title" />
 
     <TextView
-        android:id="@+id/fatTv"
+        android:id="@+id/fat_tv"
         android:layout_width="@dimen/hb_nutrent_width"
         android:layout_height="wrap_content"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintLeft_toRightOf="@id/proteinTv"
-        app:layout_constraintRight_toLeftOf="@id/carbTv"
+        app:layout_constraintLeft_toRightOf="@id/protein_tv"
+        app:layout_constraintRight_toLeftOf="@id/carb_tv"
         tools:text="@string/handbook_fat_title" />
 
     <TextView
-        android:id="@+id/carbTv"
+        android:id="@+id/carb_tv"
         android:layout_width="@dimen/hb_nutrent_width"
         android:layout_height="wrap_content"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintLeft_toRightOf="@id/fatTv"
+        app:layout_constraintLeft_toRightOf="@id/fat_tv"
         app:layout_constraintRight_toRightOf="parent"
         tools:text="@string/handbook_carb_title" />
 

@@ -1,27 +1,31 @@
 package mariavv.fitnesspal.ui.journal.daycard;
 
-import android.database.Cursor;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.TextView;
 
 import com.arellomobile.mvp.MvpAppCompatFragment;
 import com.arellomobile.mvp.presenter.InjectPresenter;
 
+import java.util.List;
+
 import mariavv.fitnesspal.R;
-import mariavv.fitnesspal.model.db.DbManager;
 
 import static mariavv.fitnesspal.BundleArg.ARG_DATE;
 
 public class DayCardFragment extends MvpAppCompatFragment implements DayCardView {
 
     View view;
+    RecyclerView recycler;
 
     @InjectPresenter
     DayCardPresenter presenter;
+
+    private FeedAdapter adapter;
 
     public static DayCardFragment newInstance(String date) {
         final DayCardFragment fragment = new DayCardFragment();
@@ -38,10 +42,25 @@ public class DayCardFragment extends MvpAppCompatFragment implements DayCardView
 
         final Bundle args = getArguments();
         if (args != null) {
+            configureViews();
             presenter.onGetDateArg((String) args.getSerializable(ARG_DATE));
         }
 
         return view;
+    }
+
+    private void configureViews() {
+        recycler = view.findViewById(R.id.recycler);
+        configureRecyclerView();
+    }
+
+    private void configureRecyclerView() {
+        adapter = new FeedAdapter();
+        recycler.setAdapter(adapter);
+        recycler.setLayoutManager(new LinearLayoutManager(getContext()));
+
+        //DividerItemDecoration decoration = new DividerItemDecoration(recycler.getContext(), DividerItemDecoration.VERTICAL);
+        //recycler.addItemDecoration(decoration);
     }
 
     @Override
@@ -51,14 +70,7 @@ public class DayCardFragment extends MvpAppCompatFragment implements DayCardView
     }
 
     @Override
-    public void updateCard(String date, Cursor c) {
-        final TextView textView = view.findViewById(R.id.text);
-        c.moveToFirst();
-        // это временно
-        StringBuilder s = new StringBuilder("");
-        do {
-            s = s.append(", ").append(c.getString(c.getColumnIndex(DbManager.FOOD_NAME)));
-        } while (c.moveToNext());
-        textView.setText(s.toString());
+    public void updateCard(List<ItemType> dataSet) {
+        adapter.updateItems(dataSet);
     }
 }

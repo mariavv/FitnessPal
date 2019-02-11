@@ -12,6 +12,9 @@ public class DbManager {
     public static final String FOOD_PROTEIN = SQLiteHelper.HB_COLUMN_PROTEIN;
     public static final String FOOD_FAT = SQLiteHelper.HB_COLUMN_FAT;
     public static final String FOOD_CARB = SQLiteHelper.HB_COLUMN_CARB;
+    public static final String JOURNAL_MEAL_NUM = SQLiteHelper.JOURNAL_COLUMN_MEAL_NUM;
+    public static final String JOURNAL_DATE = SQLiteHelper.JOURNAL_COLUMN_DATE;
+    public static final String JOURNAL_WEIGHT = SQLiteHelper.JOURNAL_COLUMN_WEIGHT;
 
     private static DbManager instance;
 
@@ -54,7 +57,7 @@ public class DbManager {
     public void insertDishInJournal(Dish dish) {
         final String q = "insert into " + SQLiteHelper.JOURNAL_TABLE_NAME + " ("
                 + SQLiteHelper.JOURNAL_COLUMN_DATE + ", " + SQLiteHelper.JOURNAL_COLUMN_HB_ID
-                + ", " + SQLiteHelper.JOURNAL_COLUMN_MASS + ") "
+                + ", " + SQLiteHelper.JOURNAL_COLUMN_WEIGHT + ") "
                 + " values ( "
                 + "'" + dish.date.toString() + "'" + ", " + dish.foodId + ", " + dish.mass + ") ";
         getSQLiteDatabase().execSQL(q);
@@ -62,14 +65,16 @@ public class DbManager {
 
     public Cursor getJournal(String date) {
         final String q = "select distinct " + " hb." + SQLiteHelper.HB_COLUMN_NAME
+                + ", j." + SQLiteHelper.JOURNAL_COLUMN_MEAL_NUM
                 + ", j." + SQLiteHelper.JOURNAL_COLUMN_DATE
-                + " , j." + SQLiteHelper.JOURNAL_COLUMN_MASS
+                + " , j." + SQLiteHelper.JOURNAL_COLUMN_WEIGHT
                 + " , hb." + SQLiteHelper.HB_COLUMN_PROTEIN
                 + " , hb." + SQLiteHelper.HB_COLUMN_FAT
                 + " , hb." + SQLiteHelper.HB_COLUMN_CARB
                 + " from " + SQLiteHelper.FOOD_HANDBOOK_TABLE_NAME + " as hb, "
                 + SQLiteHelper.JOURNAL_TABLE_NAME + " as j where j." + SQLiteHelper.JOURNAL_COLUMN_DATE + " = '" + date + "' and j."
-                + SQLiteHelper.JOURNAL_COLUMN_HB_ID + " = hb." + SQLiteHelper.HB_COLUMN_ID;
+                + SQLiteHelper.JOURNAL_COLUMN_HB_ID + " = hb." + SQLiteHelper.HB_COLUMN_ID
+                + " order by j." + SQLiteHelper.JOURNAL_COLUMN_MEAL_NUM;
         return getSQLiteDatabase().rawQuery(q, null);
     }
 
@@ -91,7 +96,7 @@ public class DbManager {
     }
 
     public Cursor getJournalDaysCount() {
-        final String q = "select count(*) as count"
+        final String q = "select count( " + SQLiteHelper.JOURNAL_COLUMN_DATE + " ) as count"
                 + " from ( select distinct " + SQLiteHelper.JOURNAL_COLUMN_DATE + " from " + SQLiteHelper.JOURNAL_TABLE_NAME + ")";
         return getSQLiteDatabase().rawQuery(q, null);
     }

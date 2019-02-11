@@ -1,9 +1,9 @@
 package mariavv.fitnesspal.ui.journal.daycard;
 
-import android.database.Cursor;
-
 import com.arellomobile.mvp.MvpView;
 
+import java.util.List;
+
 interface DayCardView extends MvpView {
-    void updateCard(String date, Cursor c);
+    void updateCard(List<ItemType> dataSet);
 }

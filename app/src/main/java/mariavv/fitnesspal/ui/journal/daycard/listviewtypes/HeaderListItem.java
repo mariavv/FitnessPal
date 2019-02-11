@@ -4,28 +4,27 @@ import android.support.v7.widget.RecyclerView;
 
 import mariavv.fitnesspal.model.model.Energy;
 import mariavv.fitnesspal.model.model.MacroNutrients;
-import mariavv.fitnesspal.model.model.MealNum;
 import mariavv.fitnesspal.ui.journal.daycard.ItemType;
+import mariavv.fitnesspal.ui.journal.daycard.ViewHolderFactory;
 
-public class MealListItem implements ItemType {
+public class HeaderListItem implements ItemType {
 
-    public MealNum mealNum;
     public MacroNutrients macroNutrients;
     public Energy energy;
 
-    public MealListItem(MealNum mealNum, MacroNutrients macroNutrients, Energy energy) {
-        this.mealNum = mealNum;
+    public HeaderListItem(MacroNutrients macroNutrients, Energy energy) {
         this.macroNutrients = macroNutrients;
         this.energy = energy;
     }
 
     @Override
     public int getItemViewType() {
-        return ItemType.MEAL;
+        return ItemType.HEADER;
     }
 
     @Override
     public void onBindViewHolder(RecyclerView.ViewHolder viewHolder) {
-
+        ViewHolderFactory.HeaderViewHolder holder = (ViewHolderFactory.HeaderViewHolder) viewHolder;
+        holder.energyTv.setText(String.valueOf(energy.energy));
     }
 }
