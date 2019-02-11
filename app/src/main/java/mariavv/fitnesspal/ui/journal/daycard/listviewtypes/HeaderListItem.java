@@ -25,6 +25,6 @@ public class HeaderListItem implements ItemType {
     @Override
     public void onBindViewHolder(RecyclerView.ViewHolder viewHolder) {
         ViewHolderFactory.HeaderViewHolder holder = (ViewHolderFactory.HeaderViewHolder) viewHolder;
-        holder.energyTv.setText(String.valueOf(energy.energy));
+        holder.energyTv.setText(String.valueOf(energy.value));
     }
 }

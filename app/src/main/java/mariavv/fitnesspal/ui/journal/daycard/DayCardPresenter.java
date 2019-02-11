@@ -25,7 +25,7 @@ public class DayCardPresenter extends MvpPresenter<DayCardView> {
         ArrayList<ItemType> dataSet = new ArrayList<>();
 
         int mealNum = c.getInt(c.getColumnIndex(DbManager.JOURNAL_MEAL_NUM));
-        /*while (c.getInt(c.getColumnIndex(DbManager.JOURNAL_MEAL_NUM)) == mealNum) {
+        /*while (c.getInt(c.getColumnIndex(DbManager.JOURNAL_MEAL_NUM)) == value) {
             c.moveToNext();
         }*/
         HeaderListItem headerListItem = new HeaderListItem(new MacroNutrients(11, 22, 33), new Energy(1234));

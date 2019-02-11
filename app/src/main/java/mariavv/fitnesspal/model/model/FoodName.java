@@ -4,9 +4,9 @@ import android.support.annotation.NonNull;
 
 public class FoodName {
     @NonNull
-    public String value = "";
+    public String value;
 
-    public FoodName(@NonNull String value) {
-        this.value = value;
+    public FoodName(@NonNull String foodName) {
+        this.value = foodName;
     }
 }

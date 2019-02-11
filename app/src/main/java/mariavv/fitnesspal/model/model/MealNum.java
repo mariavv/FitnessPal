@@ -1,9 +1,9 @@
 package mariavv.fitnesspal.model.model;
 
 public class MealNum {
-    public int mealNum = 0;
+    public int value;
 
     public MealNum(int mealNum) {
-        this.mealNum = mealNum;
+        this.value = mealNum;
     }
 }

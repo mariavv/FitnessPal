@@ -61,8 +61,8 @@ public class DbManager {
                 + SQLiteHelper.JOURNAL_COLUMN_DATE + ", "
                 + SQLiteHelper.JOURNAL_COLUMN_HB_ID + ", "
                 + SQLiteHelper.JOURNAL_COLUMN_WEIGHT + ") "
-                + " values ( " + String.valueOf(dish.mealNum.mealNum) + ", "
-                + "'" + dish.date.toString() + "'" + ", " + dish.foodId + ", " + dish.energy.energy + ") ";
+                + " values ( " + String.valueOf(dish.mealNum.value) + ", "
+                + "'" + dish.date.toString() + "'" + ", " + dish.foodId + ", " + dish.energy.value + ") ";
         getSQLiteDatabase().execSQL(q);
     }
 
