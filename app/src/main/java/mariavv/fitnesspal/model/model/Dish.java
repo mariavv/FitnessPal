@@ -11,12 +11,12 @@ public class Dish {
     public Date date;
     public int foodId;
     @NonNull
-    public Energy energy;
+    public Weight weight;
 
-    public Dish(@NonNull MealNum mealNum, @NonNull Date date, int foodId, @NonNull Energy energy) {
+    public Dish(@NonNull MealNum mealNum, @NonNull Date date, int foodId, @NonNull Weight weight) {
         this.mealNum = mealNum;
         this.date = date;
         this.foodId = foodId;
-        this.energy = energy;
+        this.weight = weight;
     }
 }
