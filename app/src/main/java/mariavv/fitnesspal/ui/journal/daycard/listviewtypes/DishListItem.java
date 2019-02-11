@@ -3,6 +3,8 @@ package mariavv.fitnesspal.ui.journal.daycard.listviewtypes;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
 
+import mariavv.fitnesspal.FitnessPal;
+import mariavv.fitnesspal.R;
 import mariavv.fitnesspal.model.model.Energy;
 import mariavv.fitnesspal.model.model.FoodName;
 import mariavv.fitnesspal.model.model.MacroNutrients;
@@ -27,10 +29,6 @@ public class DishListItem implements ItemType {
         this.weight = weight;
     }
 
-    public Energy getEnergy() {
-        return new Energy(macroNutrients, weight);
-    }
-
     @NonNull
     public MacroNutrients getMacroNutrients() {
         return new MacroNutrients(macroNutrients.protein * weight.value / PER_WEIGHT,
@@ -47,10 +45,10 @@ public class DishListItem implements ItemType {
     public void onBindViewHolder(RecyclerView.ViewHolder viewHolder) {
         ViewHolderFactory.ListItemViewHolder holder = (ViewHolderFactory.ListItemViewHolder) viewHolder;
         holder.mealTitleTv.setText(name.value);
-        holder.weightTv.setText(String.valueOf(weight.value));
-        holder.proteinTv.setText(String.valueOf(getMacroNutrients().protein));
-        holder.fatTv.setText(String.valueOf(getMacroNutrients().fat));
-        holder.carbTv.setText(String.valueOf(getMacroNutrients().carb));
-        holder.energyTv.setText(String.valueOf(new Energy(macroNutrients, weight).getEnergy()));
+        holder.weightTv.setText(String.format("%s%s", String.valueOf(weight.value), FitnessPal.appContext.getString(R.string.weight_postfix)));
+        holder.proteinTv.setText(String.format("%s%s", FitnessPal.appContext.getString(R.string.protein_prefix), String.valueOf(getMacroNutrients().protein)));
+        holder.fatTv.setText(String.format("%s%s", FitnessPal.appContext.getString(R.string.fat_prefix), String.valueOf(getMacroNutrients().fat)));
+        holder.carbTv.setText(String.format("%s%s", FitnessPal.appContext.getString(R.string.carb_prefix), String.valueOf(getMacroNutrients().carb)));
+        holder.energyTv.setText(String.format("%s%s", String.valueOf(new Energy(getMacroNutrients()).getEnergy()), FitnessPal.appContext.getString(R.string.energy_postfix)));
     }
 }

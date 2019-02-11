@@ -15,6 +15,12 @@ public class Energy {
                 * weight.value / PER_WEIGHT;
     }
 
+    public Energy(MacroNutrients macroNutrients) {
+        this.value = macroNutrients.protein * proteinEnergy
+                + macroNutrients.fat * fatEnergy
+                + macroNutrients.carb * carbEnergy;
+    }
+
     public int getEnergy() {
         return value;
     }

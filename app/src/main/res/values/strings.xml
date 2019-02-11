@@ -10,4 +10,9 @@
     <string name="handbook_protein_title">Б</string>
     <string name="handbook_fat_title">Ж</string>
     <string name="handbook_carb_title">У</string>
+    <string name="weight_postfix">г.</string>
+    <string name="protein_prefix">Б: </string>
+    <string name="fat_prefix">Ж: </string>
+    <string name="carb_prefix">У: </string>
+    <string name="energy_postfix">ккал</string>
 </resources>
