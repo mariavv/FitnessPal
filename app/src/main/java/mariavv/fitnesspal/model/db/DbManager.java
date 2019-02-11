@@ -49,17 +49,20 @@ public class DbManager {
                 + SQLiteHelper.HB_COLUMN_NAME + ", " + SQLiteHelper.HB_COLUMN_PROTEIN
                 + ", " + SQLiteHelper.HB_COLUMN_FAT + ", " + SQLiteHelper.HB_COLUMN_CARB + ") "
                 + " values ( "
-                + "'" + food.name + "'" + ", " + food.protein + ", " + food.fat + ", " + food.carb + ") ";
+                + "'" + food.name.value + "'" + ", " + food.macroNutrients.protein
+                + ", " + food.macroNutrients.fat + ", " + food.macroNutrients.carb + ") ";
 
         getSQLiteDatabase().execSQL(q);
     }
 
     public void insertDishInJournal(Dish dish) {
         final String q = "insert into " + SQLiteHelper.JOURNAL_TABLE_NAME + " ("
-                + SQLiteHelper.JOURNAL_COLUMN_DATE + ", " + SQLiteHelper.JOURNAL_COLUMN_HB_ID
-                + ", " + SQLiteHelper.JOURNAL_COLUMN_WEIGHT + ") "
-                + " values ( "
-                + "'" + dish.date.toString() + "'" + ", " + dish.foodId + ", " + dish.mass + ") ";
+                + SQLiteHelper.JOURNAL_COLUMN_MEAL_NUM + ", "
+                + SQLiteHelper.JOURNAL_COLUMN_DATE + ", "
+                + SQLiteHelper.JOURNAL_COLUMN_HB_ID + ", "
+                + SQLiteHelper.JOURNAL_COLUMN_WEIGHT + ") "
+                + " values ( " + String.valueOf(dish.mealNum.mealNum) + ", "
+                + "'" + dish.date.toString() + "'" + ", " + dish.foodId + ", " + dish.energy.energy + ") ";
         getSQLiteDatabase().execSQL(q);
     }
 
@@ -96,6 +99,13 @@ public class DbManager {
     }
 
     public Cursor getJournalDaysCount() {
+        //иногда count = 0
+        /*String qq = "select count( " + SQLiteHelper.JOURNAL_COLUMN_DATE + " ) as count"
+                + " from ( select distinct " + SQLiteHelper.JOURNAL_COLUMN_DATE + " from " + SQLiteHelper.JOURNAL_TABLE_NAME + ")";
+        Cursor c = getSQLiteDatabase().rawQuery(qq, null);
+        c.moveToFirst();
+        int f = c.getInt(0);*/
+
         final String q = "select count( " + SQLiteHelper.JOURNAL_COLUMN_DATE + " ) as count"
                 + " from ( select distinct " + SQLiteHelper.JOURNAL_COLUMN_DATE + " from " + SQLiteHelper.JOURNAL_TABLE_NAME + ")";
         return getSQLiteDatabase().rawQuery(q, null);

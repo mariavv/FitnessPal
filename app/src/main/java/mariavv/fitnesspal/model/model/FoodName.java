@@ -2,7 +2,11 @@ package mariavv.fitnesspal.model.model;
 
 import android.support.annotation.NonNull;
 
-class FoodName {
+public class FoodName {
     @NonNull
-    String value = "";
+    public String value = "";
+
+    public FoodName(@NonNull String value) {
+        this.value = value;
+    }
 }

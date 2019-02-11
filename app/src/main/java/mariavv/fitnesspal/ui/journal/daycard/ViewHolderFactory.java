@@ -53,12 +53,12 @@ public class ViewHolderFactory {
 
     public static class ListItemViewHolder extends RecyclerView.ViewHolder {
 
-        TextView mealTitle;
-        TextView weight;
-        TextView proteinTv;
-        TextView fatTv;
-        TextView carbTv;
-        TextView energyTv;
+        public TextView mealTitle;
+        public TextView weight;
+        public TextView proteinTv;
+        public TextView fatTv;
+        public TextView carbTv;
+        public TextView energyTv;
 
         ListItemViewHolder(View itemView) {
             super(itemView);
