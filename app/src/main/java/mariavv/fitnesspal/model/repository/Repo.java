@@ -46,7 +46,9 @@ public class Repo {
     public String getDateByIndex(int i) {
         final Cursor c = db.getJournalDates();
         c.moveToPosition(i);
-        return c.getString(0);
+        String date = c.getString(0);
+        c.close();
+        return date;
     }
 
     public void insertDishInJournal(Dish dish) {

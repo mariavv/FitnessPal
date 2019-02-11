@@ -54,6 +54,7 @@ public class DayCardFragment extends MvpAppCompatFragment implements DayCardView
     public void updateCard(String date, Cursor c) {
         final TextView textView = view.findViewById(R.id.text);
         c.moveToFirst();
+        // это временно
         StringBuilder s = new StringBuilder("");
         do {
             s = s.append(", ").append(c.getString(c.getColumnIndex(DbManager.FOOD_NAME)));

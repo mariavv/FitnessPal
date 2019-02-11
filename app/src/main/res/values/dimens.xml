@@ -5,4 +5,5 @@
     <dimen name="handbook_list_margin_top">24dp</dimen>
     <dimen name="hb_name_width">200dp</dimen>
     <dimen name="hb_nutrent_width">30dp</dimen>
+    <dimen name="day_header_padding">15dp</dimen>
 </resources>

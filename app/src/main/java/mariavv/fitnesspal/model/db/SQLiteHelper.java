@@ -17,12 +17,13 @@ class SQLiteHelper extends SQLiteOpenHelper {
     static final String HB_COLUMN_CARB = "carb";
 
     private static final String JOURNAL_COLUMN_ID = "id";
+    static final String JOURNAL_COLUMN_MEAL_NUM = "meal_num";
     static final String JOURNAL_COLUMN_DATE = "date";
     static final String JOURNAL_COLUMN_HB_ID = "handbook_id";
     static final String JOURNAL_COLUMN_MASS = "mass";
 
     private static final String DB_NAME = "fitness_pal";
-    private static final int DB_VERSION = 2;
+    private static final int DB_VERSION = 1;
 
     SQLiteHelper(String name, SQLiteDatabase.CursorFactory factory, int version) {
         super(FitnessPal.appContext, DB_NAME, factory, DB_VERSION);
@@ -40,6 +41,7 @@ class SQLiteHelper extends SQLiteOpenHelper {
         );
         db.execSQL(" create table " + JOURNAL_TABLE_NAME + " ( "
                 + JOURNAL_COLUMN_ID + " integer primary key, "
+                + JOURNAL_COLUMN_MEAL_NUM + " int, "
                 + JOURNAL_COLUMN_DATE + " timestamp, "
                 + JOURNAL_COLUMN_HB_ID + " integer, "
                 + JOURNAL_COLUMN_MASS + " integer, "
@@ -49,11 +51,7 @@ class SQLiteHelper extends SQLiteOpenHelper {
         );
     }
 
-    //todo
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
-        db.execSQL("drop table " + JOURNAL_TABLE_NAME + ";");
-        db.execSQL("drop table " + FOOD_HANDBOOK_TABLE_NAME + ";");
-        onCreate(db);
     }
 }
