@@ -44,22 +44,32 @@ public class DbManager {
         return getSQLiteDatabase().rawQuery(q, null);
     }
 
+    public Cursor getFoodsNamesFromHandbook() {
+        final String q = "select hb." + SQLiteHelper.HB_COLUMN_NAME
+                + " from " + SQLiteHelper.FOOD_HANDBOOK_TABLE_NAME + " as hb "
+                + " order by " + SQLiteHelper.HB_COLUMN_NAME;
+        return getSQLiteDatabase().rawQuery(q, null);
+    }
+
     public void insertFoodInHandbook(Food food) {
         final String q = "insert or ignore into " + SQLiteHelper.FOOD_HANDBOOK_TABLE_NAME + " ("
                 + SQLiteHelper.HB_COLUMN_NAME + ", " + SQLiteHelper.HB_COLUMN_PROTEIN
                 + ", " + SQLiteHelper.HB_COLUMN_FAT + ", " + SQLiteHelper.HB_COLUMN_CARB + ") "
                 + " values ( "
-                + "'" + food.name + "'" + ", " + food.protein + ", " + food.fat + ", " + food.carb + ") ";
+                + "'" + food.name.value + "'" + ", " + food.macroNutrients.protein
+                + ", " + food.macroNutrients.fat + ", " + food.macroNutrients.carb + ") ";
 
         getSQLiteDatabase().execSQL(q);
     }
 
     public void insertDishInJournal(Dish dish) {
         final String q = "insert into " + SQLiteHelper.JOURNAL_TABLE_NAME + " ("
-                + SQLiteHelper.JOURNAL_COLUMN_DATE + ", " + SQLiteHelper.JOURNAL_COLUMN_HB_ID
-                + ", " + SQLiteHelper.JOURNAL_COLUMN_WEIGHT + ") "
-                + " values ( "
-                + "'" + dish.date.toString() + "'" + ", " + dish.foodId + ", " + dish.mass + ") ";
+                + SQLiteHelper.JOURNAL_COLUMN_MEAL_NUM + ", "
+                + SQLiteHelper.JOURNAL_COLUMN_DATE + ", "
+                + SQLiteHelper.JOURNAL_COLUMN_HB_ID + ", "
+                + SQLiteHelper.JOURNAL_COLUMN_WEIGHT + ") "
+                + " values ( " + String.valueOf(dish.mealNum.value) + ", "
+                + "'" + dish.date.toString() + "'" + ", " + dish.foodId + ", " + dish.weight.value + ") ";
         getSQLiteDatabase().execSQL(q);
     }
 
@@ -96,6 +106,13 @@ public class DbManager {
     }
 
     public Cursor getJournalDaysCount() {
+        //иногда count = 0
+        /*String qq = "select count( " + SQLiteHelper.JOURNAL_COLUMN_DATE + " ) as count"
+                + " from ( select distinct " + SQLiteHelper.JOURNAL_COLUMN_DATE + " from " + SQLiteHelper.JOURNAL_TABLE_NAME + ")";
+        Cursor c = getSQLiteDatabase().rawQuery(qq, null);
+        c.moveToFirst();
+        int f = c.getInt(0);*/
+
         final String q = "select count( " + SQLiteHelper.JOURNAL_COLUMN_DATE + " ) as count"
                 + " from ( select distinct " + SQLiteHelper.JOURNAL_COLUMN_DATE + " from " + SQLiteHelper.JOURNAL_TABLE_NAME + ")";
         return getSQLiteDatabase().rawQuery(q, null);
@@ -105,5 +122,16 @@ public class DbManager {
         final String q = "select distinct " + SQLiteHelper.JOURNAL_COLUMN_DATE
                 + " from " + SQLiteHelper.JOURNAL_TABLE_NAME + " order by " + SQLiteHelper.JOURNAL_COLUMN_DATE;
         return getSQLiteDatabase().rawQuery(q, null);
+    }
+
+    public int getFoodIdByName(String dish) {
+        final String q = "select " + SQLiteHelper.HB_COLUMN_ID
+                + " from " + SQLiteHelper.FOOD_HANDBOOK_TABLE_NAME
+                + " where " + SQLiteHelper.HB_COLUMN_NAME + " = '" + dish + "'";
+        final Cursor c = getSQLiteDatabase().rawQuery(q, null);
+        c.moveToFirst();
+        int id = c.getInt(0);
+        c.close();
+        return id;
     }
 }

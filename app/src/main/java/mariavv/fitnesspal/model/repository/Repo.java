@@ -2,9 +2,13 @@ package mariavv.fitnesspal.model.repository;
 
 import android.database.Cursor;
 
+import java.util.Date;
+
 import mariavv.fitnesspal.model.db.DbManager;
 import mariavv.fitnesspal.model.model.Dish;
 import mariavv.fitnesspal.model.model.Food;
+import mariavv.fitnesspal.model.model.MealNum;
+import mariavv.fitnesspal.model.model.Weight;
 
 public class Repo {
 
@@ -61,5 +65,13 @@ public class Repo {
 
     public void clearHandbook() {
         db.clearHandbook();
+    }
+
+    public Cursor getFoofList() {
+        return db.getFoodsNamesFromHandbook();
+    }
+
+    public void addDish(Date date, int mealNum, String dish, int weight) {
+        db.insertDishInJournal(new Dish(new MealNum(mealNum), date, db.getFoodIdByName(dish), new Weight(weight)));
     }
 }

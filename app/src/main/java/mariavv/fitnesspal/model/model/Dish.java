@@ -5,16 +5,18 @@ import android.support.annotation.NonNull;
 import java.util.Date;
 
 public class Dish {
-    public int mealNum;
+    @NonNull
+    public MealNum mealNum;
     @NonNull
     public Date date;
     public int foodId;
-    public int mass;
+    @NonNull
+    public Weight weight;
 
-    public Dish(int mealNum, @NonNull Date date, int foodId, int mass) {
+    public Dish(@NonNull MealNum mealNum, @NonNull Date date, int foodId, @NonNull Weight weight) {
         this.mealNum = mealNum;
         this.date = date;
         this.foodId = foodId;
-        this.mass = mass;
+        this.weight = weight;
     }
 }

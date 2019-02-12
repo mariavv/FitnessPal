@@ -1,25 +1,39 @@
 package mariavv.fitnesspal.ui.journal.daycard.listviewtypes;
 
+import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
 
-import mariavv.fitnesspal.model.model.Dish;
+import mariavv.fitnesspal.FitnessPal;
+import mariavv.fitnesspal.R;
 import mariavv.fitnesspal.model.model.Energy;
+import mariavv.fitnesspal.model.model.FoodName;
 import mariavv.fitnesspal.model.model.MacroNutrients;
 import mariavv.fitnesspal.model.model.Weight;
 import mariavv.fitnesspal.ui.journal.daycard.ItemType;
+import mariavv.fitnesspal.ui.journal.daycard.ViewHolderFactory;
+
+import static mariavv.fitnesspal.model.model.Energy.PER_WEIGHT;
 
 public class DishListItem implements ItemType {
 
-    public Dish dish;
-    public MacroNutrients macroNutrients;
+    @NonNull
+    public FoodName name;
+    @NonNull
     public Weight weight;
-    public Energy energy;
+    @NonNull
+    private MacroNutrients macroNutrients;
 
-    public DishListItem(Dish dish, MacroNutrients macroNutrients, Weight weight, Energy energy) {
-        this.dish = dish;
+    public DishListItem(@NonNull FoodName name, @NonNull MacroNutrients macroNutrients, @NonNull Weight weight) {
+        this.name = name;
         this.macroNutrients = macroNutrients;
         this.weight = weight;
-        this.energy = energy;
+    }
+
+    @NonNull
+    public MacroNutrients getMacroNutrients() {
+        return new MacroNutrients(macroNutrients.protein * weight.value / PER_WEIGHT,
+                macroNutrients.fat * weight.value / PER_WEIGHT,
+                macroNutrients.carb * weight.value / PER_WEIGHT);
     }
 
     @Override
@@ -29,6 +43,12 @@ public class DishListItem implements ItemType {
 
     @Override
     public void onBindViewHolder(RecyclerView.ViewHolder viewHolder) {
-
+        ViewHolderFactory.ListItemViewHolder holder = (ViewHolderFactory.ListItemViewHolder) viewHolder;
+        holder.mealTitleTv.setText(name.value);
+        holder.weightTv.setText(String.format("%s%s", String.valueOf(weight.value), FitnessPal.appContext.getString(R.string.weight_postfix)));
+        holder.proteinTv.setText(String.format("%s%s", FitnessPal.appContext.getString(R.string.protein_prefix), String.valueOf(getMacroNutrients().protein)));
+        holder.fatTv.setText(String.format("%s%s", FitnessPal.appContext.getString(R.string.fat_prefix), String.valueOf(getMacroNutrients().fat)));
+        holder.carbTv.setText(String.format("%s%s", FitnessPal.appContext.getString(R.string.carb_prefix), String.valueOf(getMacroNutrients().carb)));
+        holder.energyTv.setText(String.format("%s%s", String.valueOf(new Energy(getMacroNutrients()).getEnergy()), FitnessPal.appContext.getString(R.string.energy_postfix)));
     }
 }

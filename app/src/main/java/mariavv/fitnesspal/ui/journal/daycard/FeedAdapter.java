@@ -23,6 +23,7 @@ class FeedAdapter extends RecyclerView.Adapter {
 
     @Override
     public void onBindViewHolder(@NonNull RecyclerView.ViewHolder viewHolder, int position) {
+        //todo??
         dataSet.get(position).onBindViewHolder(viewHolder);
     }
 

@@ -3,7 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
+    android:layout_height="wrap_content"
     android:padding="@dimen/day_header_padding">
 
     <TextView
@@ -12,7 +12,7 @@
         android:layout_height="wrap_content"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        tools:text="title" />
+        tools:text="@string/meal_num_postfix" />
 
     <TextView
         android:id="@+id/weight_tv"
@@ -21,7 +21,7 @@
         app:layout_constraintLeft_toRightOf="@id/meal_title_tv"
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        tools:text="г." />
+        tools:text="@string/weight_postfix" />
 
     <TextView
         android:id="@+id/protein_tv"
@@ -30,7 +30,7 @@
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="@id/fat_tv"
         app:layout_constraintTop_toBottomOf="@id/meal_title_tv"
-        tools:text="Б" />
+        tools:text="@string/protein_prefix" />
 
     <TextView
         android:id="@+id/fat_tv"
@@ -39,7 +39,7 @@
         app:layout_constraintLeft_toRightOf="@id/protein_tv"
         app:layout_constraintRight_toLeftOf="@id/carb_tv"
         app:layout_constraintTop_toBottomOf="@id/meal_title_tv"
-        tools:text="Ж" />
+        tools:text="@string/fat_prefix" />
 
     <TextView
         android:id="@+id/carb_tv"
@@ -48,7 +48,7 @@
         app:layout_constraintLeft_toRightOf="@id/fat_tv"
         app:layout_constraintRight_toRightOf="@id/energy_tv"
         app:layout_constraintTop_toBottomOf="@id/meal_title_tv"
-        tools:text="У" />
+        tools:text="@string/carb_prefix" />
 
     <TextView
         android:id="@+id/energy_tv"
@@ -57,6 +57,6 @@
         app:layout_constraintLeft_toRightOf="@id/carb_tv"
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toBottomOf="@id/meal_title_tv"
-        tools:text="ккал" />
+        tools:text="@string/energy_postfix" />
 
 </android.support.constraint.ConstraintLayout>

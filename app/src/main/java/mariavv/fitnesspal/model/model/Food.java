@@ -4,15 +4,12 @@ import android.support.annotation.NonNull;
 
 public class Food {
     @NonNull
-    public String name;
-    public int protein;
-    public int fat;
-    public int carb;
+    public FoodName name;
+    @NonNull
+    public MacroNutrients macroNutrients;
 
-    public Food(@NonNull String name, int protein, int fat, int carb) {
+    public Food(@NonNull FoodName name, @NonNull MacroNutrients macroNutrients) {
         this.name = name;
-        this.protein = protein;
-        this.fat = fat;
-        this.carb = carb;
+        this.macroNutrients = macroNutrients;
     }
 }
