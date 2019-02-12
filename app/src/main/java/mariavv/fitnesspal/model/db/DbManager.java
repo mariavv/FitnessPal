@@ -44,6 +44,13 @@ public class DbManager {
         return getSQLiteDatabase().rawQuery(q, null);
     }
 
+    public Cursor getFoodsNamesFromHandbook() {
+        final String q = "select hb." + SQLiteHelper.HB_COLUMN_NAME
+                + " from " + SQLiteHelper.FOOD_HANDBOOK_TABLE_NAME + " as hb "
+                + " order by " + SQLiteHelper.HB_COLUMN_NAME;
+        return getSQLiteDatabase().rawQuery(q, null);
+    }
+
     public void insertFoodInHandbook(Food food) {
         final String q = "insert or ignore into " + SQLiteHelper.FOOD_HANDBOOK_TABLE_NAME + " ("
                 + SQLiteHelper.HB_COLUMN_NAME + ", " + SQLiteHelper.HB_COLUMN_PROTEIN
@@ -115,5 +122,16 @@ public class DbManager {
         final String q = "select distinct " + SQLiteHelper.JOURNAL_COLUMN_DATE
                 + " from " + SQLiteHelper.JOURNAL_TABLE_NAME + " order by " + SQLiteHelper.JOURNAL_COLUMN_DATE;
         return getSQLiteDatabase().rawQuery(q, null);
+    }
+
+    public int getFoodIdByName(String dish) {
+        final String q = "select " + SQLiteHelper.HB_COLUMN_ID
+                + " from " + SQLiteHelper.FOOD_HANDBOOK_TABLE_NAME
+                + " where " + SQLiteHelper.HB_COLUMN_NAME + " = '" + dish + "'";
+        final Cursor c = getSQLiteDatabase().rawQuery(q, null);
+        c.moveToFirst();
+        int id = c.getInt(0);
+        c.close();
+        return id;
     }
 }

@@ -29,27 +29,26 @@ public class DayCardPresenter extends MvpPresenter<DayCardView> {
 
         final List<ItemType> dataSet = new ArrayList<>();
 
-        HeaderListItem headerListItem = new HeaderListItem(new MacroNutrients(11, 22, 33));
+        //каша
+
+        final HeaderListItem headerListItem = new HeaderListItem(new MacroNutrients(0, 0, 0));
         dataSet.add(headerListItem);
 
         do {
-
-            MealListItem meal = new MealListItem(new MealNum(0), new MacroNutrients(0, 0, 0));
-
+            final MealListItem meal = new MealListItem(new MealNum(0), new MacroNutrients(0, 0, 0));
             meal.mealNum.value = c.getInt(c.getColumnIndex(DbManager.JOURNAL_MEAL_NUM));
 
-            List<DishListItem> dishesList = new ArrayList<>();
+            final List<DishListItem> dishesList = new ArrayList<>();
 
             do {
-                FoodName foodName = new FoodName(c.getString(c.getColumnIndex(DbManager.FOOD_NAME)));
-                MacroNutrients macroNutrients = new MacroNutrients(c.getInt(c.getColumnIndex(DbManager.FOOD_PROTEIN)),
+                final FoodName foodName = new FoodName(c.getString(c.getColumnIndex(DbManager.FOOD_NAME)));
+                final MacroNutrients macroNutrients = new MacroNutrients(c.getInt(c.getColumnIndex(DbManager.FOOD_PROTEIN)),
                         c.getInt(c.getColumnIndex(DbManager.FOOD_FAT)),
                         c.getInt(c.getColumnIndex(DbManager.FOOD_CARB)));
-                Weight weight = new Weight(c.getInt(c.getColumnIndex(DbManager.JOURNAL_WEIGHT)));
-                DishListItem dish = new DishListItem(foodName, macroNutrients, weight);
+                final Weight weight = new Weight(c.getInt(c.getColumnIndex(DbManager.JOURNAL_WEIGHT)));
+                final DishListItem dish = new DishListItem(foodName, macroNutrients, weight);
 
                 dishesList.add(dish);
-                //dataSet.add(dish);
 
                 meal.macroNutrients.protein += macroNutrients.protein * weight.value / PER_WEIGHT;
                 meal.macroNutrients.fat += macroNutrients.fat * weight.value / PER_WEIGHT;
@@ -64,12 +63,6 @@ public class DayCardPresenter extends MvpPresenter<DayCardView> {
             headerListItem.macroNutrients.protein += meal.macroNutrients.protein;
             headerListItem.macroNutrients.fat += meal.macroNutrients.fat;
             headerListItem.macroNutrients.carb += meal.macroNutrients.carb;
-
-           /* while (c.getInt(c.getColumnIndex(DbManager.JOURNAL_MEAL_NUM)) == meal.mealNum.value) {
-                dishCount++;
-
-                c.moveToNext();
-            }*/
 
         } while (c.moveToNext());
 
