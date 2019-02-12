@@ -41,6 +41,8 @@ public class NavigateActivity extends AppCompatActivity {
 
         BottomNavigationView navigation = findViewById(R.id.navigation);
         navigation.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener);
+
+        UiTools.replaceFragment(EnterFragment.newInstance(), getSupportFragmentManager());
     }
 
 }

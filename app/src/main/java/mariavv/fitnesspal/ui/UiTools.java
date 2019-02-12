@@ -19,6 +19,6 @@ public class UiTools {
     }
 
     public static void showToast(String message) {
-        Toast.makeText(FitnessPal.appContext, message, Toast.LENGTH_LONG).show();
+        Toast.makeText(FitnessPal.appContext, message, Toast.LENGTH_SHORT).show();
     }
 }

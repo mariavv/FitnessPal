@@ -1,58 +1,25 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical"
     tools:context=".ui.handbook.HandBookFragment">
 
-    <TextView
-        android:id="@+id/name_tv"
-        android:layout_width="@dimen/hb_name_width"
-        android:layout_height="wrap_content"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintLeft_toLeftOf="parent"
-        android:text="@string/handbook_food_title"
-        app:layout_constraintRight_toLeftOf="@id/protein_tv" />
-
-    <TextView
-        android:id="@+id/protein_tv"
-        android:layout_width="@dimen/hb_nutrent_width"
-        android:layout_height="wrap_content"
-        app:layout_constraintTop_toTopOf="parent"
-        android:text="@string/handbook_protein_title"
-        app:layout_constraintLeft_toRightOf="@id/name_tv"
-        app:layout_constraintRight_toLeftOf="@id/fat_tv" />
-
-    <TextView
-        android:id="@+id/fat_tv"
-        android:layout_width="@dimen/hb_nutrent_width"
-        android:layout_height="wrap_content"
-        app:layout_constraintTop_toTopOf="parent"
-        android:text="@string/handbook_fat_title"
-        app:layout_constraintLeft_toRightOf="@id/protein_tv"
-        app:layout_constraintRight_toLeftOf="@id/carb_tv" />
-
-    <TextView
-        android:id="@+id/carb_tv"
-        android:layout_width="@dimen/hb_nutrent_width"
-        android:layout_height="wrap_content"
-        app:layout_constraintTop_toTopOf="parent"
-        android:text="@string/handbook_carb_title"
-        app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintLeft_toRightOf="@id/fat_tv" />
+    <include
+        layout="@layout/handbook_item"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
 
     <android.support.v7.widget.RecyclerView xmlns:android="http://schemas.android.com/apk/res/android"
         xmlns:tools="http://schemas.android.com/tools"
         android:id="@+id/recycler"
+        android:layout_height="0dp"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_weight="1"
+        android:background="@android:color/holo_blue_light"
         android:layout_marginTop="@dimen/handbook_list_margin_top"
         android:scrollbars="vertical"
-        app:layout_constraintTop_toBottomOf="@id/name_tv"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintBottom_toBottomOf="parent"
         tools:listitem="@layout/handbook_item" />
 
-</android.support.constraint.ConstraintLayout>
+</LinearLayout>

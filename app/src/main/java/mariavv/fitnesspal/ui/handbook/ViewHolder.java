@@ -17,7 +17,7 @@ class ViewHolder extends RecyclerView.ViewHolder {
     ViewHolder(@NonNull View itemView) {
         super(itemView);
 
-        nameTv = itemView.findViewById(R.id.name_tv);
+        nameTv = itemView.findViewById(R.id.hat);
         proteinTv = itemView.findViewById(R.id.protein_tv);
         fatTv = itemView.findViewById(R.id.fat_tv);
         carbTv = itemView.findViewById(R.id.carb_tv);

@@ -19,7 +19,7 @@ public class HandBookPresenter extends MvpPresenter<HandBookView> {
 
         final Repo repo = Repo.getInstance();
 
-
+        //test data
         repo.insertFoodInHandbook(new Food(new FoodName("Омлет"), new MacroNutrients(15, 18, 3)));
         repo.insertFoodInHandbook(new Food(new FoodName("Кофе с молоком"), new MacroNutrients(1, 1, 3)));
         repo.insertFoodInHandbook(new Food(new FoodName("Мясной салат"), new MacroNutrients(5, 5, 10)));

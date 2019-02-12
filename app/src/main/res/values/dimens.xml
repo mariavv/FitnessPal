@@ -4,6 +4,8 @@
     <dimen name="activity_vertical_margin">16dp</dimen>
     <dimen name="handbook_list_margin_top">24dp</dimen>
     <dimen name="hb_name_width">200dp</dimen>
-    <dimen name="hb_nutrent_width">30dp</dimen>
+    <dimen name="hb_c_width">70dp</dimen>
     <dimen name="day_header_padding">15dp</dimen>
+    <dimen name="hb_pf_width">45dp</dimen>
+    <dimen name="screan_horizontal_border_padding">16dp</dimen>
 </resources>

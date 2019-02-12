@@ -11,6 +11,7 @@ import java.util.Date;
 
 import mariavv.fitnesspal.model.DateHelper;
 import mariavv.fitnesspal.model.repository.Repo;
+import mariavv.fitnesspal.ui.UiTools;
 
 import static mariavv.fitnesspal.model.DateHelper.getFormatDate;
 
@@ -50,7 +51,7 @@ public class EnterPresenter extends MvpPresenter<EnterView> {
         getViewState().showDatePickerDialog();
     }
 
-    public void onFoodSelected(int position) {
+    void onFoodSelected(int position) {
         selectedFoodListPos = position;
     }
 
@@ -60,12 +61,11 @@ public class EnterPresenter extends MvpPresenter<EnterView> {
         foodList.close();
     }
 
-    public void onAddClick(Editable mealNum, Editable weight) {
-        int f = 5;
+    void onAddClick(Editable mealNum, Editable weight) {
         foodList.moveToFirst();
         Repo.getInstance().addDish(date, Integer.valueOf(mealNum.toString()),
                 foodList.getString(selectedFoodListPos),
                 Integer.valueOf(weight.toString()));
-        f++;
+        UiTools.showToast("добавлено");
     }
 }

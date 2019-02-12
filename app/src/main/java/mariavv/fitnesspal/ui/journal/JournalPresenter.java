@@ -3,14 +3,6 @@ package mariavv.fitnesspal.ui.journal;
 import com.arellomobile.mvp.InjectViewState;
 import com.arellomobile.mvp.MvpPresenter;
 
-import java.util.Calendar;
-import java.util.Date;
-
-import mariavv.fitnesspal.model.model.Dish;
-import mariavv.fitnesspal.model.model.MealNum;
-import mariavv.fitnesspal.model.model.Weight;
-import mariavv.fitnesspal.model.repository.Repo;
-
 @InjectViewState
 public class JournalPresenter extends MvpPresenter<JournalView> {
 
@@ -18,11 +10,11 @@ public class JournalPresenter extends MvpPresenter<JournalView> {
     protected void onFirstViewAttach() {
         super.onFirstViewAttach();
 
-        final Repo repo = Repo.getInstance();
+        //final Repo repo = Repo.getInstance();
 
-        //test
-        repo.clearJournal();
-        final Calendar calendar = Calendar.getInstance();
+        //test data
+        //repo.clearJournal();
+        /*final Calendar calendar = Calendar.getInstance();
         calendar.clear();
         calendar.set(Calendar.DAY_OF_MONTH, 8);
         calendar.set(Calendar.MONTH, Calendar.FEBRUARY);
@@ -36,6 +28,6 @@ public class JournalPresenter extends MvpPresenter<JournalView> {
         repo.insertDishInJournal(new Dish(new MealNum(1), date, 3, new Weight(310)));
         calendar.set(Calendar.DAY_OF_MONTH, 10);
         date = calendar.getTime();
-        repo.insertDishInJournal(new Dish(new MealNum(1), date, 4, new Weight(50)));
+        repo.insertDishInJournal(new Dish(new MealNum(1), date, 4, new Weight(50)));*/
     }
 }

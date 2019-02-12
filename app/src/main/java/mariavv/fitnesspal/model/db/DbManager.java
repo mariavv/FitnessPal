@@ -13,7 +13,6 @@ public class DbManager {
     public static final String FOOD_FAT = SQLiteHelper.HB_COLUMN_FAT;
     public static final String FOOD_CARB = SQLiteHelper.HB_COLUMN_CARB;
     public static final String JOURNAL_MEAL_NUM = SQLiteHelper.JOURNAL_COLUMN_MEAL_NUM;
-    public static final String JOURNAL_DATE = SQLiteHelper.JOURNAL_COLUMN_DATE;
     public static final String JOURNAL_WEIGHT = SQLiteHelper.JOURNAL_COLUMN_WEIGHT;
 
     private static DbManager instance;
