@@ -18,7 +18,7 @@ public class JournalPresenter extends MvpPresenter<JournalView> {
     protected void onFirstViewAttach() {
         super.onFirstViewAttach();
 
-        Repo repo = Repo.getInstance();
+        final Repo repo = Repo.getInstance();
 
         //test
         repo.clearJournal();

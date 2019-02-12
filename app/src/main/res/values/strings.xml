@@ -15,4 +15,5 @@
     <string name="fat_prefix">Ж: </string>
     <string name="carb_prefix">У: </string>
     <string name="energy_postfix">ккал</string>
+    <string name="meal_num_postfix">-й прием пищи</string>
 </resources>

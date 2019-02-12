@@ -12,7 +12,7 @@
         android:layout_height="wrap_content"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        tools:text="-й прием пищи" />
+        tools:text="@string/meal_num_postfix" />
 
     <TextView
         android:id="@+id/weight_tv"
