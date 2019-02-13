@@ -2,7 +2,9 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="32dp"
-    android:orientation="horizontal">
+    android:orientation="horizontal"
+    android:paddingStart="@dimen/screan_horizontal_border_padding"
+    android:paddingEnd="@dimen/screan_horizontal_border_padding">
 
     <TextView
         android:id="@+id/hat"
@@ -16,21 +18,27 @@
         android:id="@+id/protein_tv"
         android:layout_width="@dimen/hb_pf_width"
         android:layout_height="match_parent"
+        android:layout_marginStart="@dimen/columns_margin"
         android:gravity="center_vertical"
-        android:text="@string/handbook_protein_title" />
+        android:text="@string/handbook_protein_title"
+        android:textAlignment="center" />
 
     <TextView
         android:id="@+id/fat_tv"
         android:layout_width="@dimen/hb_pf_width"
         android:layout_height="match_parent"
+        android:layout_marginStart="@dimen/columns_margin"
         android:gravity="center_vertical"
-        android:text="@string/handbook_fat_title" />
+        android:text="@string/handbook_fat_title"
+        android:textAlignment="center" />
 
     <TextView
         android:id="@+id/carb_tv"
-        android:layout_width="@dimen/hb_c_width"
+        android:layout_width="@dimen/hb_pf_width"
         android:layout_height="match_parent"
+        android:layout_marginStart="@dimen/columns_margin"
         android:gravity="center_vertical"
-        android:text="@string/handbook_carb_title" />
+        android:text="@string/handbook_carb_title"
+        android:textAlignment="center" />
 
 </LinearLayout>

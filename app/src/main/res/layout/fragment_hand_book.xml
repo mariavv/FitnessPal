@@ -4,6 +4,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
+    android:paddingTop="@dimen/row_margin"
     tools:context=".ui.handbook.HandBookFragment">
 
     <include
@@ -14,11 +15,10 @@
     <android.support.v7.widget.RecyclerView xmlns:android="http://schemas.android.com/apk/res/android"
         xmlns:tools="http://schemas.android.com/tools"
         android:id="@+id/recycler"
-        android:layout_height="0dp"
         android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_marginTop="@dimen/row_margin"
         android:layout_weight="1"
-        android:background="@android:color/holo_blue_light"
-        android:layout_marginTop="@dimen/handbook_list_margin_top"
         android:scrollbars="vertical"
         tools:listitem="@layout/handbook_item" />
 

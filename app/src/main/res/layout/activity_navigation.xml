@@ -11,8 +11,6 @@
         android:id="@+id/main_menu_tabs_containier"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:paddingStart="@dimen/screan_horizontal_border_padding"
-        android:paddingEnd="@dimen/screan_horizontal_border_padding"
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintBottom_toTopOf="@id/navigation"
         app:layout_constraintLeft_toLeftOf="parent"
