@@ -2,6 +2,7 @@ package mariavv.fitnesspal.ui.journal.daycard;
 
 import android.os.Bundle;
 import android.support.annotation.NonNull;
+import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -59,8 +60,8 @@ public class DayCardFragment extends MvpAppCompatFragment implements DayCardView
         recycler.setAdapter(adapter);
         recycler.setLayoutManager(new LinearLayoutManager(getContext()));
 
-        //DividerItemDecoration decoration = new DividerItemDecoration(recycler.getContext(), DividerItemDecoration.VERTICAL);
-        //recycler.addItemDecoration(decoration);
+        DividerItemDecoration decoration = new DividerItemDecoration(recycler.getContext(), DividerItemDecoration.VERTICAL);
+        recycler.addItemDecoration(decoration);
     }
 
     @Override

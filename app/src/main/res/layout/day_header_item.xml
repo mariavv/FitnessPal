@@ -3,33 +3,33 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:padding="@dimen/day_header_padding"
+    android:padding="@dimen/screan_horizontal_border_padding"
     android:stretchColumns="*">
 
-    <TableRow android:padding="@dimen/day_header_padding">
+    <TableRow android:padding="@dimen/table_border_padding">
 
         <TextView
             android:id="@+id/protein_tv"
             android:gravity="center_horizontal"
-            tools:text="Б" />
+            tools:text="@string/protein_full_prefix" />
 
         <TextView
             android:id="@+id/fat_tv"
             android:gravity="center_horizontal"
-            tools:text="Ж" />
+            tools:text="@string/fat_full_prefix" />
     </TableRow>
 
-    <TableRow android:padding="@dimen/day_header_padding">
+    <TableRow android:padding="@dimen/table_border_padding">
 
         <TextView
             android:id="@+id/carb_tv"
             android:gravity="center_horizontal"
-            tools:text="У" />
+            tools:text="@string/carb_full_prefix" />
 
         <TextView
             android:id="@+id/energy_tv"
             android:gravity="center_horizontal"
-            tools:text="ккал" />
+            tools:text="@string/energy_prefix" />
     </TableRow>
 
 </TableLayout>

@@ -16,4 +16,10 @@
     <string name="carb_prefix">У: </string>
     <string name="energy_postfix">ккал</string>
     <string name="meal_num_postfix">-й прием пищи</string>
+    <string name="protein_full_prefix">Белки: </string>
+    <string name="fat_full_prefix">Жиры: </string>
+    <string name="carb_full_prefix">Углеводы: </string>
+    <string name="energy_prefix">Калории: </string>
+    <string name="date_pattern">EEE MMM dd HH:mm:ss z yyyy</string>
+    <string name="date_format_display">dd-MM-yyyy</string>
 </resources>

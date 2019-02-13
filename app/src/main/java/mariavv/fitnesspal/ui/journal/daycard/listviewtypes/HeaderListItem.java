@@ -28,9 +28,9 @@ public class HeaderListItem implements ItemType {
     @Override
     public void onBindViewHolder(RecyclerView.ViewHolder viewHolder) {
         ViewHolderFactory.HeaderViewHolder holder = (ViewHolderFactory.HeaderViewHolder) viewHolder;
-        holder.proteinTv.setText(String.format("%s%s", FitnessPal.appContext.getString(R.string.protein_prefix), String.valueOf(macroNutrients.protein)));
-        holder.fatTv.setText(String.format("%s%s", FitnessPal.appContext.getString(R.string.fat_prefix), String.valueOf(macroNutrients.fat)));
-        holder.carbTv.setText(String.format("%s%s", FitnessPal.appContext.getString(R.string.carb_prefix), String.valueOf(macroNutrients.carb)));
-        holder.energyTv.setText(String.valueOf(new Energy(macroNutrients, new Weight(100)).getEnergy()));
+        holder.proteinTv.setText(String.format("%s%s", FitnessPal.appContext.getString(R.string.protein_full_prefix), String.valueOf(macroNutrients.protein)));
+        holder.fatTv.setText(String.format("%s%s", FitnessPal.appContext.getString(R.string.fat_full_prefix), String.valueOf(macroNutrients.fat)));
+        holder.carbTv.setText(String.format("%s%s", FitnessPal.appContext.getString(R.string.carb_full_prefix), String.valueOf(macroNutrients.carb)));
+        holder.energyTv.setText(String.format("%s%s", FitnessPal.appContext.getString(R.string.energy_prefix), String.valueOf(new Energy(macroNutrients, new Weight(100)).getEnergy())));
     }
 }

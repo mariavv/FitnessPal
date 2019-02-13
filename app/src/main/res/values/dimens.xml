@@ -4,9 +4,11 @@
     <dimen name="activity_vertical_margin">16dp</dimen>
     <dimen name="hb_name_width">200dp</dimen>
     <dimen name="hb_c_width">70dp</dimen>
-    <dimen name="day_header_padding">15dp</dimen>
     <dimen name="hb_pf_width">45dp</dimen>
     <dimen name="screan_horizontal_border_padding">16dp</dimen>
     <dimen name="columns_margin">4dp</dimen>
     <dimen name="row_margin">8dp</dimen>
+    <dimen name="day_card_header_height">36dp</dimen>
+    <dimen name="button_width">48dp</dimen>
+    <dimen name="table_border_padding">8dp</dimen>
 </resources>

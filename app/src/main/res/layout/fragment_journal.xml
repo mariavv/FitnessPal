@@ -1,12 +1,47 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".ui.journal.JournalFragment">
 
+    <TextView
+        android:id="@+id/date"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/day_card_header_height"
+        android:background="@color/colorDayCardHat"
+        android:gravity="center"
+        android:textSize="20sp"
+        app:layout_constraintLeft_toRightOf="@id/left"
+        app:layout_constraintRight_toLeftOf="@id/right"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:text="10-02-2019" />
+
+    <ImageView
+        android:id="@+id/left"
+        android:layout_width="@dimen/button_width"
+        android:layout_height="@dimen/day_card_header_height"
+        android:src="@drawable/ic_chevron_left_black_24dp"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <ImageView
+        android:id="@+id/right"
+        android:layout_width="@dimen/button_width"
+        android:layout_height="@dimen/day_card_header_height"
+        android:src="@drawable/ic_chevron_right_black_24dp"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
     <android.support.v4.view.ViewPager
         android:id="@+id/viewPager"
         android:layout_width="match_parent"
-        android:layout_height="match_parent" />
-</FrameLayout>
+        android:layout_height="match_parent"
+        android:layout_marginTop="@dimen/day_card_header_height"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/left" />
+
+</android.support.constraint.ConstraintLayout>
