@@ -6,6 +6,7 @@ import com.arellomobile.mvp.MvpPresenter;
 @InjectViewState
 public class JournalPresenter extends MvpPresenter<JournalView> {
 
+
     @Override
     protected void onFirstViewAttach() {
         super.onFirstViewAttach();
