@@ -43,7 +43,7 @@ public class DbManager {
         return getSQLiteDatabase().rawQuery(q, null);
     }
 
-    public Cursor getFoodsNamesFromHandbook() {
+    public Cursor getFoodNamesFromHandbook() {
         final String q = "select hb." + SQLiteHelper.HB_COLUMN_NAME
                 + " from " + SQLiteHelper.FOOD_HANDBOOK_TABLE_NAME + " as hb "
                 + " order by " + SQLiteHelper.HB_COLUMN_NAME;

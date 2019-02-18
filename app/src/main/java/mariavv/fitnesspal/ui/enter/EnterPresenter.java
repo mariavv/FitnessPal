@@ -10,11 +10,11 @@ import java.util.Calendar;
 import java.util.Date;
 
 import mariavv.fitnesspal.model.DateHelper;
+import mariavv.fitnesspal.model.model.MealNum;
 import mariavv.fitnesspal.model.repository.Repo;
 import mariavv.fitnesspal.ui.UiTools;
 
 import static mariavv.fitnesspal.model.DateHelper.getFormatDate;
-
 
 @InjectViewState
 public class EnterPresenter extends MvpPresenter<EnterView> {
@@ -22,6 +22,7 @@ public class EnterPresenter extends MvpPresenter<EnterView> {
     private Date date;
     private Cursor foodList;
     private int selectedFoodListPos;
+    private int selectedMealListPos;
 
     @Override
     protected void onFirstViewAttach() {
@@ -37,6 +38,8 @@ public class EnterPresenter extends MvpPresenter<EnterView> {
             fl[foodList.getPosition()] = foodList.getString(0);
         } while (foodList.moveToNext());
         getViewState().configureSpinner(fl);
+
+        getViewState().configureMealsSpinner(MealNum.meals);
     }
 
     void onDateChange(int year, int month, int dayOfMonth) {
@@ -61,11 +64,15 @@ public class EnterPresenter extends MvpPresenter<EnterView> {
         foodList.close();
     }
 
-    void onAddClick(Editable mealNum, Editable weight) {
-        foodList.moveToFirst();
-        Repo.getInstance().addDish(date, Integer.valueOf(mealNum.toString()),
-                foodList.getString(selectedFoodListPos),
+    void onAddClick(Editable food, Editable weight) {
+        foodList.moveToPosition(selectedFoodListPos);
+        Repo.getInstance().addDish(date, selectedMealListPos + 1,
+                food.toString(),
                 Integer.valueOf(weight.toString()));
         UiTools.showToast("добавлено");
+    }
+
+    void onMealSelected(int position) {
+        selectedMealListPos = position;
     }
 }

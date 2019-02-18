@@ -55,9 +55,6 @@ public class ViewHolderFactory {
 
         public TextView mealTitleTv;
         public TextView weightTv;
-        public TextView proteinTv;
-        public TextView fatTv;
-        public TextView carbTv;
         public TextView energyTv;
 
         ListItemViewHolder(View itemView) {
@@ -65,9 +62,6 @@ public class ViewHolderFactory {
 
             mealTitleTv = itemView.findViewById(R.id.meal_title_tv);
             weightTv = itemView.findViewById(R.id.weight_tv);
-            proteinTv = itemView.findViewById(R.id.protein_tv);
-            fatTv = itemView.findViewById(R.id.fat_tv);
-            carbTv = itemView.findViewById(R.id.carb_tv);
             energyTv = itemView.findViewById(R.id.energy_tv);
         }
     }

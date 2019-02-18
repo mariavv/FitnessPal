@@ -10,4 +10,6 @@ interface EnterView extends MvpView {
     void initCalendarDialog(int currentYear, int currentMonth, int currentDay);
 
     void configureSpinner(String[] foodList);
+
+    void configureMealsSpinner(String[] meals);
 }

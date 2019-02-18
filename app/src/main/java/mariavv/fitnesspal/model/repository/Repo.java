@@ -68,7 +68,7 @@ public class Repo {
     }
 
     public Cursor getFoofList() {
-        return db.getFoodsNamesFromHandbook();
+        return db.getFoodNamesFromHandbook();
     }
 
     public void addDish(Date date, int mealNum, String dish, int weight) {

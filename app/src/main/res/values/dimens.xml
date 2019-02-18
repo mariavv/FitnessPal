@@ -12,6 +12,6 @@
     <dimen name="button_width">48dp</dimen>
     <dimen name="table_border_padding">8dp</dimen>
     <dimen name="fab_margin">20dp</dimen>
-    <dimen name="enter_item_margin_top">50dp</dimen>
+    <dimen name="enter_item_margin_top">24dp</dimen>
     <dimen name="enter_text_size">24sp</dimen>
 </resources>

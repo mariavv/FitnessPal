@@ -46,9 +46,6 @@ public class DishListItem implements ItemType {
         ViewHolderFactory.ListItemViewHolder holder = (ViewHolderFactory.ListItemViewHolder) viewHolder;
         holder.mealTitleTv.setText(name.value);
         holder.weightTv.setText(String.format("%s%s", String.valueOf(weight.value), FitnessPal.appContext.getString(R.string.weight_postfix)));
-        holder.proteinTv.setText(String.format("%s%s", FitnessPal.appContext.getString(R.string.protein_prefix), String.valueOf(getMacroNutrients().protein)));
-        holder.fatTv.setText(String.format("%s%s", FitnessPal.appContext.getString(R.string.fat_prefix), String.valueOf(getMacroNutrients().fat)));
-        holder.carbTv.setText(String.format("%s%s", FitnessPal.appContext.getString(R.string.carb_prefix), String.valueOf(getMacroNutrients().carb)));
         holder.energyTv.setText(String.format("%s%s", String.valueOf(new Energy(getMacroNutrients()).getEnergy()), FitnessPal.appContext.getString(R.string.energy_postfix)));
     }
 }

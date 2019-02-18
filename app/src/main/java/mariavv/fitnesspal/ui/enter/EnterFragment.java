@@ -9,6 +9,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
@@ -28,8 +29,8 @@ public class EnterFragment extends MvpAppCompatFragment implements EnterView, Da
     ImageView calendarIv;
     DatePickerDialog datePickerDialog;
     TextView dateTv;
-    EditText mealNumEd;
-    Spinner spinner;
+    Spinner mealNumSp;
+    AutoCompleteTextView dishActv;
     EditText weightEd;
     Button addBtn;
 
@@ -59,15 +60,15 @@ public class EnterFragment extends MvpAppCompatFragment implements EnterView, Da
             }
         });
         dateTv = view.findViewById(R.id.dateTv);
-        mealNumEd = view.findViewById(R.id.mealNumEd);
-        spinner = view.findViewById(R.id.spinner);
+        mealNumSp = view.findViewById(R.id.mealNumSp);
+        dishActv = view.findViewById(R.id.dishActv);
         weightEd = view.findViewById(R.id.weightEd);
 
         addBtn = view.findViewById(R.id.addBtn);
         addBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                presenter.onAddClick(mealNumEd.getText(), weightEd.getText());
+                presenter.onAddClick(dishActv.getEditableText(), weightEd.getText());
             }
         });
     }
@@ -99,14 +100,35 @@ public class EnterFragment extends MvpAppCompatFragment implements EnterView, Da
     public void configureSpinner(String[] foodList) {
         final Context context = this.getContext();
         if (context != null) {
-            ArrayAdapter<String> adapter = new ArrayAdapter<>(context, android.R.layout.simple_spinner_item, foodList);
-            adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-            spinner.setAdapter(adapter);
+            ArrayAdapter<String> adapter = new ArrayAdapter<>(context, android.R.layout.simple_dropdown_item_1line, foodList);
 
-            spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            dishActv.setAdapter(adapter);
+
+            /*dishActv.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
                 @Override
                 public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                     presenter.onFoodSelected(position);
+                }
+
+                @Override
+                public void onNothingSelected(AdapterView<?> arg0) {
+                }
+            });*/
+        }
+    }
+
+    @Override
+    public void configureMealsSpinner(String[] meals) {
+        final Context context = this.getContext();
+        if (context != null) {
+            ArrayAdapter<String> adapter = new ArrayAdapter<>(context, android.R.layout.simple_spinner_item, meals);
+            adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+            mealNumSp.setAdapter(adapter);
+
+            mealNumSp.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+                @Override
+                public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                    presenter.onMealSelected(position);
                 }
 
                 @Override

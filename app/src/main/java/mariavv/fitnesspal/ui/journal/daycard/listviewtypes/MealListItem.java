@@ -31,10 +31,7 @@ public class MealListItem implements ItemType {
     @Override
     public void onBindViewHolder(RecyclerView.ViewHolder viewHolder) {
         ViewHolderFactory.ListItemViewHolder holder = (ViewHolderFactory.ListItemViewHolder) viewHolder;
-        holder.mealTitleTv.setText(String.format("%s%s", String.valueOf(mealNum.value), FitnessPal.appContext.getString(R.string.meal_num_postfix)));
-        holder.proteinTv.setText(String.format("%s%s", FitnessPal.appContext.getString(R.string.protein_prefix), String.valueOf(macroNutrients.protein)));
-        holder.fatTv.setText(String.format("%s%s", FitnessPal.appContext.getString(R.string.fat_prefix), String.valueOf(macroNutrients.fat)));
-        holder.carbTv.setText(String.format("%s%s", FitnessPal.appContext.getString(R.string.carb_prefix), String.valueOf(macroNutrients.carb)));
+        holder.mealTitleTv.setText(mealNum.getName());
         holder.energyTv.setText(String.format("%s%s", String.valueOf(new Energy(macroNutrients).getEnergy()), FitnessPal.appContext.getString(R.string.energy_postfix)));
     }
 }
