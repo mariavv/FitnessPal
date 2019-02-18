@@ -8,7 +8,6 @@ import android.view.MenuItem;
 
 import mariavv.fitnesspal.R;
 import mariavv.fitnesspal.ui.UiTools;
-import mariavv.fitnesspal.ui.enter.EnterFragment;
 import mariavv.fitnesspal.ui.handbook.HandBookFragment;
 import mariavv.fitnesspal.ui.journal.JournalFragment;
 
@@ -20,9 +19,6 @@ public class NavigateActivity extends AppCompatActivity {
         @Override
         public boolean onNavigationItemSelected(@NonNull MenuItem item) {
             switch (item.getItemId()) {
-                case R.id.navigation_home:
-                    UiTools.replaceFragment(EnterFragment.newInstance(), getSupportFragmentManager());
-                    return true;
                 case R.id.navigation_dashboard:
                     UiTools.replaceFragment(JournalFragment.newInstance(), getSupportFragmentManager());
                     return true;
@@ -42,7 +38,7 @@ public class NavigateActivity extends AppCompatActivity {
         BottomNavigationView navigation = findViewById(R.id.navigation);
         navigation.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener);
 
-        UiTools.replaceFragment(EnterFragment.newInstance(), getSupportFragmentManager());
+        UiTools.replaceFragment(JournalFragment.newInstance(), getSupportFragmentManager());
     }
 
 }

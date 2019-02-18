@@ -1,9 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
+    android:padding="@dimen/screan_horizontal_border_padding"
     tools:context=".ui.enter.EnterFragment">
 
     <ImageView
@@ -11,51 +13,87 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginBottom="8dp"
-        android:src="@drawable/icon_calendar" />
+        android:src="@drawable/icon_calendar"
+        app:layout_constraintBottom_toBottomOf="@id/dateTv"
+        app:layout_constraintLeft_toLeftOf="@id/mealNumEd"
+        app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
         android:id="@+id/dateTv"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="07-02-2019" />
+        android:text="07-02-2019"
+        android:textSize="@dimen/enter_text_size"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
+        android:id="@+id/mealNumTv"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="прием пищи: " />
+        android:layout_marginTop="@dimen/enter_item_margin_top"
+        android:text="Прием пищи: "
+        android:textSize="@dimen/enter_text_size"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/dateTv" />
 
     <EditText
         android:id="@+id/mealNumEd"
-        android:layout_width="40dp"
-        android:layout_height="40dp"
-        android:text="1" />
+        android:layout_width="100dp"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="20dp"
+        android:text="1"
+        android:textSize="@dimen/enter_text_size"
+        app:layout_constraintBottom_toBottomOf="@id/mealNumTv"
+        app:layout_constraintLeft_toRightOf="@id/mealNumTv" />
 
     <TextView
+        android:id="@+id/dishTv"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Блюдо: " />
+        android:layout_marginTop="@dimen/enter_item_margin_top"
+        android:text="Блюдо: "
+        android:textSize="@dimen/enter_text_size"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/mealNumTv" />
 
     <Spinner
         android:id="@+id/spinner"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"></Spinner>
-
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:textSize="@dimen/enter_text_size"
+        app:layout_constraintBottom_toBottomOf="@id/dishTv"
+        app:layout_constraintLeft_toLeftOf="@id/mealNumEd"
+        app:layout_constraintRight_toRightOf="parent" />
 
     <TextView
+        android:id="@+id/weightTv"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="масса: " />
+        android:layout_marginTop="@dimen/enter_item_margin_top"
+        android:text="Масса: "
+        android:textSize="@dimen/enter_text_size"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/spinner" />
 
     <EditText
         android:id="@+id/weightEd"
-        android:layout_width="40dp"
-        android:layout_height="40dp"
-        android:text="111" />
+        android:layout_width="100dp"
+        android:layout_height="wrap_content"
+        android:text="111"
+        android:textSize="@dimen/enter_text_size"
+        app:layout_constraintBottom_toBottomOf="@id/weightTv"
+        app:layout_constraintLeft_toLeftOf="@id/mealNumEd" />
 
     <Button
         android:id="@+id/addBtn"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Добавить" />
+        android:layout_marginTop="@dimen/enter_item_margin_top"
+        android:text="Добавить"
+        android:textSize="@dimen/enter_text_size"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/weightEd" />
 
-</LinearLayout>
+</android.support.constraint.ConstraintLayout>

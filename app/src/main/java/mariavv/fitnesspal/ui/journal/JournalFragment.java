@@ -2,6 +2,7 @@ package mariavv.fitnesspal.ui.journal;
 
 import android.os.Bundle;
 import android.support.annotation.NonNull;
+import android.support.design.widget.FloatingActionButton;
 import android.support.v4.view.ViewPager;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -20,6 +21,8 @@ import java.util.Locale;
 import mariavv.fitnesspal.FitnessPal;
 import mariavv.fitnesspal.R;
 import mariavv.fitnesspal.model.repository.Repo;
+import mariavv.fitnesspal.ui.UiTools;
+import mariavv.fitnesspal.ui.enter.EnterFragment;
 
 public class JournalFragment extends MvpAppCompatFragment implements JournalView {
 
@@ -27,6 +30,7 @@ public class JournalFragment extends MvpAppCompatFragment implements JournalView
     TextView dateTv;
     ImageView prevDayIv;
     ImageView nextDayIv;
+    FloatingActionButton fab;
 
     ViewPager viewPager;
 
@@ -86,6 +90,13 @@ public class JournalFragment extends MvpAppCompatFragment implements JournalView
                 }
             }
         });
+
+        fab.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                UiTools.replaceFragment(EnterFragment.newInstance(), getFragmentManager());
+            }
+        });
     }
 
     private int getPageCount() {
@@ -97,6 +108,7 @@ public class JournalFragment extends MvpAppCompatFragment implements JournalView
         dateTv = view.findViewById(R.id.date);
         prevDayIv = view.findViewById(R.id.left);
         nextDayIv = view.findViewById(R.id.right);
+        fab = view.findViewById(R.id.fab);
     }
 
     private int getCurrentPage() {
