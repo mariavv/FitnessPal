@@ -123,12 +123,15 @@ public class DbManager {
         return getSQLiteDatabase().rawQuery(q, null);
     }
 
-    public int getFoodIdByName(String dish) {
+    public int getFoodIdByName(String dish) throws Exception {
         final String q = "select " + SQLiteHelper.HB_COLUMN_ID
                 + " from " + SQLiteHelper.FOOD_HANDBOOK_TABLE_NAME
                 + " where " + SQLiteHelper.HB_COLUMN_NAME + " = '" + dish + "'";
         final Cursor c = getSQLiteDatabase().rawQuery(q, null);
         c.moveToFirst();
+        if (c.getCount() == 0) {
+            throw new Exception("error");
+        }
         int id = c.getInt(0);
         c.close();
         return id;

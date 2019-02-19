@@ -35,7 +35,7 @@ class FeedAdapter extends RecyclerView.Adapter {
         return 0;
     }
 
-    public void updateItems(List<ItemType> entities) {
+    void updateItems(List<ItemType> entities) {
         if (entities != null) {
             dataSet = entities;
             notifyDataSetChanged();

@@ -4,9 +4,11 @@ import android.app.DatePickerDialog;
 import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
+import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.inputmethod.EditorInfo;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
@@ -69,6 +71,16 @@ public class EnterFragment extends MvpAppCompatFragment implements EnterView, Da
             @Override
             public void onClick(View v) {
                 presenter.onAddClick(dishActv.getEditableText(), weightEd.getText());
+            }
+        });
+
+        weightEd.setOnEditorActionListener(new TextView.OnEditorActionListener() {
+            @Override
+            public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
+                if (actionId == EditorInfo.IME_ACTION_GO) {
+                    addBtn.callOnClick();
+                }
+                return false;
             }
         });
     }

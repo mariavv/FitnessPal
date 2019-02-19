@@ -72,6 +72,10 @@ public class Repo {
     }
 
     public void addDish(Date date, int mealNum, String dish, int weight) {
-        db.insertDishInJournal(new Dish(new MealNum(mealNum), date, db.getFoodIdByName(dish), new Weight(weight)));
+        try {
+            db.insertDishInJournal(new Dish(new MealNum(mealNum), date, db.getFoodIdByName(dish), new Weight(weight)));
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 }

@@ -21,7 +21,6 @@ public class EnterPresenter extends MvpPresenter<EnterView> {
 
     private Date date;
     private Cursor foodList;
-    private int selectedFoodListPos;
     private int selectedMealListPos;
 
     @Override
@@ -39,7 +38,11 @@ public class EnterPresenter extends MvpPresenter<EnterView> {
         } while (foodList.moveToNext());
         getViewState().configureSpinner(fl);
 
-        getViewState().configureMealsSpinner(MealNum.meals);
+        final String[] meals = new String[MealNum.meals.length + 1];
+        meals[0] = "";
+        System.arraycopy(MealNum.meals, 0, meals, 1, MealNum.meals.length);
+
+        getViewState().configureMealsSpinner(meals);
     }
 
     void onDateChange(int year, int month, int dayOfMonth) {
@@ -54,10 +57,6 @@ public class EnterPresenter extends MvpPresenter<EnterView> {
         getViewState().showDatePickerDialog();
     }
 
-    void onFoodSelected(int position) {
-        selectedFoodListPos = position;
-    }
-
     @Override
     public void onDestroy() {
         super.onDestroy();
@@ -65,10 +64,18 @@ public class EnterPresenter extends MvpPresenter<EnterView> {
     }
 
     void onAddClick(Editable food, Editable weight) {
-        foodList.moveToPosition(selectedFoodListPos);
-        Repo.getInstance().addDish(date, selectedMealListPos + 1,
-                food.toString(),
-                Integer.valueOf(weight.toString()));
+        if (weight.toString().length() == 0) {
+            return;
+        }
+        if (selectedMealListPos == 0) {
+            return;
+        }
+        if (food.toString().length() == 0) {
+            return;
+        }
+
+        Repo.getInstance()
+                .addDish(date, selectedMealListPos, food.toString(), Integer.valueOf(weight.toString()));
         UiTools.showToast("добавлено");
     }
 

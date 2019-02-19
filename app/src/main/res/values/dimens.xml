@@ -14,4 +14,5 @@
     <dimen name="fab_margin">20dp</dimen>
     <dimen name="enter_item_margin_top">24dp</dimen>
     <dimen name="enter_text_size">24sp</dimen>
+    <dimen name="enter_second_column_margin_left">88dp</dimen>
 </resources>
