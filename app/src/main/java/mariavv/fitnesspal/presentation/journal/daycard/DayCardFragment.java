@@ -15,7 +15,7 @@ import com.arellomobile.mvp.presenter.InjectPresenter;
 
 import mariavv.fitnesspal.R;
 
-import static mariavv.fitnesspal.BundleArg.ARG_DATE;
+import static mariavv.fitnesspal.other.BundleArg.ARG_DATE;
 
 public class DayCardFragment extends MvpAppCompatFragment implements DayCardView {
 

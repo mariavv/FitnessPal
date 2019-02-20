@@ -53,10 +53,12 @@ class FeedAdapter extends RecyclerView.Adapter<ViewHolder> {
     void updateItems(Cursor c) {
         if (c != null) {
             items = c;
+
             nameIndex = items.getColumnIndex(CName.NAME);
             proteinIndex = items.getColumnIndex(CName.PROTEIN);
             fatIndex = items.getColumnIndex(CName.FAT);
             carbIndex = items.getColumnIndex(CName.CARB);
+
             notifyDataSetChanged();
         }
     }

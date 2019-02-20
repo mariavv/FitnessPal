@@ -6,14 +6,14 @@ import android.text.Editable;
 import com.arellomobile.mvp.InjectViewState;
 import com.arellomobile.mvp.MvpPresenter;
 
+import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.GregorianCalendar;
+import java.util.Locale;
 
-import mariavv.fitnesspal.data.DateHelper;
 import mariavv.fitnesspal.data.db.Meal;
 import mariavv.fitnesspal.data.repository.Repo;
-
-import static mariavv.fitnesspal.data.DateHelper.getFormatDate;
 
 @InjectViewState
 public class EnterPresenter extends MvpPresenter<EnterView> {
@@ -23,12 +23,19 @@ public class EnterPresenter extends MvpPresenter<EnterView> {
     private int selectedMealListPos;
     private String[] meals;
 
+    private static int getCurrent(int mark) {
+        return new GregorianCalendar().get(mark);
+    }
+
     @Override
     protected void onFirstViewAttach() {
         super.onFirstViewAttach();
 
-        getViewState().initCalendarDialog(DateHelper.getCurrentYear(), DateHelper.getCurrentMonth(), DateHelper.getCurrentDay());
-        onDateChange(DateHelper.getCurrentYear(), DateHelper.getCurrentMonth(), DateHelper.getCurrentDay());
+        final int cYear = getCurrent(Calendar.YEAR);
+        final int cMonth = getCurrent(Calendar.MONTH);
+        final int cDay = getCurrent(Calendar.DAY_OF_MONTH);
+        getViewState().initCalendarDialog(cYear, cMonth, cDay);
+        onDateChange(cYear, cMonth, cDay);
 
         foodList = Repo.getInstance().getFoofList();
         final String[] fl = new String[foodList.getCount()];
@@ -52,7 +59,10 @@ public class EnterPresenter extends MvpPresenter<EnterView> {
         c.clear();
         c.set(year, month, dayOfMonth);
         date = c.getTime();
-        getViewState().showSelectedDate(getFormatDate(date));
+        final String pattern = "dd-MM-yyyy";
+        final SimpleDateFormat simpleDateFormat = new SimpleDateFormat(pattern, Locale.getDefault());
+
+        getViewState().showSelectedDate(simpleDateFormat.format(date));
     }
 
     void onDateChangeClick() {

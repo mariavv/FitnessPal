@@ -53,15 +53,15 @@ class FeedAdapter extends RecyclerView.Adapter {
         final HeaderListItem headerListItem = new HeaderListItem(0, 0, 0);
         dataSet.add(headerListItem);
 
+        final MealListItem mealBreakfast = new MealListItem(Meal.BREAKFAST, 0);
+        final MealListItem mealLanch = new MealListItem(Meal.LANCH, 0);
+        final MealListItem mealDinner = new MealListItem(Meal.DINNER, 0);
+
+        final List<DishListItem> dishesBreakfast = new ArrayList<>();
+        final List<DishListItem> dishesLanch = new ArrayList<>();
+        final List<DishListItem> dishesDinner = new ArrayList<>();
+
         do {
-            final MealListItem mealBreakfast = new MealListItem(Meal.BREAKFAST, 0);
-            final MealListItem mealLanch = new MealListItem(Meal.LANCH, 0);
-            final MealListItem mealDinner = new MealListItem(Meal.DINNER, 0);
-
-            final List<DishListItem> dishesBreakfast = new ArrayList<>();
-            final List<DishListItem> dishesLanch = new ArrayList<>();
-            final List<DishListItem> dishesDinner = new ArrayList<>();
-
             final int protein = c.getInt(c.getColumnIndex(CName.PROTEIN));
             final int fat = c.getInt(c.getColumnIndex(CName.FAT));
             final int carb = c.getInt(c.getColumnIndex(CName.CARB));
@@ -87,16 +87,23 @@ class FeedAdapter extends RecyclerView.Adapter {
                     break;
             }
 
-            dataSet.add(mealBreakfast);
-            dataSet.addAll(dishesBreakfast);
-            dataSet.add(mealLanch);
-            dataSet.addAll(dishesLanch);
-            dataSet.add(mealDinner);
-            dataSet.addAll(dishesDinner);
-
         } while (c.moveToNext());
 
-        c.close();
+        //падает
+        //c.close();
+
+        if (!dishesBreakfast.isEmpty()) {
+            dataSet.add(mealBreakfast);
+            dataSet.addAll(dishesBreakfast);
+        }
+        if (!dishesLanch.isEmpty()) {
+            dataSet.add(mealLanch);
+            dataSet.addAll(dishesLanch);
+        }
+        if (!dishesDinner.isEmpty()) {
+            dataSet.add(mealDinner);
+            dataSet.addAll(dishesDinner);
+        }
 
         this.dataSet = dataSet;
 

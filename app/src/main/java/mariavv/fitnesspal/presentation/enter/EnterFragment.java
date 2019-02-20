@@ -23,7 +23,6 @@ import com.arellomobile.mvp.MvpAppCompatFragment;
 import com.arellomobile.mvp.presenter.InjectPresenter;
 
 import mariavv.fitnesspal.R;
-import mariavv.fitnesspal.presentation.UiTools;
 
 public class EnterFragment extends MvpAppCompatFragment implements EnterView, DatePickerDialog.OnDateSetListener {
 
@@ -141,6 +140,7 @@ public class EnterFragment extends MvpAppCompatFragment implements EnterView, Da
 
     @Override
     public void showMessage(String message) {
-        UiTools.showToast(message);
+        //todo event bus
+        //UiTools.showToast(message);
     }
 }

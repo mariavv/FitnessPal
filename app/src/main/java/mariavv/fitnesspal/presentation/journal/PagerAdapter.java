@@ -22,10 +22,4 @@ class PagerAdapter extends FragmentPagerAdapter {
     public int getCount() {
         return Repo.getInstance().getJournalDaysCount();
     }
-
-    /*@Nullable
-    @Override
-    public CharSequence getPageTitle(int position) {
-        return Repo.getInstance().getDateByIndex(position);
-    }*/
 }

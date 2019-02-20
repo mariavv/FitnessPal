@@ -4,7 +4,6 @@ import android.database.Cursor;
 
 import java.util.Date;
 
-import mariavv.fitnesspal.data.db.DbManager;
 import mariavv.fitnesspal.domain.Dish;
 import mariavv.fitnesspal.domain.Food;
 

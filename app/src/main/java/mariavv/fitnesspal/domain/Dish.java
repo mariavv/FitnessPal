@@ -5,6 +5,7 @@ import android.support.annotation.NonNull;
 import java.util.Date;
 
 public class Dish {
+
     @NonNull
     public Date date;
     @NonNull

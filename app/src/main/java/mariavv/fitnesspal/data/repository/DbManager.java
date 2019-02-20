@@ -1,8 +1,11 @@
-package mariavv.fitnesspal.data.db;
+package mariavv.fitnesspal.data.repository;
 
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 
+import mariavv.fitnesspal.data.db.CName;
+import mariavv.fitnesspal.data.db.SQLiteHelper;
+import mariavv.fitnesspal.data.db.TName;
 import mariavv.fitnesspal.domain.Dish;
 import mariavv.fitnesspal.domain.Food;
 
@@ -50,7 +53,7 @@ public class DbManager {
                 + CName.DATE + ", "
                 + CName.DISH_ID + ", "
                 + CName.WEIGHT + ") "
-                + " values ( " + String.valueOf(dish.meal) + ", "
+                + " values ( '" + dish.meal + "', "
                 + "'" + dish.date.toString() + "'" + ", " + dish.foodId + ", " + dish.weight + ") ";
         getSQLiteDatabase().execSQL(q);
     }

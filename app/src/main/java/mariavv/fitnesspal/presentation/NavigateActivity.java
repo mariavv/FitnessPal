@@ -81,4 +81,8 @@ public class NavigateActivity extends AppCompatActivity {
         UiTools.replaceFragment(JournalFragment.newInstance(), getSupportFragmentManager());
     }
 
+    //todo
+    /*public void showToast(String message) {
+        Toast.makeText(this, message, Toast.LENGTH_SHORT).show();
+    }*/
 }

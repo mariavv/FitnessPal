@@ -5,12 +5,12 @@ import android.database.sqlite.SQLiteOpenHelper;
 
 import mariavv.fitnesspal.FitnessPal;
 
-class SQLiteHelper extends SQLiteOpenHelper {
+public class SQLiteHelper extends SQLiteOpenHelper {
 
     private static final String DB_NAME = "fitness_pal";
     private static final int DB_VERSION = 1;
 
-    SQLiteHelper(SQLiteDatabase.CursorFactory factory) {
+    public SQLiteHelper(SQLiteDatabase.CursorFactory factory) {
         super(FitnessPal.appContext, DB_NAME, factory, DB_VERSION);
     }
 

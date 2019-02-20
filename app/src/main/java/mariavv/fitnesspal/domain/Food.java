@@ -3,10 +3,12 @@ package mariavv.fitnesspal.domain;
 import android.support.annotation.NonNull;
 
 public class Food {
-    public static final int PER_WEIGHT = 100;
+
+    private static final int PER_WEIGHT = 100;
     private static final int PROTEIN_ENERGY = 4;
     private static final int FAT_ENERGY = 9;
     private static final int CARB_ENERGY = 4;
+
     @NonNull
     private String name;
     private int protein;
