@@ -5,7 +5,7 @@
     android:layout_height="match_parent"
     android:orientation="vertical"
     android:paddingTop="@dimen/row_margin"
-    tools:context=".ui.handbook.HandBookFragment">
+    tools:context=".presentation.handbook.HandBookFragment">
 
     <include
         layout="@layout/handbook_item"
