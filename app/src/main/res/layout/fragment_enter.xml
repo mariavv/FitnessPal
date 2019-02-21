@@ -8,7 +8,7 @@
     tools:context=".presentation.enter.EnterFragment">
 
     <TextView
-        android:id="@+id/dateLabelTv"
+        android:id="@+id/foodTv"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="@dimen/enter_item_margin_top"
@@ -17,21 +17,21 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
-        android:id="@+id/dateTv"
+        android:id="@+id/foodEd"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="07-02-2019"
         android:layout_marginLeft="@dimen/enter_second_column_margin_left"
-        app:layout_constraintBottom_toBottomOf="@id/dateLabelTv"
-        app:layout_constraintLeft_toRightOf="@id/dateLabelTv" />
+        app:layout_constraintBottom_toBottomOf="@id/foodTv"
+        app:layout_constraintLeft_toRightOf="@id/foodTv" />
 
     <View
         android:id="@+id/v"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginLeft="82dp"
-        app:layout_constraintBottom_toBottomOf="@id/dateLabelTv"
-        app:layout_constraintLeft_toRightOf="@id/dateLabelTv" />
+        app:layout_constraintBottom_toBottomOf="@id/foodTv"
+        app:layout_constraintLeft_toRightOf="@id/foodTv" />
 
     <ImageView
         android:id="@+id/calendarIv"
@@ -39,68 +39,68 @@
         android:layout_height="wrap_content"
         android:layout_marginLeft="36dp"
         android:src="@drawable/icon_calendar"
-        app:layout_constraintBottom_toBottomOf="@id/dateTv"
-        app:layout_constraintLeft_toRightOf="@id/dateTv"
-        app:layout_constraintTop_toTopOf="@id/dateTv" />
+        app:layout_constraintBottom_toBottomOf="@id/foodEd"
+        app:layout_constraintLeft_toRightOf="@id/foodEd"
+        app:layout_constraintTop_toTopOf="@id/foodEd" />
 
     <TextView
-        android:id="@+id/mealNumTv"
+        android:id="@+id/proteinTv"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="@dimen/enter_item_margin_top"
         android:text="Прием пищи: "
         app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/dateTv" />
+        app:layout_constraintTop_toBottomOf="@id/foodEd" />
 
     <Spinner
-        android:id="@+id/mealNumSp"
+        android:id="@+id/proteinEd"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        app:layout_constraintBottom_toBottomOf="@+id/mealNumTv"
+        app:layout_constraintBottom_toBottomOf="@+id/proteinTv"
         app:layout_constraintLeft_toLeftOf="@id/v"
-        app:layout_constraintTop_toTopOf="@+id/mealNumTv"
-        app:layout_constraintLeft_toRightOf="@id/mealNumTv"
+        app:layout_constraintLeft_toRightOf="@id/proteinTv"
+        app:layout_constraintTop_toTopOf="@+id/proteinTv"
         app:layout_constraintRight_toRightOf="parent" />
 
     <TextView
-        android:id="@+id/dishTv"
+        android:id="@+id/fatTv"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="@dimen/enter_item_margin_top"
         android:text="Блюдо: "
         app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/mealNumTv" />
+        app:layout_constraintTop_toBottomOf="@id/proteinTv" />
 
     <AutoCompleteTextView
-        android:id="@+id/dishActv"
+        android:id="@+id/fatEd"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:completionThreshold="1"
         android:imeOptions="actionNext"
         android:text=""
         android:inputType="text"
-        app:layout_constraintBaseline_toBaselineOf="@+id/dishTv"
-        app:layout_constraintLeft_toLeftOf="@id/dateTv"
+        app:layout_constraintBaseline_toBaselineOf="@+id/fatTv"
+        app:layout_constraintLeft_toLeftOf="@id/foodEd"
         app:layout_constraintRight_toRightOf="parent" />
 
     <TextView
-        android:id="@+id/weightTv"
+        android:id="@+id/carbTv"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="@dimen/enter_item_margin_top"
         android:text="Масса: "
         app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/dishActv" />
+        app:layout_constraintTop_toBottomOf="@id/fatEd" />
 
     <EditText
-        android:id="@+id/weightEd"
+        android:id="@+id/carbEd"
         android:layout_width="100dp"
         android:layout_height="wrap_content"
         android:imeOptions="actionGo"
         android:inputType="number"
         android:text=""
-        app:layout_constraintBaseline_toBaselineOf="@+id/weightTv"
-        app:layout_constraintLeft_toLeftOf="@id/dateTv" />
+        app:layout_constraintBaseline_toBaselineOf="@+id/carbTv"
+        app:layout_constraintLeft_toLeftOf="@id/foodEd" />
 
     <Button
         android:id="@+id/addBtn"

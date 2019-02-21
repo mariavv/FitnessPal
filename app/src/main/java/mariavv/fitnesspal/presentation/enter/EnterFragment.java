@@ -57,10 +57,10 @@ public class EnterFragment extends MvpAppCompatFragment implements EnterView, Da
                 presenter.onDateChangeClick();
             }
         });
-        dateTv = view.findViewById(R.id.dateTv);
-        mealNumSp = view.findViewById(R.id.mealNumSp);
-        dishActv = view.findViewById(R.id.dishActv);
-        weightEd = view.findViewById(R.id.weightEd);
+        dateTv = view.findViewById(R.id.foodEd);
+        mealNumSp = view.findViewById(R.id.proteinEd);
+        dishActv = view.findViewById(R.id.fatEd);
+        weightEd = view.findViewById(R.id.carbEd);
 
         addBtn = view.findViewById(R.id.addBtn);
         addBtn.setOnClickListener(new View.OnClickListener() {

@@ -1,34 +1,34 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:padding="@dimen/screan_horizontal_border_padding">
+    android:layout_height="48dp"
+    android:orientation="horizontal"
+    android:paddingStart="@dimen/screan_horizontal_border_padding"
+    android:paddingEnd="@dimen/screan_horizontal_border_padding">
 
     <TextView
         android:id="@+id/meal_title_tv"
-        android:layout_width="wrap_content"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
+        android:layout_gravity="center_vertical"
+        android:layout_weight="3"
         tools:text="@string/meal_num_postfix" />
 
     <TextView
         android:id="@+id/weight_tv"
-        android:layout_width="wrap_content"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginEnd="120dp"
-        app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
+        android:layout_gravity="center_vertical"
+        android:layout_weight="1"
         tools:text="@string/weight_postfix" />
 
     <TextView
         android:id="@+id/energy_tv"
-        android:layout_width="wrap_content"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
-        app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
+        android:layout_gravity="center_vertical"
+        android:layout_weight="1"
         tools:text="@string/energy_postfix" />
 
-</android.support.constraint.ConstraintLayout>
+</LinearLayout>

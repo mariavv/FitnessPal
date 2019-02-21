@@ -29,7 +29,7 @@ public class JournalPresenter extends MvpPresenter<JournalView> {
         router.navigateTo(KeyConst.Screen.ENTER_SCREEN);
     }
 
-    public void onPageMove(int position) {
+    void onPageMove(int position) {
         calcHeaderInfo(position);
     }
 

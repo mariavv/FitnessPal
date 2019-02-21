@@ -71,4 +71,8 @@ public class Repo {
             e.printStackTrace();
         }
     }
+
+    public void addFood(String food, String protein, String fat, String carb) {
+        db.insertFoodInHandbook(new Food(food, Integer.valueOf(protein), Integer.valueOf(fat), Integer.valueOf(carb)));
+    }
 }

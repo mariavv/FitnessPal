@@ -20,6 +20,7 @@ import mariavv.fitnesspal.data.repository.Repo;
 import mariavv.fitnesspal.domain.Dish;
 import mariavv.fitnesspal.domain.Food;
 import mariavv.fitnesspal.other.KeyConst;
+import mariavv.fitnesspal.presentation.addfood.AddFoodFragment;
 import mariavv.fitnesspal.presentation.enter.EnterFragment;
 import mariavv.fitnesspal.presentation.handbook.HandbookFragment;
 import mariavv.fitnesspal.presentation.journal.JournalFragment;
@@ -60,6 +61,8 @@ public class NavigateActivity extends MvpAppCompatActivity implements NavigateVi
                     return new HandbookFragment();
                 case KeyConst.Screen.ENTER_SCREEN:
                     return new EnterFragment();
+                case KeyConst.Screen.ADD_FOOD_SCREEN:
+                    return new AddFoodFragment();
                 default:
                     throw new RuntimeException("Unknown screen key!");
             }
