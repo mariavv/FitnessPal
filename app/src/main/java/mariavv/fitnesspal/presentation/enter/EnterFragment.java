@@ -39,10 +39,6 @@ public class EnterFragment extends MvpAppCompatFragment implements EnterView, Da
     @InjectPresenter
     EnterPresenter presenter;
 
-    public static EnterFragment newInstance() {
-        return new EnterFragment();
-    }
-
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {

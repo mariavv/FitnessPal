@@ -12,7 +12,6 @@ import mariavv.fitnesspal.data.db.CName;
 import mariavv.fitnesspal.data.db.Meal;
 import mariavv.fitnesspal.domain.Food;
 import mariavv.fitnesspal.presentation.journal.daycard.listviewtypes.DishListItem;
-import mariavv.fitnesspal.presentation.journal.daycard.listviewtypes.HeaderListItem;
 import mariavv.fitnesspal.presentation.journal.daycard.listviewtypes.MealListItem;
 
 class FeedAdapter extends RecyclerView.Adapter {
@@ -50,8 +49,8 @@ class FeedAdapter extends RecyclerView.Adapter {
 
         //каша
 
-        final HeaderListItem headerListItem = new HeaderListItem(0, 0, 0);
-        dataSet.add(headerListItem);
+        //final HeaderListItem headerListItem = new HeaderListItem(0, 0, 0);
+        //dataSet.add(headerListItem);
 
         final MealListItem mealBreakfast = new MealListItem(Meal.BREAKFAST, 0);
         final MealListItem mealLanch = new MealListItem(Meal.LANCH, 0);
@@ -68,9 +67,9 @@ class FeedAdapter extends RecyclerView.Adapter {
             final Food food = new Food(c.getString(c.getColumnIndex(CName.NAME)), protein, fat, carb);
             final DishListItem dish = new DishListItem(food, c.getInt(c.getColumnIndex(CName.WEIGHT)));
 
-            headerListItem.protein += protein;
-            headerListItem.fat += fat;
-            headerListItem.carb += carb;
+            //headerListItem.protein += protein;
+            //headerListItem.fat += fat;
+            //headerListItem.carb += carb;
 
             switch (c.getString(c.getColumnIndex(CName.MEAL))) {
                 case Meal.BREAKFAST:

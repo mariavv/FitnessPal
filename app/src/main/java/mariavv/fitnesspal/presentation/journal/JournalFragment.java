@@ -21,8 +21,6 @@ import java.util.Locale;
 import mariavv.fitnesspal.FitnessPal;
 import mariavv.fitnesspal.R;
 import mariavv.fitnesspal.data.repository.Repo;
-import mariavv.fitnesspal.presentation.UiTools;
-import mariavv.fitnesspal.presentation.enter.EnterFragment;
 
 public class JournalFragment extends MvpAppCompatFragment implements JournalView {
 
@@ -30,6 +28,7 @@ public class JournalFragment extends MvpAppCompatFragment implements JournalView
     TextView dateTv;
     ImageView prevDayIv;
     ImageView nextDayIv;
+    TextView proteinTv;
     FloatingActionButton fab;
 
     ViewPager viewPager;
@@ -38,10 +37,6 @@ public class JournalFragment extends MvpAppCompatFragment implements JournalView
 
     @InjectPresenter
     JournalPresenter presenter;
-
-    public static JournalFragment newInstance() {
-        return new JournalFragment();
-    }
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -53,23 +48,25 @@ public class JournalFragment extends MvpAppCompatFragment implements JournalView
                              Bundle savedInstanceState) {
         view = inflater.inflate(R.layout.fragment_journal, container, false);
 
-        configureViews();
+        configure();
 
         return view;
     }
 
-    private void configureViews() {
+    private void configure() {
         initViews();
+        configureViews();
+        configureInitState();
+    }
 
+    private void configureViews() {
         pagerAdapter = new PagerAdapter(getChildFragmentManager());
         viewPager.setAdapter(pagerAdapter);
-
-        showDate();
-        setNavigationButtonsState();
 
         prevDayIv.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                presenter.onPageMove(getCurrentPage() - 1);
                 moveToPosition(getCurrentPage() - 1);
                 //todo
                 if (getCurrentPage() == 0) {
@@ -94,9 +91,15 @@ public class JournalFragment extends MvpAppCompatFragment implements JournalView
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                UiTools.replaceFragment(EnterFragment.newInstance(), getFragmentManager());
+                presenter.onFabClick();
             }
         });
+    }
+
+    private void configureInitState() {
+        showDate();
+        setNavigationButtonsState();
+        presenter.onPageMove(getCurrentPage());
     }
 
     private int getPageCount() {
@@ -108,6 +111,10 @@ public class JournalFragment extends MvpAppCompatFragment implements JournalView
         dateTv = view.findViewById(R.id.date);
         prevDayIv = view.findViewById(R.id.left);
         nextDayIv = view.findViewById(R.id.right);
+
+        View headerView = view.findViewById(R.id.header_info);
+        proteinTv = headerView.findViewById(R.id.protein_tv);
+
         fab = view.findViewById(R.id.fab);
     }
 
@@ -118,6 +125,7 @@ public class JournalFragment extends MvpAppCompatFragment implements JournalView
     private void moveToPosition(int position) {
         viewPager.setCurrentItem(position);
         showDate();
+        //todo
         //setNavigationButtonsState();
     }
 
@@ -133,12 +141,17 @@ public class JournalFragment extends MvpAppCompatFragment implements JournalView
         final String date = Repo.getInstance().getDateByIndex(getCurrentPage());
         //todo
         try {
-            final DateFormat to = new SimpleDateFormat(getString(R.string.date_format_display), Locale.getDefault()); // wanted format
-            final DateFormat from = new SimpleDateFormat(getString(R.string.date_pattern), Locale.getDefault()); // current format
+            final DateFormat to = new SimpleDateFormat(getString(R.string.date_format_display), Locale.getDefault());
+            final DateFormat from = new SimpleDateFormat(getString(R.string.date_pattern), Locale.getDefault());
             final String toStr = to.format(from.parse(date));
             dateTv.setText(toStr);
         } catch (ParseException e) {
             e.printStackTrace();
         }
+    }
+
+    @Override
+    public void setHeaderInfo(int protein) {
+        proteinTv.setText(String.valueOf(protein));
     }
 }

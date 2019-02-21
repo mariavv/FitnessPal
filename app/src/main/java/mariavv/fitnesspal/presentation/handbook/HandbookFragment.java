@@ -15,7 +15,7 @@ import com.arellomobile.mvp.presenter.InjectPresenter;
 
 import mariavv.fitnesspal.R;
 
-public class HandBookFragment extends MvpAppCompatFragment implements HandBookView {
+public class HandbookFragment extends MvpAppCompatFragment implements HandBookView {
 
     private View view;
     private RecyclerView recycler;
@@ -23,10 +23,6 @@ public class HandBookFragment extends MvpAppCompatFragment implements HandBookVi
     @InjectPresenter
     HandBookPresenter presenter;
     private FeedAdapter adapter;
-
-    public static HandBookFragment newInstance() {
-        return new HandBookFragment();
-    }
 
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,
