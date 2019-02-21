@@ -28,7 +28,6 @@ public class JournalFragment extends MvpAppCompatFragment implements JournalView
     TextView dateTv;
     ImageView prevDayIv;
     ImageView nextDayIv;
-    TextView proteinTv;
     FloatingActionButton fab;
 
     ViewPager viewPager;
@@ -66,7 +65,7 @@ public class JournalFragment extends MvpAppCompatFragment implements JournalView
         prevDayIv.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                presenter.onPageMove(getCurrentPage() - 1);
+                //presenter.onPageMove(getCurrentPage() - 1);
                 moveToPosition(getCurrentPage() - 1);
                 //todo
                 if (getCurrentPage() == 0) {
@@ -79,6 +78,7 @@ public class JournalFragment extends MvpAppCompatFragment implements JournalView
         nextDayIv.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                //presenter.onPageMove(getCurrentPage() + 1);
                 moveToPosition(getCurrentPage() + 1);
                 if (getCurrentPage() == getPageCount() - 1) {
                     nextDayIv.setImageDrawable(FitnessPal.appContext.getDrawable(R.drawable.ic_chevron_right_black_inactive_24dp));
@@ -97,7 +97,7 @@ public class JournalFragment extends MvpAppCompatFragment implements JournalView
     }
 
     private void configureInitState() {
-        showDate();
+        //showDate();
         setNavigationButtonsState();
         presenter.onPageMove(getCurrentPage());
     }
@@ -112,9 +112,6 @@ public class JournalFragment extends MvpAppCompatFragment implements JournalView
         prevDayIv = view.findViewById(R.id.left);
         nextDayIv = view.findViewById(R.id.right);
 
-        View headerView = view.findViewById(R.id.header_info);
-        proteinTv = headerView.findViewById(R.id.protein_tv);
-
         fab = view.findViewById(R.id.fab);
     }
 
@@ -124,7 +121,8 @@ public class JournalFragment extends MvpAppCompatFragment implements JournalView
 
     private void moveToPosition(int position) {
         viewPager.setCurrentItem(position);
-        showDate();
+        presenter.onPageMove(getCurrentPage());
+        //showDate();
         //todo
         //setNavigationButtonsState();
     }
@@ -151,7 +149,8 @@ public class JournalFragment extends MvpAppCompatFragment implements JournalView
     }
 
     @Override
-    public void setHeaderInfo(int protein) {
-        proteinTv.setText(String.valueOf(protein));
+    public void setHeaderInfo(String date, int protein) {
+        dateTv.setText(date);
+        //proteinTv.setText(String.valueOf(protein));
     }
 }

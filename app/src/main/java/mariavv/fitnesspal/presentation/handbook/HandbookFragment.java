@@ -3,6 +3,7 @@ package mariavv.fitnesspal.presentation.handbook;
 import android.database.Cursor;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
+import android.support.design.widget.FloatingActionButton;
 import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -19,6 +20,7 @@ public class HandbookFragment extends MvpAppCompatFragment implements HandBookVi
 
     private View view;
     private RecyclerView recycler;
+    FloatingActionButton fab;
 
     @InjectPresenter
     HandBookPresenter presenter;
@@ -47,6 +49,14 @@ public class HandbookFragment extends MvpAppCompatFragment implements HandBookVi
     private void configureViews() {
         recycler = view.findViewById(R.id.recycler);
         configureRecyclerView();
+        fab = view.findViewById(R.id.fab);
+
+        fab.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                presenter.onFabClick();
+            }
+        });
     }
 
     private void configureRecyclerView() {

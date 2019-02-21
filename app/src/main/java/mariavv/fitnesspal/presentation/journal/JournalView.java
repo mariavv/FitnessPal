@@ -4,5 +4,5 @@ import com.arellomobile.mvp.MvpView;
 
 interface JournalView extends MvpView {
 
-    void setHeaderInfo(int protein);
+    void setHeaderInfo(String toStr, int protein);
 }

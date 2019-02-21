@@ -10,6 +10,7 @@ public class KeyConst {
         public static final String JOURNAL_SCREEN = "journal";
         public static final String HANDBOOK_SCREEN = "hand_book";
         public static final String ENTER_SCREEN = "enter";
+        public static final String ADD_FOOD_SCREEN = "add_food";
     }
 
     public static class BundleArg {

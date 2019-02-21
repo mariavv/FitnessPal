@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="32dp"
+    android:layout_height="@dimen/handbook_item_height"
     android:orientation="horizontal"
     android:paddingStart="@dimen/screan_horizontal_border_padding"
     android:paddingEnd="@dimen/screan_horizontal_border_padding">
