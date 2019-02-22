@@ -73,7 +73,7 @@ public class Repo {
         return -1;
     }
 
-    public long addFood(String food, String protein, String fat, String carb) {
-        return db.insertFoodInHandbook(new Food(food, Integer.valueOf(protein), Integer.valueOf(fat), Integer.valueOf(carb)));
+    public long addFood(Food food) {
+        return db.insertFoodInHandbook(food);
     }
 }

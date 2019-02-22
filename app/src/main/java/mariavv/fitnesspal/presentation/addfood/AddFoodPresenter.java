@@ -8,6 +8,7 @@ import com.arellomobile.mvp.MvpPresenter;
 import mariavv.fitnesspal.FitnessPal;
 import mariavv.fitnesspal.R;
 import mariavv.fitnesspal.data.repository.Repo;
+import mariavv.fitnesspal.domain.Food;
 import mariavv.fitnesspal.other.Const;
 import ru.terrakok.cicerone.Router;
 
@@ -28,7 +29,16 @@ public class AddFoodPresenter extends MvpPresenter<AddFoodView> {
             return;
         }
 
-        if (Repo.getInstance().addFood(foodEdText.toString(), proteinEdText.toString(), fatEdText.toString(), carbEdText.toString()) > -1) {
+        final int protein = Integer.valueOf(proteinEdText.toString());
+        final int fat = Integer.valueOf(fatEdText.toString());
+        final int carb = Integer.valueOf(carbEdText.toString());
+        if (protein + fat + carb > 100) {
+            router.showSystemMessage(FitnessPal.getAppString(R.string.error_pfc_summ_message));
+            return;
+        }
+
+        Food foof = new Food(foodEdText.toString(), protein, fat, carb);
+        if (Repo.getInstance().addFood(foof) > -1) {
             router.showSystemMessage(FitnessPal.getAppString(R.string.add_message));
             router.navigateTo(Const.Screen.HANDBOOK_SCREEN);
         } else {

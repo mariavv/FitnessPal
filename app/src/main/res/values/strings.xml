@@ -30,4 +30,5 @@
     <string name="add_fail_message">Продукт с таким названием уже существует</string>
     <string name="add_dish_fail">Данного продукта нет в справочнике</string>
     <string name="some_empty_fields_message">Не все поля заполнены</string>
+    <string name="error_pfc_summ_message">Сумма белков жиров и углеводов превышает 100</string>
 </resources>
