@@ -28,7 +28,7 @@ public class Repo {
         return db.getFoodsFromHandbook();
     }
 
-    public Cursor getJournal(String date) {
+    public Cursor getJournal(long date) {
         return db.getJournal(date);
     }
 
@@ -44,17 +44,22 @@ public class Repo {
         return count;
     }
 
-    public String getDateByIndex(int i) {
+    public long getDateByIndex(int i) {
         final Cursor c = db.getJournalDates();
-        c.moveToPosition(i);
-        String date = c.getString(0);
-        c.close();
-        return date;
+        if (i < c.getCount()) {
+            c.moveToPosition(i);
+            final long date = c.getLong(0);
+            c.close();
+            return date;
+        } else {
+            c.close();
+            return new Date().getTime();
+        }
     }
 
-    /*public long insertDishInJournal(Dish dish) {
+    public long insertDishInJournal(Dish dish) {
         return db.insertDishInJournal(dish);
-    }*/
+    }
 
     public void clearJournal() {
         db.clearJournal();

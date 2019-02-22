@@ -45,6 +45,8 @@ class FeedAdapter extends RecyclerView.Adapter<ViewHolder> {
 
     void updateItems(Cursor c) {
         if (c != null) {
+            if (items != null) items.close();
+
             items = c;
 
             nameIndex = items.getColumnIndex(CName.NAME);

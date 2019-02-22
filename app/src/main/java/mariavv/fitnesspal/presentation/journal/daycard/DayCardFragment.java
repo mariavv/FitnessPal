@@ -33,7 +33,7 @@ public class DayCardFragment extends MvpAppCompatFragment implements DayCardView
 
     private FeedAdapter adapter;
 
-    public static DayCardFragment newInstance(String date) {
+    public static DayCardFragment newInstance(long date) {
         final DayCardFragment fragment = new DayCardFragment();
         final Bundle args = new Bundle();
         args.putSerializable(ARG_DATE, date);
@@ -49,7 +49,7 @@ public class DayCardFragment extends MvpAppCompatFragment implements DayCardView
         final Bundle args = getArguments();
         if (args != null) {
             configureViews();
-            presenter.onGetDateArg((String) args.getSerializable(ARG_DATE));
+            presenter.onGetDateArg(args.getLong(ARG_DATE));
         }
 
         return view;

@@ -30,7 +30,7 @@ public class JournalPresenter extends MvpPresenter<JournalView> {
     }
 
     private void setDate(int position) {
-        final String date = Repo.getInstance().getDateByIndex(position);
+        final long date = Repo.getInstance().getDateByIndex(position);
 
         getViewState().setDate(formatDate(date));
     }

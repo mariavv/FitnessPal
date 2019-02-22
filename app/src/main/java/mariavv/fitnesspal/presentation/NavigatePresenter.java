@@ -16,19 +16,15 @@ public class NavigatePresenter extends MvpPresenter<NavigateView> {
     protected void onFirstViewAttach() {
         super.onFirstViewAttach();
         router = FitnessPal.instance.getRouter();
-        navigateTo(Const.Screen.JOURNAL_SCREEN);
+        router.newRootScreen(Const.Screen.JOURNAL_SCREEN);
     }
 
     void onNavigationJournalSelected() {
-        navigateTo(Const.Screen.JOURNAL_SCREEN);
+        router.newRootScreen(Const.Screen.JOURNAL_SCREEN);
     }
 
     void onNavigationHandbookSelected() {
-        navigateTo(Const.Screen.HANDBOOK_SCREEN);
-    }
-
-    private void navigateTo(String screenKey) {
-        router.navigateTo(screenKey);
+        router.newRootScreen(Const.Screen.HANDBOOK_SCREEN);
     }
 
     void onResume() {

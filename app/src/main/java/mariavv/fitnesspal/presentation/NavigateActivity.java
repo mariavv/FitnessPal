@@ -10,9 +10,14 @@ import android.widget.Toast;
 import com.arellomobile.mvp.MvpAppCompatActivity;
 import com.arellomobile.mvp.presenter.InjectPresenter;
 
+import java.util.Calendar;
+import java.util.Date;
+
 import mariavv.fitnesspal.FitnessPal;
 import mariavv.fitnesspal.R;
+import mariavv.fitnesspal.data.db.Meal;
 import mariavv.fitnesspal.data.repository.Repo;
+import mariavv.fitnesspal.domain.Dish;
 import mariavv.fitnesspal.domain.Food;
 import mariavv.fitnesspal.other.Const;
 import mariavv.fitnesspal.presentation.adddish.AddDishFragment;
@@ -110,7 +115,7 @@ public class NavigateActivity extends MvpAppCompatActivity implements NavigateVi
         repo.insertFoodInHandbook(new Food("Хлеб", 7, 3, 44));
 
         //test data
-        /*repo.clearJournal();
+        repo.clearJournal();
         final Calendar calendar = Calendar.getInstance();
         calendar.clear();
         calendar.set(Calendar.DAY_OF_MONTH, 20);
@@ -125,7 +130,7 @@ public class NavigateActivity extends MvpAppCompatActivity implements NavigateVi
         repo.insertDishInJournal(new Dish(date, Meal.BREAKFAST, 3, 310));
         calendar.set(Calendar.DAY_OF_MONTH, 22);
         date = calendar.getTime();
-        repo.insertDishInJournal(new Dish(date, Meal.BREAKFAST, 4, 50));*/
+        repo.insertDishInJournal(new Dish(date, Meal.BREAKFAST, 4, 50));
     }
 
     @Override

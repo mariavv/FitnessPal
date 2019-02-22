@@ -9,7 +9,6 @@ import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.inputmethod.EditorInfo;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
@@ -45,7 +44,7 @@ public class AddDishFragment extends MvpAppCompatFragment implements AddDishView
                              Bundle savedInstanceState) {
         view = inflater.inflate(R.layout.fragment_add_dish, container, false);
 
-        FragmentActivity activity = getActivity();
+        final FragmentActivity activity = getActivity();
         if (activity != null) {
             activity.setTitle(R.string.add_dish_title);
         }
@@ -72,14 +71,10 @@ public class AddDishFragment extends MvpAppCompatFragment implements AddDishView
             }
         });
 
-        //todo - all to presenter
         weightEd.setOnEditorActionListener(new TextView.OnEditorActionListener() {
             @Override
             public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
-                if (actionId == EditorInfo.IME_ACTION_GO) {
-                    addBtn.callOnClick();
-                }
-                return false;
+                return presenter.onEditorAction(actionId);
             }
         });
     }
@@ -108,7 +103,6 @@ public class AddDishFragment extends MvpAppCompatFragment implements AddDishView
         datePickerDialog.show();
     }
 
-    //todo same names
     @Override
     public void initDatePickerDialog(int year, int month, int day) {
         final Context context = getActivity();
@@ -148,8 +142,7 @@ public class AddDishFragment extends MvpAppCompatFragment implements AddDishView
     }
 
     @Override
-    public void showMessage(String message) {
-        //todo event bus
-        //UiTools.showToast(message);
+    public void addBtnCallOnClick() {
+        addBtn.callOnClick();
     }
 }

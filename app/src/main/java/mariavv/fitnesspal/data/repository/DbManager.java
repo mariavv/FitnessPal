@@ -39,13 +39,6 @@ public class DbManager {
     }
 
     long insertFoodInHandbook(Food food) {
-        /*final String q = "insert or ignore into " + TName.FOODS + " ("
-                + CName.NAME + ", " + CName.PROTEIN
-                + ", " + CName.FAT + ", " + CName.CARB + ", " + CName.SORTABLE_NAME + ") "
-                + " values ( "
-                + "'" + food.getName() + "'" + ", " + food.getProtein()
-                + ", " + food.getFat() + ", " + food.getCarb() + ", " + "'" + food.getName().toLowerCase() + "'" + ") ";*/
-
         final ContentValues cv = new ContentValues();
         cv.put(CName.NAME, food.getName());
         cv.put(CName.PROTEIN, food.getProtein());
@@ -62,17 +55,17 @@ public class DbManager {
                 + CName.DISH_ID + ", "
                 + CName.WEIGHT + ") "
                 + " values ( '" + dish.meal + "', "
-                + "'" + dish.date.toString() + "'" + ", " + dish.foodId + ", " + dish.weight + ") ";
+                + "'" + dish.date.getTime() + "'" + ", " + dish.foodId + ", " + dish.weight + ") ";
 
         final ContentValues cv = new ContentValues();
         cv.put(CName.MEAL, dish.meal);
-        cv.put(CName.DATE, dish.date.toString());
+        cv.put(CName.DATE, dish.date.getTime());
         cv.put(CName.DISH_ID, dish.foodId);
         cv.put(CName.WEIGHT, dish.weight);
         return getSQLiteDatabase().insert(TName.DISHES, null, cv);
     }
 
-    Cursor getJournal(String date) {
+    Cursor getJournal(long date) {
         final String q = "select distinct " + " hb." + CName.NAME
                 + ", j." + CName.MEAL
                 + ", j." + CName.DATE
@@ -81,7 +74,7 @@ public class DbManager {
                 + " , hb." + CName.FAT
                 + " , hb." + CName.CARB
                 + " from " + TName.FOODS + " as hb, "
-                + TName.DISHES + " as j where j." + CName.DATE + " = '" + date + "' and j."
+                + TName.DISHES + " as j where j." + CName.DATE + " = " + date + " and j."
                 + CName.DISH_ID + " = hb." + CName.ID
                 + " order by j." + CName.MEAL;
         return getSQLiteDatabase().rawQuery(q, null);
@@ -107,7 +100,7 @@ public class DbManager {
 
     Cursor getJournalDates() {
         final String q = "select distinct " + CName.DATE
-                + " from " + TName.DISHES + " order by " + CName.DATE + " desc ";
+                + " from " + TName.DISHES + " order by " + CName.DATE;
         return getSQLiteDatabase().rawQuery(q, null);
     }
 

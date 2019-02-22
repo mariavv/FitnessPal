@@ -37,10 +37,10 @@ public class AddFoodPresenter extends MvpPresenter<AddFoodView> {
             return;
         }
 
-        Food foof = new Food(foodEdText.toString(), protein, fat, carb);
-        if (Repo.getInstance().addFood(foof) > -1) {
+        final Food food = new Food(foodEdText.toString(), protein, fat, carb);
+        if (Repo.getInstance().addFood(food) > -1) {
             router.showSystemMessage(FitnessPal.getAppString(R.string.add_message));
-            router.navigateTo(Const.Screen.HANDBOOK_SCREEN);
+            router.backTo(Const.Screen.HANDBOOK_SCREEN);
         } else {
             router.showSystemMessage(FitnessPal.getAppString(R.string.add_fail_message));
         }

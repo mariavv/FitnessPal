@@ -19,5 +19,5 @@ interface AddDishView extends MvpView {
 
     void configureMealsSpinner(String[] meals);
 
-    void showMessage(String message);
+    void addBtnCallOnClick();
 }

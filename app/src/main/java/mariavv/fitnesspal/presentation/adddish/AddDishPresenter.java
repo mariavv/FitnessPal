@@ -2,6 +2,7 @@ package mariavv.fitnesspal.presentation.adddish;
 
 import android.database.Cursor;
 import android.text.Editable;
+import android.view.inputmethod.EditorInfo;
 
 import com.arellomobile.mvp.InjectViewState;
 import com.arellomobile.mvp.MvpPresenter;
@@ -60,7 +61,7 @@ public class AddDishPresenter extends MvpPresenter<AddDishView> {
 
     void onDateChange(int year, int month, int dayOfMonth) {
         date = Utils.getDate(year, month, dayOfMonth);
-        getViewState().showSelectedDate(Utils.formatDate(date.toString()));
+        getViewState().showSelectedDate(Utils.formatDate(date.getTime()));
     }
 
     void onDateChangeClick() {
@@ -79,11 +80,13 @@ public class AddDishPresenter extends MvpPresenter<AddDishView> {
             return;
         }
 
-        if (Repo.getInstance().addDish(
+        final long dishId = Repo.getInstance().addDish(
                 date,
                 meals[selectedMealListPos],
                 food.toString(),
-                Integer.valueOf(weight.toString())) > -1) {
+                Integer.valueOf(weight.toString()));
+
+        if (dishId > -1) {
             router.showSystemMessage(FitnessPal.getAppString(R.string.add_message));
         } else {
             router.showSystemMessage(FitnessPal.getAppString(R.string.add_dish_fail));
@@ -92,5 +95,12 @@ public class AddDishPresenter extends MvpPresenter<AddDishView> {
 
     void onMealSelected(int position) {
         selectedMealListPos = position;
+    }
+
+    boolean onEditorAction(int actionId) {
+        if (actionId == EditorInfo.IME_ACTION_GO) {
+            getViewState().addBtnCallOnClick();
+        }
+        return false;
     }
 }

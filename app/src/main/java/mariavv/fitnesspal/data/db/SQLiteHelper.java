@@ -8,7 +8,7 @@ import mariavv.fitnesspal.FitnessPal;
 public class SQLiteHelper extends SQLiteOpenHelper {
 
     private static final String DB_NAME = "fitness_pal";
-    private static final int DB_VERSION = 1;
+    private static final int DB_VERSION = 2;
 
     public SQLiteHelper(SQLiteDatabase.CursorFactory factory) {
         super(FitnessPal.appContext, DB_NAME, factory, DB_VERSION);
@@ -28,7 +28,7 @@ public class SQLiteHelper extends SQLiteOpenHelper {
         db.execSQL(" create table " + TName.DISHES + " ( "
                 + CName.ID + " integer primary key, "
                 + CName.MEAL + " string NOT NULL, "
-                + CName.DATE + " timestamp NOT NULL, "
+                + CName.DATE + " integer NOT NULL, "
                 + CName.DISH_ID + " integer NOT NULL, "
                 + CName.WEIGHT + " integer NOT NULL, "
                 + "FOREIGN KEY (" + CName.DISH_ID + " ) REFERENCES " + TName.FOODS
@@ -39,8 +39,6 @@ public class SQLiteHelper extends SQLiteOpenHelper {
 
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
-        //db.execSQL("drop table " + TName.DISHES + ";");
-        //db.execSQL("drop table " + TName.FOODS + ";");
-        //onCreate(db);
+
     }
 }
