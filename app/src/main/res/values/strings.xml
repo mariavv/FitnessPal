@@ -22,4 +22,8 @@
     <string name="energy_prefix">Калории: </string>
     <string name="date_pattern">EEE MMM dd HH:mm:ss z yyyy</string>
     <string name="date_format_display">dd MMM yyyy</string>
+    <string name="handbook_title">Справочник</string>
+    <string name="add_dish_title">Добавить</string>
+    <string name="journal_title">Журнал</string>
+    <string name="add_food_title">Добавление в спавочник</string>
 </resources>

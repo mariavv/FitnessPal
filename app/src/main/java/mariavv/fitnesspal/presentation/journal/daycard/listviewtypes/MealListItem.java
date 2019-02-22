@@ -28,6 +28,6 @@ public class MealListItem implements ItemType {
     public void onBindViewHolder(RecyclerView.ViewHolder viewHolder) {
         ViewHolderFactory.ListItemViewHolder holder = (ViewHolderFactory.ListItemViewHolder) viewHolder;
         holder.mealTitleTv.setText(meal);
-        holder.energyTv.setText(String.format("%s%s", String.valueOf(energy), FitnessPal.appContext.getString(R.string.energy_postfix)));
+        holder.energyTv.setText(String.format("%s %s", String.valueOf(energy), FitnessPal.appContext.getString(R.string.energy_postfix)));
     }
 }

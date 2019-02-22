@@ -12,7 +12,7 @@ import mariavv.fitnesspal.domain.Food;
 public class DbManager {
     private SQLiteHelper sqliteHelper;
 
-    public DbManager() {
+    DbManager() {
         sqliteHelper = new SQLiteHelper(null);
     }
 
@@ -20,34 +20,35 @@ public class DbManager {
         return sqliteHelper.getWritableDatabase();
     }
 
-    public Cursor getFoodsFromHandbook() {
+    Cursor getFoodsFromHandbook() {
         final String q = "select hb." + CName.NAME
                 + " , hb." + CName.PROTEIN
                 + " , hb." + CName.FAT + " , hb." + CName.CARB
+                + ", hb." + CName.SORTABLE_NAME
                 + " from " + TName.FOODS + " as hb "
-                + " order by " + CName.NAME;
+                + " order by " + CName.SORTABLE_NAME + ", " + CName.NAME;
         return getSQLiteDatabase().rawQuery(q, null);
     }
 
-    public Cursor getFoodNamesFromHandbook() {
-        final String q = "select hb." + CName.NAME
+    Cursor getFoodNamesFromHandbook() {
+        final String q = "select hb." + CName.NAME + ", hb." + CName.SORTABLE_NAME
                 + " from " + TName.FOODS + " as hb "
-                + " order by " + CName.NAME;
+                + " order by " + CName.SORTABLE_NAME + CName.NAME;
         return getSQLiteDatabase().rawQuery(q, null);
     }
 
-    public void insertFoodInHandbook(Food food) {
+    void insertFoodInHandbook(Food food) {
         final String q = "insert or ignore into " + TName.FOODS + " ("
                 + CName.NAME + ", " + CName.PROTEIN
-                + ", " + CName.FAT + ", " + CName.CARB + ") "
+                + ", " + CName.FAT + ", " + CName.CARB + ", " + CName.SORTABLE_NAME + ") "
                 + " values ( "
                 + "'" + food.getName() + "'" + ", " + food.getProtein()
-                + ", " + food.getFat() + ", " + food.getCarb() + ") ";
+                + ", " + food.getFat() + ", " + food.getCarb() + ", " + "'" + food.getName().toLowerCase() + "'" + ") ";
 
         getSQLiteDatabase().execSQL(q);
     }
 
-    public void insertDishInJournal(Dish dish) {
+    void insertDishInJournal(Dish dish) {
         final String q = "insert into " + TName.DISHES + " ("
                 + CName.MEAL + ", "
                 + CName.DATE + ", "
@@ -58,7 +59,7 @@ public class DbManager {
         getSQLiteDatabase().execSQL(q);
     }
 
-    public Cursor getJournal(String date) {
+    Cursor getJournal(String date) {
         final String q = "select distinct " + " hb." + CName.NAME
                 + ", j." + CName.MEAL
                 + ", j." + CName.DATE
@@ -77,7 +78,7 @@ public class DbManager {
         deleteTable(TName.FOODS);
     }
 
-    public void clearJournal() {
+    void clearJournal() {
         deleteTable(TName.DISHES);
     }
 
@@ -85,19 +86,19 @@ public class DbManager {
         getSQLiteDatabase().delete(table, null, null);
     }
 
-    public Cursor getJournalDaysCount() {
+    Cursor getJournalDaysCount() {
         final String q = "select count( " + CName.DATE + " ) as count"
                 + " from ( select distinct " + CName.DATE + " from " + TName.DISHES + ")";
         return getSQLiteDatabase().rawQuery(q, null);
     }
 
-    public Cursor getJournalDates() {
+    Cursor getJournalDates() {
         final String q = "select distinct " + CName.DATE
-                + " from " + TName.DISHES + " order by " + CName.DATE;
+                + " from " + TName.DISHES + " order by " + CName.DATE + " desc ";
         return getSQLiteDatabase().rawQuery(q, null);
     }
 
-    public int getFoodIdByName(String dish) throws Exception {
+    int getFoodIdByName(String dish) throws Exception {
         final String q = "select " + CName.ID
                 + " from " + TName.FOODS
                 + " where " + CName.NAME + " = '" + dish + "'";

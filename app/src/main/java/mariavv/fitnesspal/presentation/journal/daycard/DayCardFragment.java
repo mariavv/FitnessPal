@@ -86,22 +86,22 @@ public class DayCardFragment extends MvpAppCompatFragment implements DayCardView
 
         String weightPostfx = getString(R.string.weight_postfix);
         //todo calc
-        proteinTv.setText(String.format("%s%s%s",
+        proteinTv.setText(String.format("%s %s%s",
                 getString(R.string.protein_full_prefix),
                 data.getString(data.getColumnIndex(CName.PROTEIN)),
                 weightPostfx));
 
-        fatTv.setText(String.format("%s%s%s",
+        fatTv.setText(String.format("%s %s%s",
                 getString(R.string.fat_full_prefix),
                 data.getString(data.getColumnIndex(CName.FAT)),
                 weightPostfx));
 
-        carbTv.setText(String.format("%s%s%s",
+        carbTv.setText(String.format("%s %s%s",
                 getString(R.string.carb_full_prefix),
                 data.getString(data.getColumnIndex(CName.PROTEIN)),
                 weightPostfx));
 
-        energyTv.setText(String.format("%s%s%s",
+        energyTv.setText(String.format("%s %s %s",
                 getString(R.string.energy_prefix),
                 String.valueOf(0),
                 getString(R.string.energy_postfix)));

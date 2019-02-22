@@ -37,9 +37,10 @@ public class JournalPresenter extends MvpPresenter<JournalView> {
         final String date = Repo.getInstance().getDateByIndex(position);
         String toStr = "";
         try {
-            final DateFormat to = new SimpleDateFormat(FitnessPal.getAppString(R.string.date_format_display), Locale.getDefault());
-            final DateFormat from = new SimpleDateFormat(FitnessPal.getAppString(R.string.date_pattern), Locale.getDefault());
-            toStr = to.format(from.parse(date));
+            final Locale rus = new Locale("ru");
+            final DateFormat from = new SimpleDateFormat(FitnessPal.getAppString(R.string.date_pattern), Locale.ENGLISH);
+            toStr = DateFormat.getDateInstance(SimpleDateFormat.LONG, rus).format(from.parse(date));
+
         } catch (ParseException e) {
             e.printStackTrace();
         }

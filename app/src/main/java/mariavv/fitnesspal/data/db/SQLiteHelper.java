@@ -21,7 +21,8 @@ public class SQLiteHelper extends SQLiteOpenHelper {
                 + CName.NAME + " text UNIQUE NOT NULL, "
                 + CName.PROTEIN + " integer NOT NULL, "
                 + CName.FAT + " integer NOT NULL, "
-                + CName.CARB + " integer NOT NULL "
+                + CName.CARB + " integer NOT NULL, "
+                + CName.SORTABLE_NAME + " text NOT NULL "
                 + " ); "
         );
         db.execSQL(" create table " + TName.DISHES + " ( "
@@ -38,5 +39,8 @@ public class SQLiteHelper extends SQLiteOpenHelper {
 
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
+        //db.execSQL("drop table " + TName.DISHES + ";");
+        //db.execSQL("drop table " + TName.FOODS + ";");
+        //onCreate(db);
     }
 }

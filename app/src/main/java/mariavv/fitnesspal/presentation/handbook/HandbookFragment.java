@@ -4,6 +4,7 @@ import android.database.Cursor;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.FloatingActionButton;
+import android.support.v4.app.FragmentActivity;
 import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -30,6 +31,11 @@ public class HandbookFragment extends MvpAppCompatFragment implements HandBookVi
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         view = inflater.inflate(R.layout.fragment_hand_book, container, false);
+
+        FragmentActivity activity = getActivity();
+        if (activity != null) {
+            activity.setTitle(R.string.handbook_title);
+        }
 
         configureViews();
 

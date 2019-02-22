@@ -3,6 +3,7 @@ package mariavv.fitnesspal.presentation.journal;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.FloatingActionButton;
+import android.support.v4.app.FragmentActivity;
 import android.support.v4.view.ViewPager;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -46,6 +47,11 @@ public class JournalFragment extends MvpAppCompatFragment implements JournalView
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         view = inflater.inflate(R.layout.fragment_journal, container, false);
+
+        FragmentActivity activity = getActivity();
+        if (activity != null) {
+            activity.setTitle(R.string.journal_title);
+        }
 
         configure();
 

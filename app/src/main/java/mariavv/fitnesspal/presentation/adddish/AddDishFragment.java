@@ -1,9 +1,10 @@
-package mariavv.fitnesspal.presentation.enter;
+package mariavv.fitnesspal.presentation.adddish;
 
 import android.app.DatePickerDialog;
 import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
+import android.support.v4.app.FragmentActivity;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -24,7 +25,7 @@ import com.arellomobile.mvp.presenter.InjectPresenter;
 
 import mariavv.fitnesspal.R;
 
-public class EnterFragment extends MvpAppCompatFragment implements EnterView, DatePickerDialog.OnDateSetListener {
+public class AddDishFragment extends MvpAppCompatFragment implements AddDishView, DatePickerDialog.OnDateSetListener {
 
     View view;
 
@@ -37,12 +38,17 @@ public class EnterFragment extends MvpAppCompatFragment implements EnterView, Da
     Button addBtn;
 
     @InjectPresenter
-    EnterPresenter presenter;
+    AddDishPresenter presenter;
 
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        view = inflater.inflate(R.layout.fragment_enter, container, false);
+        view = inflater.inflate(R.layout.fragment_add_dish, container, false);
+
+        FragmentActivity activity = getActivity();
+        if (activity != null) {
+            activity.setTitle(R.string.add_dish_title);
+        }
 
         configureViews();
 

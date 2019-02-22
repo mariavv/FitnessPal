@@ -20,8 +20,8 @@ import mariavv.fitnesspal.data.repository.Repo;
 import mariavv.fitnesspal.domain.Dish;
 import mariavv.fitnesspal.domain.Food;
 import mariavv.fitnesspal.other.KeyConst;
+import mariavv.fitnesspal.presentation.adddish.AddDishFragment;
 import mariavv.fitnesspal.presentation.addfood.AddFoodFragment;
-import mariavv.fitnesspal.presentation.enter.EnterFragment;
 import mariavv.fitnesspal.presentation.handbook.HandbookFragment;
 import mariavv.fitnesspal.presentation.journal.JournalFragment;
 import ru.terrakok.cicerone.Navigator;
@@ -60,7 +60,7 @@ public class NavigateActivity extends MvpAppCompatActivity implements NavigateVi
                 case KeyConst.Screen.HANDBOOK_SCREEN:
                     return new HandbookFragment();
                 case KeyConst.Screen.ENTER_SCREEN:
-                    return new EnterFragment();
+                    return new AddDishFragment();
                 case KeyConst.Screen.ADD_FOOD_SCREEN:
                     return new AddFoodFragment();
                 default:
@@ -138,7 +138,7 @@ public class NavigateActivity extends MvpAppCompatActivity implements NavigateVi
         private void forward(Forward forward) {
             switch (forward.getScreenKey()) {
                 case KeyConst.Screen.ENTER_SCREEN:
-                    UiTools.replaceFragment(EnterFragment.newInstance(), getSupportFragmentManager());
+                    UiTools.replaceFragment(AddDishFragment.newInstance(), getSupportFragmentManager());
                     //startActivity(new Intent(MainActivity.this, HistoryActivity.class));
                     break;
                 default:

@@ -30,17 +30,17 @@ public class HeaderListItem implements ItemType {
 
         String weightPostfx = FitnessPal.getAppString(R.string.weight_postfix);
 
-        holder.proteinTv.setText(String.format("%s%s%s",
+        holder.proteinTv.setText(String.format("%s %s %s",
                 FitnessPal.getAppString(R.string.protein_full_prefix),
                 String.valueOf(protein),
                 weightPostfx));
 
-        holder.fatTv.setText(String.format("%s%s%s",
+        holder.fatTv.setText(String.format("%s %s %s",
                 FitnessPal.getAppString(R.string.fat_full_prefix),
                 String.valueOf(fat),
                 weightPostfx));
 
-        holder.carbTv.setText(String.format("%s%s%s",
+        holder.carbTv.setText(String.format("%s %s %s",
                 FitnessPal.getAppString(R.string.carb_full_prefix),
                 String.valueOf(carb),
                 weightPostfx));

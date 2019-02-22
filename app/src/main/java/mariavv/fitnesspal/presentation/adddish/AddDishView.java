@@ -1,8 +1,8 @@
-package mariavv.fitnesspal.presentation.enter;
+package mariavv.fitnesspal.presentation.adddish;
 
 import com.arellomobile.mvp.MvpView;
 
-interface EnterView extends MvpView {
+interface AddDishView extends MvpView {
     void showSelectedDate(String date);
 
     void showDatePickerDialog();

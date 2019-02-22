@@ -1,4 +1,4 @@
-package mariavv.fitnesspal.presentation.enter;
+package mariavv.fitnesspal.presentation.adddish;
 
 import android.database.Cursor;
 import android.text.Editable;
@@ -16,7 +16,7 @@ import mariavv.fitnesspal.data.db.Meal;
 import mariavv.fitnesspal.data.repository.Repo;
 
 @InjectViewState
-public class EnterPresenter extends MvpPresenter<EnterView> {
+public class AddDishPresenter extends MvpPresenter<AddDishView> {
 
     private Date date;
     private Cursor foodList;

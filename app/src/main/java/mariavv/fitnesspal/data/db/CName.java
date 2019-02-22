@@ -10,4 +10,5 @@ public class CName {
     public static final String PROTEIN = "protein";
     public static final String FAT = "fat";
     public static final String CARB = "carb";
+    public static final String SORTABLE_NAME = "sortable_name";
 }

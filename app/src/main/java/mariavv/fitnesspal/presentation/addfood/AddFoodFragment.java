@@ -2,6 +2,7 @@ package mariavv.fitnesspal.presentation.addfood;
 
 import android.os.Bundle;
 import android.support.annotation.NonNull;
+import android.support.v4.app.FragmentActivity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -36,6 +37,11 @@ public class AddFoodFragment extends MvpAppCompatFragment implements AddFoodView
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         view = inflater.inflate(R.layout.fragment_add_food, container, false);
+
+        FragmentActivity activity = getActivity();
+        if (activity != null) {
+            activity.setTitle(R.string.add_food_title);
+        }
 
         foodEd = view.findViewById(R.id.foodEd);
         proteinEd = view.findViewById(R.id.proteinEd);
