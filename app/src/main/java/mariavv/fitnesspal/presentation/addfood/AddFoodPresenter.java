@@ -6,8 +6,9 @@ import com.arellomobile.mvp.InjectViewState;
 import com.arellomobile.mvp.MvpPresenter;
 
 import mariavv.fitnesspal.FitnessPal;
+import mariavv.fitnesspal.R;
 import mariavv.fitnesspal.data.repository.Repo;
-import mariavv.fitnesspal.other.KeyConst;
+import mariavv.fitnesspal.other.Const;
 import ru.terrakok.cicerone.Router;
 
 @InjectViewState
@@ -23,10 +24,15 @@ public class AddFoodPresenter extends MvpPresenter<AddFoodView> {
 
     void onAddClick(Editable foodEdText, Editable proteinEdText, Editable fatEdText, Editable carbEdText) {
         if (proteinEdText.length() == 0 || fatEdText.length() == 0 || carbEdText.length() == 0) {
+            router.showSystemMessage(FitnessPal.getAppString(R.string.some_empty_fields_message));
             return;
         }
-        Repo.getInstance().addFood(foodEdText.toString(), proteinEdText.toString(), fatEdText.toString(), carbEdText.toString());
 
-        router.navigateTo(KeyConst.Screen.HANDBOOK_SCREEN);
+        if (Repo.getInstance().addFood(foodEdText.toString(), proteinEdText.toString(), fatEdText.toString(), carbEdText.toString()) > -1) {
+            router.showSystemMessage(FitnessPal.getAppString(R.string.add_message));
+            router.navigateTo(Const.Screen.HANDBOOK_SCREEN);
+        } else {
+            router.showSystemMessage(FitnessPal.getAppString(R.string.add_fail_message));
+        }
     }
 }

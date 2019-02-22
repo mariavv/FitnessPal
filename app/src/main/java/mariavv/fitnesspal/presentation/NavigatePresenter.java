@@ -4,7 +4,7 @@ import com.arellomobile.mvp.InjectViewState;
 import com.arellomobile.mvp.MvpPresenter;
 
 import mariavv.fitnesspal.FitnessPal;
-import mariavv.fitnesspal.other.KeyConst;
+import mariavv.fitnesspal.other.Const;
 import ru.terrakok.cicerone.Router;
 
 @InjectViewState
@@ -16,18 +16,26 @@ public class NavigatePresenter extends MvpPresenter<NavigateView> {
     protected void onFirstViewAttach() {
         super.onFirstViewAttach();
         router = FitnessPal.instance.getRouter();
-        navigateTo(KeyConst.Screen.JOURNAL_SCREEN);
+        navigateTo(Const.Screen.JOURNAL_SCREEN);
     }
 
     void onNavigationJournalSelected() {
-        navigateTo(KeyConst.Screen.JOURNAL_SCREEN);
+        navigateTo(Const.Screen.JOURNAL_SCREEN);
     }
 
     void onNavigationHandbookSelected() {
-        navigateTo(KeyConst.Screen.HANDBOOK_SCREEN);
+        navigateTo(Const.Screen.HANDBOOK_SCREEN);
     }
 
     private void navigateTo(String screenKey) {
         router.navigateTo(screenKey);
+    }
+
+    void onResume() {
+        getViewState().setNavigator();
+    }
+
+    void onPause() {
+        getViewState().removeNavigator();
     }
 }

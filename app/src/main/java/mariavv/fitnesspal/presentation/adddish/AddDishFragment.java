@@ -56,19 +56,15 @@ public class AddDishFragment extends MvpAppCompatFragment implements AddDishView
     }
 
     private void configureViews() {
-        calendarIv = view.findViewById(R.id.calendarIv);
+        initViews();
+
         calendarIv.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 presenter.onDateChangeClick();
             }
         });
-        dateTv = view.findViewById(R.id.foodEd);
-        mealNumSp = view.findViewById(R.id.proteinEd);
-        dishActv = view.findViewById(R.id.fatEd);
-        weightEd = view.findViewById(R.id.carbEd);
 
-        addBtn = view.findViewById(R.id.addBtn);
         addBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -76,6 +72,7 @@ public class AddDishFragment extends MvpAppCompatFragment implements AddDishView
             }
         });
 
+        //todo - all to presenter
         weightEd.setOnEditorActionListener(new TextView.OnEditorActionListener() {
             @Override
             public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
@@ -85,6 +82,15 @@ public class AddDishFragment extends MvpAppCompatFragment implements AddDishView
                 return false;
             }
         });
+    }
+
+    private void initViews() {
+        calendarIv = view.findViewById(R.id.calendarIv);
+        dateTv = view.findViewById(R.id.foodEd);
+        mealNumSp = view.findViewById(R.id.proteinEd);
+        dishActv = view.findViewById(R.id.fatEd);
+        weightEd = view.findViewById(R.id.carbEd);
+        addBtn = view.findViewById(R.id.addBtn);
     }
 
     @Override
@@ -102,19 +108,20 @@ public class AddDishFragment extends MvpAppCompatFragment implements AddDishView
         datePickerDialog.show();
     }
 
+    //todo same names
     @Override
-    public void initCalendarDialog(int year, int month, int day) {
-        final Context context = this.getContext();
+    public void initDatePickerDialog(int year, int month, int day) {
+        final Context context = getActivity();
         if (context != null) {
             datePickerDialog = new DatePickerDialog(context, this, year, month, day);
         }
     }
 
     @Override
-    public void configureSpinner(String[] foodList) {
-        final Context context = this.getContext();
+    public void configureFoodList(String[] foodList) {
+        final Context context = getActivity();
         if (context != null) {
-            ArrayAdapter<String> adapter = new ArrayAdapter<>(context, android.R.layout.simple_dropdown_item_1line, foodList);
+            final ArrayAdapter<String> adapter = new ArrayAdapter<>(context, android.R.layout.simple_dropdown_item_1line, foodList);
             dishActv.setAdapter(adapter);
         }
     }
@@ -123,7 +130,7 @@ public class AddDishFragment extends MvpAppCompatFragment implements AddDishView
     public void configureMealsSpinner(String[] meals) {
         final Context context = this.getContext();
         if (context != null) {
-            ArrayAdapter<String> adapter = new ArrayAdapter<>(context, android.R.layout.simple_spinner_item, meals);
+            final ArrayAdapter<String> adapter = new ArrayAdapter<>(context, android.R.layout.simple_spinner_item, meals);
             adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
             mealNumSp.setAdapter(adapter);
 

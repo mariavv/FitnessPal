@@ -20,10 +20,14 @@
     <string name="fat_full_prefix">Жиры: </string>
     <string name="carb_full_prefix">Углеводы: </string>
     <string name="energy_prefix">Калории: </string>
-    <string name="date_pattern">EEE MMM dd HH:mm:ss z yyyy</string>
-    <string name="date_format_display">dd MMM yyyy</string>
     <string name="handbook_title">Справочник</string>
     <string name="add_dish_title">Добавить</string>
     <string name="journal_title">Журнал</string>
     <string name="add_food_title">Добавление в спавочник</string>
+    <string name="ru_locale">ru</string>
+    <string name="max_food_length">20</string>
+    <string name="add_message">Добавлено</string>
+    <string name="add_fail_message">Продукт с таким названием уже существует</string>
+    <string name="add_dish_fail">Данного продукта нет в справочнике</string>
+    <string name="some_empty_fields_message">Не все поля заполнены</string>
 </resources>

@@ -53,9 +53,10 @@ public class HandbookFragment extends MvpAppCompatFragment implements HandBookVi
     }
 
     private void configureViews() {
-        recycler = view.findViewById(R.id.recycler);
-        configureRecyclerView();
         fab = view.findViewById(R.id.fab);
+        recycler = view.findViewById(R.id.recycler);
+
+        configureRecyclerView();
 
         fab.setOnClickListener(new View.OnClickListener() {
             @Override

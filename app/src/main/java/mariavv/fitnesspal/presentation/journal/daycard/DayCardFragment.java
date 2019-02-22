@@ -17,7 +17,7 @@ import com.arellomobile.mvp.presenter.InjectPresenter;
 import mariavv.fitnesspal.R;
 import mariavv.fitnesspal.data.db.CName;
 
-import static mariavv.fitnesspal.other.KeyConst.BundleArg.ARG_DATE;
+import static mariavv.fitnesspal.other.Const.BundleArg.ARG_DATE;
 
 public class DayCardFragment extends MvpAppCompatFragment implements DayCardView {
 
@@ -61,8 +61,8 @@ public class DayCardFragment extends MvpAppCompatFragment implements DayCardView
         fatTv = headerView.findViewById(R.id.fat_tv);
         carbTv = headerView.findViewById(R.id.carb_tv);
         energyTv = headerView.findViewById(R.id.energy_tv);
-
         recycler = view.findViewById(R.id.recycler);
+
         configureRecyclerView();
     }
 

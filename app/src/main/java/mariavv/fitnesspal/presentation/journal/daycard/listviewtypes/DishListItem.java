@@ -29,7 +29,9 @@ public class DishListItem implements ItemType {
     public void onBindViewHolder(RecyclerView.ViewHolder viewHolder) {
         ViewHolderFactory.ListItemViewHolder holder = (ViewHolderFactory.ListItemViewHolder) viewHolder;
         holder.mealTitleTv.setText(food.getName());
-        holder.weightTv.setText(String.format("%s %s", String.valueOf(weight), FitnessPal.appContext.getString(R.string.weight_postfix)));
+        holder.weightTv.setText(String.format("%s %s",
+                String.valueOf(weight),
+                FitnessPal.appContext.getString(R.string.weight_postfix)));
         holder.energyTv.setText(String.format("%s %s", String.valueOf(food.getEnergy(weight)), FitnessPal.appContext.getString(R.string.energy_postfix)));
     }
 }

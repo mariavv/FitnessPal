@@ -7,7 +7,7 @@ import com.arellomobile.mvp.MvpPresenter;
 
 import mariavv.fitnesspal.FitnessPal;
 import mariavv.fitnesspal.data.repository.Repo;
-import mariavv.fitnesspal.other.KeyConst;
+import mariavv.fitnesspal.other.Const;
 import ru.terrakok.cicerone.Router;
 
 @InjectViewState
@@ -22,11 +22,10 @@ public class HandBookPresenter extends MvpPresenter<HandBookView> {
         router = FitnessPal.instance.getRouter();
 
         final Cursor c = Repo.getInstance().getFoodsFromHandbook();
-
         getViewState().updateFeed(c);
     }
 
     void onFabClick() {
-        router.navigateTo(KeyConst.Screen.ADD_FOOD_SCREEN);
+        router.navigateTo(Const.Screen.ADD_FOOD_SCREEN);
     }
 }

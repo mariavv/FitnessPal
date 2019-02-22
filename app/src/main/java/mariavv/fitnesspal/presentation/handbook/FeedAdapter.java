@@ -6,7 +6,6 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.TextView;
 
 import mariavv.fitnesspal.R;
 import mariavv.fitnesspal.data.db.CName;
@@ -14,6 +13,7 @@ import mariavv.fitnesspal.data.db.CName;
 class FeedAdapter extends RecyclerView.Adapter<ViewHolder> {
 
     private Cursor items;
+
     private int nameIndex;
     private int proteinIndex;
     private int fatIndex;
@@ -32,17 +32,10 @@ class FeedAdapter extends RecyclerView.Adapter<ViewHolder> {
     public void onBindViewHolder(@NonNull ViewHolder viewHolder, int position) {
         items.moveToPosition(position);
 
-        setText(viewHolder.nameTv, nameIndex);
-        setText(viewHolder.proteinTv, proteinIndex);
-        setText(viewHolder.fatTv, fatIndex);
-        setText(viewHolder.carbTv, carbIndex);
-
-        //todo
-        //viewHolder.nameTv.setText(items.getString(index));
-    }
-
-    private void setText(TextView tv, int index) {
-        tv.setText(items.getString(index));
+        viewHolder.nameTv.setText(items.getString(nameIndex));
+        viewHolder.proteinTv.setText(items.getString(proteinIndex));
+        viewHolder.fatTv.setText(items.getString(fatIndex));
+        viewHolder.carbTv.setText(items.getString(carbIndex));
     }
 
     @Override

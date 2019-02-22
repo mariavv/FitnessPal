@@ -14,14 +14,8 @@ import android.widget.TextView;
 import com.arellomobile.mvp.MvpAppCompatFragment;
 import com.arellomobile.mvp.presenter.InjectPresenter;
 
-import java.text.DateFormat;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.Locale;
-
 import mariavv.fitnesspal.FitnessPal;
 import mariavv.fitnesspal.R;
-import mariavv.fitnesspal.data.repository.Repo;
 
 public class JournalFragment extends MvpAppCompatFragment implements JournalView {
 
@@ -141,7 +135,7 @@ public class JournalFragment extends MvpAppCompatFragment implements JournalView
         }
     }
 
-    private void showDate() {
+    /*private void showDate() {
         final String date = Repo.getInstance().getDateByIndex(getCurrentPage());
         //todo
         try {
@@ -152,11 +146,10 @@ public class JournalFragment extends MvpAppCompatFragment implements JournalView
         } catch (ParseException e) {
             e.printStackTrace();
         }
-    }
+    }*/
 
     @Override
-    public void setHeaderInfo(String date, int protein) {
+    public void setDate(String date) {
         dateTv.setText(date);
-        //proteinTv.setText(String.valueOf(protein));
     }
 }

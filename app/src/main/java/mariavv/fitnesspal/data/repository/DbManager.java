@@ -1,5 +1,6 @@
 package mariavv.fitnesspal.data.repository;
 
+import android.content.ContentValues;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 
@@ -33,22 +34,28 @@ public class DbManager {
     Cursor getFoodNamesFromHandbook() {
         final String q = "select hb." + CName.NAME + ", hb." + CName.SORTABLE_NAME
                 + " from " + TName.FOODS + " as hb "
-                + " order by " + CName.SORTABLE_NAME + CName.NAME;
+                + " order by " + CName.SORTABLE_NAME + ", " + CName.NAME;
         return getSQLiteDatabase().rawQuery(q, null);
     }
 
-    void insertFoodInHandbook(Food food) {
-        final String q = "insert or ignore into " + TName.FOODS + " ("
+    long insertFoodInHandbook(Food food) {
+        /*final String q = "insert or ignore into " + TName.FOODS + " ("
                 + CName.NAME + ", " + CName.PROTEIN
                 + ", " + CName.FAT + ", " + CName.CARB + ", " + CName.SORTABLE_NAME + ") "
                 + " values ( "
                 + "'" + food.getName() + "'" + ", " + food.getProtein()
-                + ", " + food.getFat() + ", " + food.getCarb() + ", " + "'" + food.getName().toLowerCase() + "'" + ") ";
+                + ", " + food.getFat() + ", " + food.getCarb() + ", " + "'" + food.getName().toLowerCase() + "'" + ") ";*/
 
-        getSQLiteDatabase().execSQL(q);
+        final ContentValues cv = new ContentValues();
+        cv.put(CName.NAME, food.getName());
+        cv.put(CName.PROTEIN, food.getProtein());
+        cv.put(CName.FAT, food.getFat());
+        cv.put(CName.CARB, food.getCarb());
+        cv.put(CName.SORTABLE_NAME, food.getName().toLowerCase());
+        return getSQLiteDatabase().insert(TName.FOODS, null, cv);
     }
 
-    void insertDishInJournal(Dish dish) {
+    long insertDishInJournal(Dish dish) {
         final String q = "insert into " + TName.DISHES + " ("
                 + CName.MEAL + ", "
                 + CName.DATE + ", "
@@ -56,7 +63,13 @@ public class DbManager {
                 + CName.WEIGHT + ") "
                 + " values ( '" + dish.meal + "', "
                 + "'" + dish.date.toString() + "'" + ", " + dish.foodId + ", " + dish.weight + ") ";
-        getSQLiteDatabase().execSQL(q);
+
+        final ContentValues cv = new ContentValues();
+        cv.put(CName.MEAL, dish.meal);
+        cv.put(CName.DATE, dish.date.toString());
+        cv.put(CName.DISH_ID, dish.foodId);
+        cv.put(CName.WEIGHT, dish.weight);
+        return getSQLiteDatabase().insert(TName.DISHES, null, cv);
     }
 
     Cursor getJournal(String date) {

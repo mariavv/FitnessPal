@@ -45,8 +45,6 @@ class FeedAdapter extends RecyclerView.Adapter {
     void updateItems(@NonNull Cursor c) {
         c.moveToFirst();
 
-        final List<ItemType> dataSet = new ArrayList<>();
-
         //каша
 
         //final HeaderListItem headerListItem = new HeaderListItem(0, 0, 0);
@@ -91,21 +89,17 @@ class FeedAdapter extends RecyclerView.Adapter {
         //падает
         //c.close();
 
-        if (!dishesBreakfast.isEmpty()) {
-            dataSet.add(mealBreakfast);
-            dataSet.addAll(dishesBreakfast);
-        }
-        if (!dishesLanch.isEmpty()) {
-            dataSet.add(mealLanch);
-            dataSet.addAll(dishesLanch);
-        }
-        if (!dishesDinner.isEmpty()) {
-            dataSet.add(mealDinner);
-            dataSet.addAll(dishesDinner);
-        }
-
-        this.dataSet = dataSet;
+        addToDataSet(mealBreakfast, dishesBreakfast);
+        addToDataSet(mealLanch, dishesLanch);
+        addToDataSet(mealDinner, dishesDinner);
 
         notifyDataSetChanged();
+    }
+
+    private void addToDataSet(MealListItem meal, List<DishListItem> dishes) {
+        if (!dishes.isEmpty()) {
+            this.dataSet.add(meal);
+            this.dataSet.addAll(dishes);
+        }
     }
 }

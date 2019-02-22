@@ -52,27 +52,28 @@ public class Repo {
         return date;
     }
 
-    public void insertDishInJournal(Dish dish) {
-        db.insertDishInJournal(dish);
-    }
+    /*public long insertDishInJournal(Dish dish) {
+        return db.insertDishInJournal(dish);
+    }*/
 
     public void clearJournal() {
         db.clearJournal();
     }
 
-    public Cursor getFoofList() {
+    public Cursor getFoodList() {
         return db.getFoodNamesFromHandbook();
     }
 
-    public void addDish(Date date, String meal, String dish, int weight) {
+    public long addDish(Date date, String meal, String dish, int weight) {
         try {
-            db.insertDishInJournal(new Dish(date, meal, db.getFoodIdByName(dish), weight));
+            return db.insertDishInJournal(new Dish(date, meal, db.getFoodIdByName(dish), weight));
         } catch (Exception e) {
             e.printStackTrace();
         }
+        return -1;
     }
 
-    public void addFood(String food, String protein, String fat, String carb) {
-        db.insertFoodInHandbook(new Food(food, Integer.valueOf(protein), Integer.valueOf(fat), Integer.valueOf(carb)));
+    public long addFood(String food, String protein, String fat, String carb) {
+        return db.insertFoodInHandbook(new Food(food, Integer.valueOf(protein), Integer.valueOf(fat), Integer.valueOf(carb)));
     }
 }

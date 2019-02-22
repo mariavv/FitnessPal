@@ -3,16 +3,12 @@ package mariavv.fitnesspal.presentation.journal;
 import com.arellomobile.mvp.InjectViewState;
 import com.arellomobile.mvp.MvpPresenter;
 
-import java.text.DateFormat;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.Locale;
-
 import mariavv.fitnesspal.FitnessPal;
-import mariavv.fitnesspal.R;
 import mariavv.fitnesspal.data.repository.Repo;
-import mariavv.fitnesspal.other.KeyConst;
+import mariavv.fitnesspal.other.Const;
 import ru.terrakok.cicerone.Router;
+
+import static mariavv.fitnesspal.other.Utils.formatDate;
 
 @InjectViewState
 public class JournalPresenter extends MvpPresenter<JournalView> {
@@ -26,25 +22,16 @@ public class JournalPresenter extends MvpPresenter<JournalView> {
     }
 
     void onFabClick() {
-        router.navigateTo(KeyConst.Screen.ENTER_SCREEN);
+        router.navigateTo(Const.Screen.ENTER_SCREEN);
     }
 
     void onPageMove(int position) {
-        calcHeaderInfo(position);
+        setDate(position);
     }
 
-    private void calcHeaderInfo(int position) {
+    private void setDate(int position) {
         final String date = Repo.getInstance().getDateByIndex(position);
-        String toStr = "";
-        try {
-            final Locale rus = new Locale("ru");
-            final DateFormat from = new SimpleDateFormat(FitnessPal.getAppString(R.string.date_pattern), Locale.ENGLISH);
-            toStr = DateFormat.getDateInstance(SimpleDateFormat.LONG, rus).format(from.parse(date));
 
-        } catch (ParseException e) {
-            e.printStackTrace();
-        }
-        //final Cursor c = Repo.getInstance().get
-        getViewState().setHeaderInfo(toStr, 18);
+        getViewState().setDate(formatDate(date));
     }
 }
