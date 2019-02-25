@@ -5,6 +5,7 @@ import android.support.annotation.NonNull;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.view.ViewPager;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -20,7 +21,6 @@ import mariavv.fitnesspal.other.Const;
 
 public class JournalFragment extends MvpAppCompatFragment implements JournalView {
 
-    View view;
     TextView dateTv;
     ImageView prevDayIv;
     ImageView nextDayIv;
@@ -39,11 +39,10 @@ public class JournalFragment extends MvpAppCompatFragment implements JournalView
     }
 
     @Override
-    public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
-        view = inflater.inflate(R.layout.fragment_journal, container, false);
+    public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+        final View view = inflater.inflate(R.layout.fragment_journal, container, false);
 
-        FragmentActivity activity = getActivity();
+        final FragmentActivity activity = getActivity();
         if (activity != null) {
             activity.setTitle(R.string.journal_title);
         }
@@ -52,15 +51,11 @@ public class JournalFragment extends MvpAppCompatFragment implements JournalView
             viewPager.setCurrentItem(savedInstanceState.getInt(Const.BundleArg.JOURNAL_PAGE_ARG));
         }
 
-        configure();
-
-        return view;
-    }
-
-    private void configure() {
-        initViews();
+        initViews(view);
         configureViews();
         configureInitState();
+
+        return view;
     }
 
     private void configureViews() {
@@ -69,26 +64,21 @@ public class JournalFragment extends MvpAppCompatFragment implements JournalView
         prevDayIv.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                //presenter.onPageMove(getCurrentPage() - 1);
-                moveToPosition(getCurrentPage() - 1);
-                //todo
-                if (getCurrentPage() == 0) {
-                    prevDayIv.setImageDrawable(FitnessPal.appContext.getDrawable(R.drawable.ic_chevron_left_black_inactive_24dp));
-                } else if (getPageCount() > 2 && getCurrentPage() == getPageCount() - 2) {
-                    nextDayIv.setImageDrawable(FitnessPal.appContext.getDrawable(R.drawable.ic_chevron_right_black_24dp));
-                }
+                presenter.onPrevDayClick(getCurrentPage(), getPageCount());
             }
         });
         nextDayIv.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 //presenter.onPageMove(getCurrentPage() + 1);
+                /*
                 moveToPosition(getCurrentPage() + 1);
                 if (getCurrentPage() == getPageCount() - 1) {
                     nextDayIv.setImageDrawable(FitnessPal.appContext.getDrawable(R.drawable.ic_chevron_right_black_inactive_24dp));
                 } else if (getCurrentPage() == 1) {
                     prevDayIv.setImageDrawable(FitnessPal.appContext.getDrawable(R.drawable.ic_chevron_left_black_24dp));
                 }
+                */
             }
         });
 
@@ -109,7 +99,7 @@ public class JournalFragment extends MvpAppCompatFragment implements JournalView
         return pagerAdapter.getCount();
     }
 
-    private void initViews() {
+    private void initViews(View view) {
         pagerAdapter = new PagerAdapter(getChildFragmentManager());
         viewPager = view.findViewById(R.id.viewPager);
 
@@ -124,9 +114,20 @@ public class JournalFragment extends MvpAppCompatFragment implements JournalView
         return viewPager.getCurrentItem();
     }
 
-    private void moveToPosition(int position) {
+    @Override
+    public void moveToPosition(int position) {
         viewPager.setCurrentItem(position);
-        presenter.onPageMove(getCurrentPage());
+        //presenter.onPageMove(getCurrentPage());
+    }
+
+    @Override
+    public void setPrevDayImageDrawable(int imageRes) {
+        prevDayIv.setImageDrawable(FitnessPal.appContext.getDrawable(imageRes));
+    }
+
+    @Override
+    public void setNextDayImageDrawable(int imageRes) {
+        nextDayIv.setImageDrawable(FitnessPal.appContext.getDrawable(imageRes));
     }
 
     private void setNavigationButtonsState() {
@@ -139,6 +140,7 @@ public class JournalFragment extends MvpAppCompatFragment implements JournalView
 
     @Override
     public void setDate(String date) {
+        Log.d("test", date);
         dateTv.setText(date);
     }
 

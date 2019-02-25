@@ -4,6 +4,7 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.BottomNavigationView;
 import android.support.v4.app.Fragment;
+import android.util.Log;
 import android.view.MenuItem;
 import android.widget.Toast;
 
@@ -13,6 +14,7 @@ import com.arellomobile.mvp.presenter.InjectPresenter;
 import mariavv.fitnesspal.FitnessPal;
 import mariavv.fitnesspal.R;
 import mariavv.fitnesspal.other.Const;
+import mariavv.fitnesspal.other.FrmFabric;
 import mariavv.fitnesspal.presentation.adddish.AddDishFragment;
 import mariavv.fitnesspal.presentation.addfood.AddFoodFragment;
 import mariavv.fitnesspal.presentation.handbook.HandbookFragment;
@@ -42,10 +44,11 @@ public class NavigateActivity extends MvpAppCompatActivity implements NavigateVi
         }
     };
 
-    private Navigator navigator = new SupportFragmentNavigator(getSupportFragmentManager(), R.id.main_menu_tabs_containier) {
+    private Navigator navigator = new SupportFragmentNavigator(getSupportFragmentManager(), R.id.container) {
 
         @Override
         protected Fragment createFragment(String screenKey, Object data) {
+            Log.d("test", screenKey);
             switch (screenKey) {
                 case Const.Screen.JOURNAL_SCREEN:
                     return new JournalFragment();
@@ -101,4 +104,18 @@ public class NavigateActivity extends MvpAppCompatActivity implements NavigateVi
     public void removeNavigator() {
         FitnessPal.instance.getNavigatorHolder().removeNavigator();
     }
+
+    @Override
+    public void onBackPressed() {
+        Fragment fragment = getSupportFragmentManager().findFragmentById(R.id.container);
+        if (fragment instanceof FrmFabric.IFragment) {
+            ((FrmFabric.IFragment) fragment).onBackPressed();
+        } else {
+            super.onBackPressed();
+        }
+
+        if (getSupportFragmentManager().getBackStackEntryCount() == 0)
+            super.onBackPressed();
+    }
+
 }

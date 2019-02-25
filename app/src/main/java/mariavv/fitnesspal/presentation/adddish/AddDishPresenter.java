@@ -103,4 +103,8 @@ public class AddDishPresenter extends MvpPresenter<AddDishView> {
         }
         return false;
     }
+
+    void onBackPressed() {
+        router.exit();
+    }
 }

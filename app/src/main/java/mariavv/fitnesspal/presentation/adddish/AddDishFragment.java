@@ -23,8 +23,9 @@ import com.arellomobile.mvp.MvpAppCompatFragment;
 import com.arellomobile.mvp.presenter.InjectPresenter;
 
 import mariavv.fitnesspal.R;
+import mariavv.fitnesspal.other.FrmFabric;
 
-public class AddDishFragment extends MvpAppCompatFragment implements AddDishView, DatePickerDialog.OnDateSetListener {
+public class AddDishFragment extends MvpAppCompatFragment implements AddDishView, FrmFabric.IFragment, DatePickerDialog.OnDateSetListener {
 
     View view;
 
@@ -144,5 +145,10 @@ public class AddDishFragment extends MvpAppCompatFragment implements AddDishView
     @Override
     public void addBtnCallOnClick() {
         addBtn.callOnClick();
+    }
+
+    @Override
+    public void onBackPressed() {
+        presenter.onBackPressed();
     }
 }
