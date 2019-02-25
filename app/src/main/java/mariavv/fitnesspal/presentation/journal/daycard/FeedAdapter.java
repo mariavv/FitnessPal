@@ -47,9 +47,6 @@ class FeedAdapter extends RecyclerView.Adapter {
 
         //каша
 
-        //final HeaderListItem headerListItem = new HeaderListItem(0, 0, 0);
-        //dataSet.add(headerListItem);
-
         final MealListItem mealBreakfast = new MealListItem(Meal.BREAKFAST, 0);
         final MealListItem mealLanch = new MealListItem(Meal.LANCH, 0);
         final MealListItem mealDinner = new MealListItem(Meal.DINNER, 0);
@@ -59,28 +56,15 @@ class FeedAdapter extends RecyclerView.Adapter {
         final List<DishListItem> dishesDinner = new ArrayList<>();
 
         do {
-            final int protein = c.getInt(c.getColumnIndex(CName.PROTEIN));
-            final int fat = c.getInt(c.getColumnIndex(CName.FAT));
-            final int carb = c.getInt(c.getColumnIndex(CName.CARB));
-            final Food food = new Food(c.getString(c.getColumnIndex(CName.NAME)), protein, fat, carb);
-            final DishListItem dish = new DishListItem(food, c.getInt(c.getColumnIndex(CName.WEIGHT)));
-
-            //headerListItem.protein += protein;
-            //headerListItem.fat += fat;
-            //headerListItem.carb += carb;
-
             switch (c.getString(c.getColumnIndex(CName.MEAL))) {
                 case Meal.BREAKFAST:
-                    dishesBreakfast.add(dish);
-                    mealBreakfast.energy += food.getEnergy(dish.weight);
+                    addtoMealList(c, mealBreakfast, dishesBreakfast);
                     break;
                 case Meal.LANCH:
-                    dishesLanch.add(dish);
-                    mealLanch.energy += food.getEnergy(dish.weight);
+                    addtoMealList(c, mealLanch, dishesLanch);
                     break;
                 case Meal.DINNER:
-                    dishesDinner.add(dish);
-                    mealDinner.energy += food.getEnergy(dish.weight);
+                    addtoMealList(c, mealDinner, dishesDinner);
                     break;
             }
 
@@ -94,6 +78,17 @@ class FeedAdapter extends RecyclerView.Adapter {
         addToDataSet(mealDinner, dishesDinner);
 
         notifyDataSetChanged();
+    }
+
+    private void addtoMealList(Cursor c, MealListItem meal, List<DishListItem> dishes) {
+        final int protein = c.getInt(c.getColumnIndex(CName.PROTEIN));
+        final int fat = c.getInt(c.getColumnIndex(CName.FAT));
+        final int carb = c.getInt(c.getColumnIndex(CName.CARB));
+        final Food food = new Food(c.getString(c.getColumnIndex(CName.NAME)), protein, fat, carb);
+        final DishListItem dish = new DishListItem(food, c.getInt(c.getColumnIndex(CName.WEIGHT)));
+
+        dishes.add(dish);
+        meal.energy += food.getEnergy(dish.weight);
     }
 
     private void addToDataSet(MealListItem meal, List<DishListItem> dishes) {

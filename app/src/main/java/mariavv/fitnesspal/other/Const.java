@@ -17,5 +17,6 @@ public class Const {
 
     public static class BundleArg {
         public static final String ARG_DATE = "date";
+        public static final String JOURNAL_PAGE_ARG = "page";
     }
 }

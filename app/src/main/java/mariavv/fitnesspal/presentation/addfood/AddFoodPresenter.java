@@ -32,6 +32,7 @@ public class AddFoodPresenter extends MvpPresenter<AddFoodView> {
         final int protein = Integer.valueOf(proteinEdText.toString());
         final int fat = Integer.valueOf(fatEdText.toString());
         final int carb = Integer.valueOf(carbEdText.toString());
+
         if (protein + fat + carb > 100) {
             router.showSystemMessage(FitnessPal.getAppString(R.string.error_pfc_summ_message));
             return;

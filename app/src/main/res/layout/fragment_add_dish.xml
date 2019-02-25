@@ -50,7 +50,7 @@
         android:layout_marginTop="@dimen/enter_item_margin_top"
         android:text="Прием пищи: "
         app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/foodEd" />
+        app:layout_constraintTop_toBottomOf="@id/foodTv" />
 
     <Spinner
         android:id="@+id/proteinEd"
@@ -91,7 +91,7 @@
         android:layout_marginTop="@dimen/enter_item_margin_top"
         android:text="Масса: "
         app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/fatEd" />
+        app:layout_constraintTop_toBottomOf="@id/fatTv" />
 
     <EditText
         android:id="@+id/carbEd"

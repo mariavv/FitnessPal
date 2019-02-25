@@ -12,10 +12,16 @@
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_gravity="center_vertical"
-        android:layout_marginStart="24dp"
         android:layout_weight="3"
-        android:textStyle="bold"
         tools:text="@string/meal_num_postfix" />
+
+    <TextView
+        android:id="@+id/weight_tv"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_vertical"
+        android:layout_weight="1"
+        tools:text="@string/weight_postfix" />
 
     <TextView
         android:id="@+id/energy_tv"
@@ -23,7 +29,6 @@
         android:layout_height="wrap_content"
         android:layout_gravity="center_vertical"
         android:layout_weight="1"
-        android:textStyle="bold"
         tools:text="@string/energy_postfix" />
 
 </LinearLayout>

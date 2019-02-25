@@ -13,25 +13,23 @@ public class ViewHolderFactory {
 
     @NonNull
     static RecyclerView.ViewHolder create(ViewGroup parent, int viewType) {
+        View view;
         switch (viewType) {
             case ItemType.HEADER:
-                View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.day_header_item, parent, false);
+                view = LayoutInflater.from(parent.getContext()).inflate(R.layout.day_header_item, parent, false);
                 return new ViewHolderFactory.HeaderViewHolder(view);
 
             case ItemType.MEAL:
-                return listItemViewHolder(parent);
+                view = LayoutInflater.from(parent.getContext()).inflate(R.layout.day_meal_list_item, parent, false);
+                return new ViewHolderFactory.ListItemViewHolder(view);
 
             case ItemType.DISH:
-                return listItemViewHolder(parent);
+                view = LayoutInflater.from(parent.getContext()).inflate(R.layout.day_dish_list_item, parent, false);
+                return new ViewHolderFactory.ListItemViewHolder(view);
 
             default:
                 return null;
         }
-    }
-
-    private static ListItemViewHolder listItemViewHolder(ViewGroup parent) {
-        View v = LayoutInflater.from(parent.getContext()).inflate(R.layout.day_meal_list_item, parent, false);
-        return new ViewHolderFactory.ListItemViewHolder(v);
     }
 
     public static class HeaderViewHolder extends RecyclerView.ViewHolder {

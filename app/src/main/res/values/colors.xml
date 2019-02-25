@@ -2,7 +2,7 @@
 <resources>
     <color name="colorPrimary">#008577</color>
     <color name="colorPrimaryDark">#00574B</color>
-    <color name="colorAccent">#D81B60</color>
+    <color name="colorAccent">#27CCBB</color>
     <color name="colorDayCardHat">#27CCBB</color>
     <color name="colorMeal">#E2F4F7</color>
 </resources>

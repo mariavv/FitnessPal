@@ -66,7 +66,7 @@ public class DbManager {
     }
 
     Cursor getJournal(long date) {
-        final String q = "select distinct " + " hb." + CName.NAME
+        final String q = "select " + " hb." + CName.NAME
                 + ", j." + CName.MEAL
                 + ", j." + CName.DATE
                 + " , j." + CName.WEIGHT

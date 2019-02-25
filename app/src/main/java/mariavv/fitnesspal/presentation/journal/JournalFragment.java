@@ -16,6 +16,7 @@ import com.arellomobile.mvp.presenter.InjectPresenter;
 
 import mariavv.fitnesspal.FitnessPal;
 import mariavv.fitnesspal.R;
+import mariavv.fitnesspal.other.Const;
 
 public class JournalFragment extends MvpAppCompatFragment implements JournalView {
 
@@ -47,6 +48,10 @@ public class JournalFragment extends MvpAppCompatFragment implements JournalView
             activity.setTitle(R.string.journal_title);
         }
 
+        if (savedInstanceState != null) {
+            viewPager.setCurrentItem(savedInstanceState.getInt(Const.BundleArg.JOURNAL_PAGE_ARG));
+        }
+
         configure();
 
         return view;
@@ -59,7 +64,6 @@ public class JournalFragment extends MvpAppCompatFragment implements JournalView
     }
 
     private void configureViews() {
-        pagerAdapter = new PagerAdapter(getChildFragmentManager());
         viewPager.setAdapter(pagerAdapter);
 
         prevDayIv.setOnClickListener(new View.OnClickListener() {
@@ -97,7 +101,6 @@ public class JournalFragment extends MvpAppCompatFragment implements JournalView
     }
 
     private void configureInitState() {
-        //showDate();
         setNavigationButtonsState();
         presenter.onPageMove(getCurrentPage());
     }
@@ -107,7 +110,9 @@ public class JournalFragment extends MvpAppCompatFragment implements JournalView
     }
 
     private void initViews() {
+        pagerAdapter = new PagerAdapter(getChildFragmentManager());
         viewPager = view.findViewById(R.id.viewPager);
+
         dateTv = view.findViewById(R.id.date);
         prevDayIv = view.findViewById(R.id.left);
         nextDayIv = view.findViewById(R.id.right);
@@ -122,9 +127,6 @@ public class JournalFragment extends MvpAppCompatFragment implements JournalView
     private void moveToPosition(int position) {
         viewPager.setCurrentItem(position);
         presenter.onPageMove(getCurrentPage());
-        //showDate();
-        //todo
-        //setNavigationButtonsState();
     }
 
     private void setNavigationButtonsState() {
@@ -135,21 +137,15 @@ public class JournalFragment extends MvpAppCompatFragment implements JournalView
         }
     }
 
-    /*private void showDate() {
-        final String date = Repo.getInstance().getDateByIndex(getCurrentPage());
-        //todo
-        try {
-            final DateFormat to = new SimpleDateFormat(getString(R.string.date_format_display), Locale.getDefault());
-            final DateFormat from = new SimpleDateFormat(getString(R.string.date_pattern), Locale.getDefault());
-            final String toStr = to.format(from.parse(date));
-            dateTv.setText(toStr);
-        } catch (ParseException e) {
-            e.printStackTrace();
-        }
-    }*/
-
     @Override
     public void setDate(String date) {
         dateTv.setText(date);
+    }
+
+    @Override
+    public void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+
+        outState.putInt(Const.BundleArg.JOURNAL_PAGE_ARG, viewPager.getCurrentItem());
     }
 }
