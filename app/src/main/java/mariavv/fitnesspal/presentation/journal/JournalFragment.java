@@ -5,7 +5,6 @@ import android.support.annotation.NonNull;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.view.ViewPager;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -17,7 +16,6 @@ import com.arellomobile.mvp.presenter.InjectPresenter;
 
 import mariavv.fitnesspal.FitnessPal;
 import mariavv.fitnesspal.R;
-import mariavv.fitnesspal.other.Const;
 
 public class JournalFragment extends MvpAppCompatFragment implements JournalView {
 
@@ -47,18 +45,16 @@ public class JournalFragment extends MvpAppCompatFragment implements JournalView
             activity.setTitle(R.string.journal_title);
         }
 
-        if (savedInstanceState != null) {
-            viewPager.setCurrentItem(savedInstanceState.getInt(Const.BundleArg.JOURNAL_PAGE_ARG));
-        }
+        configureViews(view);
 
-        initViews(view);
-        configureViews();
-        configureInitState();
+        presenter.onCreateView(getCurrentPage(), getPageCount());
 
         return view;
     }
 
-    private void configureViews() {
+    private void configureViews(View view) {
+        initViews(view);
+
         viewPager.setAdapter(pagerAdapter);
 
         prevDayIv.setOnClickListener(new View.OnClickListener() {
@@ -70,15 +66,7 @@ public class JournalFragment extends MvpAppCompatFragment implements JournalView
         nextDayIv.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                //presenter.onPageMove(getCurrentPage() + 1);
-                /*
-                moveToPosition(getCurrentPage() + 1);
-                if (getCurrentPage() == getPageCount() - 1) {
-                    nextDayIv.setImageDrawable(FitnessPal.appContext.getDrawable(R.drawable.ic_chevron_right_black_inactive_24dp));
-                } else if (getCurrentPage() == 1) {
-                    prevDayIv.setImageDrawable(FitnessPal.appContext.getDrawable(R.drawable.ic_chevron_left_black_24dp));
-                }
-                */
+                presenter.onNextDayClick(getCurrentPage(), getPageCount());
             }
         });
 
@@ -88,15 +76,6 @@ public class JournalFragment extends MvpAppCompatFragment implements JournalView
                 presenter.onFabClick();
             }
         });
-    }
-
-    private void configureInitState() {
-        setNavigationButtonsState();
-        presenter.onPageMove(getCurrentPage());
-    }
-
-    private int getPageCount() {
-        return pagerAdapter.getCount();
     }
 
     private void initViews(View view) {
@@ -110,14 +89,18 @@ public class JournalFragment extends MvpAppCompatFragment implements JournalView
         fab = view.findViewById(R.id.fab);
     }
 
+    private int getPageCount() {
+        return pagerAdapter.getCount();
+    }
+
     private int getCurrentPage() {
         return viewPager.getCurrentItem();
     }
 
     @Override
-    public void moveToPosition(int position) {
+    public void moveToPosition(int position, String date) {
         viewPager.setCurrentItem(position);
-        //presenter.onPageMove(getCurrentPage());
+        dateTv.setText(date);
     }
 
     @Override
@@ -128,26 +111,5 @@ public class JournalFragment extends MvpAppCompatFragment implements JournalView
     @Override
     public void setNextDayImageDrawable(int imageRes) {
         nextDayIv.setImageDrawable(FitnessPal.appContext.getDrawable(imageRes));
-    }
-
-    private void setNavigationButtonsState() {
-        if (getCurrentPage() == 0) {
-            prevDayIv.setImageDrawable(FitnessPal.appContext.getDrawable(R.drawable.ic_chevron_left_black_inactive_24dp));
-        } else if (getCurrentPage() == getPageCount() - 1) {
-            nextDayIv.setImageDrawable(FitnessPal.appContext.getDrawable(R.drawable.ic_chevron_right_black_inactive_24dp));
-        }
-    }
-
-    @Override
-    public void setDate(String date) {
-        Log.d("test", date);
-        dateTv.setText(date);
-    }
-
-    @Override
-    public void onSaveInstanceState(Bundle outState) {
-        super.onSaveInstanceState(outState);
-
-        outState.putInt(Const.BundleArg.JOURNAL_PAGE_ARG, viewPager.getCurrentItem());
     }
 }

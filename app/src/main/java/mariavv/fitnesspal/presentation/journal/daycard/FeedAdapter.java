@@ -7,6 +7,7 @@ import android.view.ViewGroup;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 import mariavv.fitnesspal.data.db.CName;
 import mariavv.fitnesspal.data.db.Meal;
@@ -48,7 +49,7 @@ class FeedAdapter extends RecyclerView.Adapter {
         //каша
 
         final MealListItem mealBreakfast = new MealListItem(Meal.BREAKFAST, 0);
-        final MealListItem mealLanch = new MealListItem(Meal.LANCH, 0);
+        final MealListItem mealLanch = new MealListItem(Meal.LAUNCH, 0);
         final MealListItem mealDinner = new MealListItem(Meal.DINNER, 0);
 
         final List<DishListItem> dishesBreakfast = new ArrayList<>();
@@ -56,18 +57,15 @@ class FeedAdapter extends RecyclerView.Adapter {
         final List<DishListItem> dishesDinner = new ArrayList<>();
 
         do {
-            switch (c.getString(c.getColumnIndex(CName.MEAL))) {
-                case Meal.BREAKFAST:
-                    addtoMealList(c, mealBreakfast, dishesBreakfast);
-                    break;
-                case Meal.LANCH:
-                    addtoMealList(c, mealLanch, dishesLanch);
-                    break;
-                case Meal.DINNER:
-                    addtoMealList(c, mealDinner, dishesDinner);
-                    break;
-            }
+            final String meal = c.getString(c.getColumnIndex(CName.MEAL));
 
+            if (Objects.equals(meal, Meal.getValue(Meal.BREAKFAST))) {
+                addToMealList(c, mealBreakfast, dishesBreakfast);
+            } else if (Objects.equals(meal, Meal.getValue(Meal.LAUNCH))) {
+                addToMealList(c, mealLanch, dishesLanch);
+            } else if (Objects.equals(meal, Meal.getValue(Meal.DINNER))) {
+                addToMealList(c, mealDinner, dishesDinner);
+            }
         } while (c.moveToNext());
 
         //падает
@@ -80,7 +78,7 @@ class FeedAdapter extends RecyclerView.Adapter {
         notifyDataSetChanged();
     }
 
-    private void addtoMealList(Cursor c, MealListItem meal, List<DishListItem> dishes) {
+    private void addToMealList(Cursor c, MealListItem meal, List<DishListItem> dishes) {
         final int protein = c.getInt(c.getColumnIndex(CName.PROTEIN));
         final int fat = c.getInt(c.getColumnIndex(CName.FAT));
         final int carb = c.getInt(c.getColumnIndex(CName.CARB));

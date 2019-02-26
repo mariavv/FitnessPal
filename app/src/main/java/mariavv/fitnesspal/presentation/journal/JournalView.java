@@ -6,12 +6,13 @@ import com.arellomobile.mvp.MvpView;
 import com.arellomobile.mvp.viewstate.strategy.AddToEndSingleStrategy;
 import com.arellomobile.mvp.viewstate.strategy.StateStrategyType;
 
+@StateStrategyType(AddToEndSingleStrategy.class)
 interface JournalView extends MvpView {
 
-    @StateStrategyType(AddToEndSingleStrategy.class)
-    void setDate(String toStr);
+    //@StateStrategyType(AddToEndSingleStrategy.class)
+    //void setDate(String toStr);
 
-    void moveToPosition(int i);
+    void moveToPosition(int i, String date);
 
     void setPrevDayImageDrawable(@DrawableRes int imageRes);
 

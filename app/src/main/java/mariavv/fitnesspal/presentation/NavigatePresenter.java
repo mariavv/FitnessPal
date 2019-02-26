@@ -47,7 +47,7 @@ public class NavigatePresenter extends MvpPresenter<NavigateView> {
         Date date = calendar.getTime();
         repo.insertDishInJournal(new Dish(date, Meal.BREAKFAST, 1, 150));
         repo.insertDishInJournal(new Dish(date, Meal.BREAKFAST, 2, 250));
-        repo.insertDishInJournal(new Dish(date, Meal.LANCH, 5, 250));
+        repo.insertDishInJournal(new Dish(date, Meal.LAUNCH, 5, 250));
         calendar.set(Calendar.DAY_OF_MONTH, 21);
         date = calendar.getTime();
         repo.insertDishInJournal(new Dish(date, Meal.BREAKFAST, 3, 310));

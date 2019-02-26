@@ -25,7 +25,9 @@ import com.arellomobile.mvp.presenter.InjectPresenter;
 import mariavv.fitnesspal.R;
 import mariavv.fitnesspal.other.FrmFabric;
 
-public class AddDishFragment extends MvpAppCompatFragment implements AddDishView, FrmFabric.IFragment, DatePickerDialog.OnDateSetListener {
+public class AddDishFragment extends MvpAppCompatFragment implements AddDishView,
+        FrmFabric.IFragment,
+        DatePickerDialog.OnDateSetListener /*setOnDateSetListener 24api required*/ {
 
     View view;
 
