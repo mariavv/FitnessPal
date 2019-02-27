@@ -112,4 +112,9 @@ public class JournalFragment extends MvpAppCompatFragment implements JournalView
     public void setNextDayImageDrawable(int imageRes) {
         nextDayIv.setImageDrawable(FitnessPal.appContext.getDrawable(imageRes));
     }
+
+    @Override
+    public void setDate(String date) {
+        dateTv.setText(date);
+    }
 }

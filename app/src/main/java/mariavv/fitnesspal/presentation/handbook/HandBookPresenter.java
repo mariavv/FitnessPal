@@ -26,6 +26,6 @@ public class HandBookPresenter extends MvpPresenter<HandBookView> {
     }
 
     void onFabClick() {
-        router.navigateTo(Const.Screen.ADD_FOOD_SCREEN);
+        router.navigateTo(Const.Screen.ADD_FOOD);
     }
 }

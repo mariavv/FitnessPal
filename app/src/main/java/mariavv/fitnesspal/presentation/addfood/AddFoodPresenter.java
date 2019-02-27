@@ -9,7 +9,6 @@ import mariavv.fitnesspal.FitnessPal;
 import mariavv.fitnesspal.R;
 import mariavv.fitnesspal.data.repository.Repo;
 import mariavv.fitnesspal.domain.Food;
-import mariavv.fitnesspal.other.Const;
 import ru.terrakok.cicerone.Router;
 
 @InjectViewState
@@ -41,9 +40,14 @@ public class AddFoodPresenter extends MvpPresenter<AddFoodView> {
         final Food food = new Food(foodEdText.toString(), protein, fat, carb);
         if (Repo.getInstance().addFood(food) > -1) {
             router.showSystemMessage(FitnessPal.getAppString(R.string.add_message));
-            router.backTo(Const.Screen.HANDBOOK_SCREEN);
+            router.exit();
+            //router.backTo(Const.Screen.HANDBOOK);
         } else {
             router.showSystemMessage(FitnessPal.getAppString(R.string.add_fail_message));
         }
+    }
+
+    void onBackPressed() {
+        router.exit();
     }
 }

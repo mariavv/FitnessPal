@@ -50,13 +50,13 @@ public class NavigateActivity extends MvpAppCompatActivity implements NavigateVi
         protected Fragment createFragment(String screenKey, Object data) {
             Log.d("test", screenKey);
             switch (screenKey) {
-                case Const.Screen.JOURNAL_SCREEN:
+                case Const.Screen.JOURNAL:
                     return new JournalFragment();
-                case Const.Screen.HANDBOOK_SCREEN:
+                case Const.Screen.HANDBOOK:
                     return new HandbookFragment();
-                case Const.Screen.ENTER_SCREEN:
+                case Const.Screen.ADD_DISH:
                     return new AddDishFragment();
-                case Const.Screen.ADD_FOOD_SCREEN:
+                case Const.Screen.ADD_FOOD:
                     return new AddFoodFragment();
                 default:
                     throw new RuntimeException("Unknown screen key!");
@@ -107,7 +107,7 @@ public class NavigateActivity extends MvpAppCompatActivity implements NavigateVi
 
     @Override
     public void onBackPressed() {
-        Fragment fragment = getSupportFragmentManager().findFragmentById(R.id.container);
+        Fragment fragment = getSupportFragmentManager().findFragmentById(R.id.main_menu_tabs_containier);
         if (fragment instanceof FrmFabric.IFragment) {
             ((FrmFabric.IFragment) fragment).onBackPressed();
         } else {

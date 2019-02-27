@@ -1,19 +1,11 @@
 package mariavv.fitnesspal.presentation.journal.daycard;
 
-import android.database.Cursor;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
 import android.view.ViewGroup;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Objects;
-
-import mariavv.fitnesspal.data.db.CName;
-import mariavv.fitnesspal.data.db.Meal;
-import mariavv.fitnesspal.domain.Food;
-import mariavv.fitnesspal.presentation.journal.daycard.listviewtypes.DishListItem;
-import mariavv.fitnesspal.presentation.journal.daycard.listviewtypes.MealListItem;
 
 class FeedAdapter extends RecyclerView.Adapter {
     private List<ItemType> dataSet = new ArrayList<>();
@@ -43,8 +35,8 @@ class FeedAdapter extends RecyclerView.Adapter {
         return 0;
     }
 
-    void updateItems(@NonNull Cursor c) {
-        c.moveToFirst();
+    void updateItems(@NonNull List<ItemType> dataSet) {
+        /*c.moveToFirst();
 
         //каша
 
@@ -73,12 +65,14 @@ class FeedAdapter extends RecyclerView.Adapter {
 
         addToDataSet(mealBreakfast, dishesBreakfast);
         addToDataSet(mealLanch, dishesLanch);
-        addToDataSet(mealDinner, dishesDinner);
+        addToDataSet(mealDinner, dishesDinner);*/
+
+        this.dataSet = dataSet;
 
         notifyDataSetChanged();
     }
 
-    private void addToMealList(Cursor c, MealListItem meal, List<DishListItem> dishes) {
+    /*private void addToMealList(Cursor c, MealListItem meal, List<DishListItem> dishes) {
         final int protein = c.getInt(c.getColumnIndex(CName.PROTEIN));
         final int fat = c.getInt(c.getColumnIndex(CName.FAT));
         final int carb = c.getInt(c.getColumnIndex(CName.CARB));
@@ -94,5 +88,5 @@ class FeedAdapter extends RecyclerView.Adapter {
             this.dataSet.add(meal);
             this.dataSet.addAll(dishes);
         }
-    }
+    }*/
 }

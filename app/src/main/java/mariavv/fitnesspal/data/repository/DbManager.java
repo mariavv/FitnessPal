@@ -49,14 +49,6 @@ public class DbManager {
     }
 
     long insertDishInJournal(Dish dish) {
-        final String q = "insert into " + TName.DISHES + " ("
-                + CName.MEAL + ", "
-                + CName.DATE + ", "
-                + CName.DISH_ID + ", "
-                + CName.WEIGHT + ") "
-                + " values ( '" + dish.meal + "', "
-                + "'" + dish.date.getTime() + "'" + ", " + dish.foodId + ", " + dish.weight + ") ";
-
         final ContentValues cv = new ContentValues();
         cv.put(CName.MEAL, dish.meal);
         cv.put(CName.DATE, dish.date.getTime());

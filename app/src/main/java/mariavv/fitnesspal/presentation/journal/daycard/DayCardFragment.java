@@ -1,6 +1,5 @@
 package mariavv.fitnesspal.presentation.journal.daycard;
 
-import android.database.Cursor;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.DividerItemDecoration;
@@ -14,8 +13,9 @@ import android.widget.TextView;
 import com.arellomobile.mvp.MvpAppCompatFragment;
 import com.arellomobile.mvp.presenter.InjectPresenter;
 
+import java.util.List;
+
 import mariavv.fitnesspal.R;
-import mariavv.fitnesspal.data.db.CName;
 
 import static mariavv.fitnesspal.other.Const.BundleArg.ARG_DATE;
 
@@ -81,31 +81,29 @@ public class DayCardFragment extends MvpAppCompatFragment implements DayCardView
     }
 
     @Override
-    public void updateCard(Cursor data) {
-        data.moveToFirst();
-
+    public void updateCard(List<ItemType> dataSet, int dayProtein, int dayFat, int dayCarb, int dayEnergy) {
         String weightPostfx = getString(R.string.weight_postfix);
-        //todo calc
+
         proteinTv.setText(String.format("%s %s%s",
                 getString(R.string.protein_full_prefix),
-                data.getString(data.getColumnIndex(CName.PROTEIN)),
+                String.valueOf(dayProtein),
                 weightPostfx));
 
         fatTv.setText(String.format("%s %s%s",
                 getString(R.string.fat_full_prefix),
-                data.getString(data.getColumnIndex(CName.FAT)),
+                String.valueOf(dayFat),
                 weightPostfx));
 
         carbTv.setText(String.format("%s %s%s",
                 getString(R.string.carb_full_prefix),
-                data.getString(data.getColumnIndex(CName.PROTEIN)),
+                String.valueOf(dayCarb),
                 weightPostfx));
 
         energyTv.setText(String.format("%s %s %s",
                 getString(R.string.energy_prefix),
-                String.valueOf(0),
+                String.valueOf(dayEnergy),
                 getString(R.string.energy_postfix)));
 
-        adapter.updateItems(data);
+        adapter.updateItems(dataSet);
     }
 }

@@ -45,4 +45,8 @@ public class Food {
     public int getCarb() {
         return carb;
     }
+
+    public int getCount(int macronutrient, int weight) {
+        return macronutrient * weight / PER_WEIGHT;
+    }
 }

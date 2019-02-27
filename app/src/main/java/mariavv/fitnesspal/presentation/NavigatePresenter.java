@@ -18,8 +18,7 @@ public class NavigatePresenter extends MvpPresenter<NavigateView> {
     protected void onFirstViewAttach() {
         super.onFirstViewAttach();
         router = FitnessPal.instance.getRouter();
-        router.newRootScreen(Const.Screen.JOURNAL_SCREEN);
-
+        router.newRootScreen(Const.Screen.JOURNAL);
 
         //test data
         final Repo repo = Repo.getInstance();
@@ -57,11 +56,11 @@ public class NavigatePresenter extends MvpPresenter<NavigateView> {
     }
 
     void onNavigationJournalSelected() {
-        router.newRootScreen(Const.Screen.JOURNAL_SCREEN);
+        router.newRootScreen(Const.Screen.JOURNAL);
     }
 
     void onNavigationHandbookSelected() {
-        router.newRootScreen(Const.Screen.HANDBOOK_SCREEN);
+        router.newRootScreen(Const.Screen.HANDBOOK);
     }
 
     void onResume() {

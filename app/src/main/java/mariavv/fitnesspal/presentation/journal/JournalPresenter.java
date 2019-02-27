@@ -1,6 +1,7 @@
 package mariavv.fitnesspal.presentation.journal;
 
 import android.support.annotation.DrawableRes;
+import android.util.Log;
 
 import com.arellomobile.mvp.InjectViewState;
 import com.arellomobile.mvp.MvpPresenter;
@@ -25,26 +26,25 @@ public class JournalPresenter extends MvpPresenter<JournalView> {
     }
 
     void onCreateView(int currentPage, int pageCount) {
+        Log.d("test", currentPage + " " + getDate(currentPage));
         configureDayNavigateBtns(currentPage == 0,
                 R.drawable.ic_chevron_left_black_inactive_24dp,
                 currentPage == pageCount - 1,
                 R.drawable.ic_chevron_right_black_inactive_24dp);
-        /*if (currentPage == 0) {
-            getViewState().setPrevDayImageDrawable(R.drawable.ic_chevron_left_black_inactive_24dp);
-        } else if (currentPage == pageCount - 1) {
-            getViewState().setNextDayImageDrawable(R.drawable.ic_chevron_right_black_inactive_24dp);
-        }*/
+
+        getViewState().setDate(getDate(currentPage));
     }
 
     void onFabClick() {
-        router.navigateTo(Const.Screen.ENTER_SCREEN);
+        router.navigateTo(Const.Screen.ADD_DISH);
     }
 
     private void moveToPosition(int position) {
-        final long date = Repo.getInstance().getDateByIndex(position);
-        getViewState().moveToPosition(position, formatDate(date));
+        getViewState().moveToPosition(position, getDate(position));
+    }
 
-        //getViewState().setDate(formatDate(date));
+    private String getDate(int position) {
+        return formatDate(Repo.getInstance().getDateByIndex(position));
     }
 
     void onPrevDayClick(int currentPage, int pageCount) {
@@ -54,27 +54,15 @@ public class JournalPresenter extends MvpPresenter<JournalView> {
                 R.drawable.ic_chevron_left_black_inactive_24dp,
                 currentPage == pageCount - 1,
                 R.drawable.ic_chevron_right_black_24dp);
-
-        /*if (currentPage == 1) {
-            getViewState().setPrevDayImageDrawable(R.drawable.ic_chevron_left_black_inactive_24dp);
-        } else if (currentPage == pageCount - 1) {
-            getViewState().setNextDayImageDrawable(R.drawable.ic_chevron_right_black_24dp);
-        }*/
     }
 
     void onNextDayClick(int currentPage, int pageCount) {
         moveToPosition(currentPage + 1);
 
-        configureDayNavigateBtns(currentPage == 1,
+        configureDayNavigateBtns(currentPage == 0,
                 R.drawable.ic_chevron_left_black_24dp,
                 currentPage == pageCount - 2,
                 R.drawable.ic_chevron_right_black_inactive_24dp);
-
-        /*if (currentPage == 1) {
-            getViewState().setPrevDayImageDrawable(R.drawable.ic_chevron_left_black_24dp);
-        } else if (currentPage == pageCount - 2) {
-            getViewState().setNextDayImageDrawable(R.drawable.ic_chevron_right_black_inactive_24dp);
-        }*/
     }
 
     private void configureDayNavigateBtns(boolean prevCondition, @DrawableRes int drawResLeftBtn,
