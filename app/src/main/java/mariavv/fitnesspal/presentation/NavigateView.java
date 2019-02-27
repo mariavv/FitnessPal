@@ -9,4 +9,8 @@ public interface NavigateView extends MvpView {
     void setNavigator();
 
     void removeNavigator();
+
+    void hideBottomMenu();
+
+    void showBottomMenu();
 }

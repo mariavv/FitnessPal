@@ -16,6 +16,7 @@ import com.arellomobile.mvp.MvpAppCompatFragment;
 import com.arellomobile.mvp.presenter.InjectPresenter;
 
 import mariavv.fitnesspal.R;
+import mariavv.fitnesspal.other.Const;
 import mariavv.fitnesspal.other.FrmFabric;
 
 public class AddFoodFragment extends MvpAppCompatFragment implements AddFoodView, FrmFabric.IFragment {
@@ -84,5 +85,10 @@ public class AddFoodFragment extends MvpAppCompatFragment implements AddFoodView
     @Override
     public void onBackPressed() {
         presenter.onBackPressed();
+    }
+
+    @Override
+    public String getName() {
+        return Const.Screen.ADD_FOOD;
     }
 }

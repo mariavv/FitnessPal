@@ -4,8 +4,10 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.BottomNavigationView;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
 import android.util.Log;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.Toast;
 
 import com.arellomobile.mvp.MvpAppCompatActivity;
@@ -26,6 +28,8 @@ public class NavigateActivity extends MvpAppCompatActivity implements NavigateVi
 
     @InjectPresenter
     NavigatePresenter presenter;
+
+    private BottomNavigationView navigationMenu;
 
     private BottomNavigationView.OnNavigationItemSelectedListener mOnNavigationItemSelectedListener
             = new BottomNavigationView.OnNavigationItemSelectedListener() {
@@ -91,8 +95,15 @@ public class NavigateActivity extends MvpAppCompatActivity implements NavigateVi
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_navigation);
 
-        BottomNavigationView navigation = findViewById(R.id.navigation);
-        navigation.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener);
+        navigationMenu = findViewById(R.id.navigation);
+        navigationMenu.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener);
+
+        getSupportFragmentManager().addOnBackStackChangedListener(new FragmentManager.OnBackStackChangedListener() {
+            @Override
+            public void onBackStackChanged() {
+                presenter.changeFragment(getSupportFragmentManager(), R.id.container);
+            }
+        });
     }
 
     @Override
@@ -106,8 +117,18 @@ public class NavigateActivity extends MvpAppCompatActivity implements NavigateVi
     }
 
     @Override
+    public void hideBottomMenu() {
+        navigationMenu.setVisibility(View.GONE);
+    }
+
+    @Override
+    public void showBottomMenu() {
+        navigationMenu.setVisibility(View.VISIBLE);
+    }
+
+    @Override
     public void onBackPressed() {
-        Fragment fragment = getSupportFragmentManager().findFragmentById(R.id.main_menu_tabs_containier);
+        Fragment fragment = getSupportFragmentManager().findFragmentById(R.id.container);
         if (fragment instanceof FrmFabric.IFragment) {
             ((FrmFabric.IFragment) fragment).onBackPressed();
         } else {

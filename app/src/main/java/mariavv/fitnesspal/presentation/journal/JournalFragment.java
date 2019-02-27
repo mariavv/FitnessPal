@@ -16,8 +16,10 @@ import com.arellomobile.mvp.presenter.InjectPresenter;
 
 import mariavv.fitnesspal.FitnessPal;
 import mariavv.fitnesspal.R;
+import mariavv.fitnesspal.other.Const;
+import mariavv.fitnesspal.other.FrmFabric;
 
-public class JournalFragment extends MvpAppCompatFragment implements JournalView {
+public class JournalFragment extends MvpAppCompatFragment implements JournalView, FrmFabric.IFragment {
 
     TextView dateTv;
     ImageView prevDayIv;
@@ -116,5 +118,15 @@ public class JournalFragment extends MvpAppCompatFragment implements JournalView
     @Override
     public void setDate(String date) {
         dateTv.setText(date);
+    }
+
+    @Override
+    public void onBackPressed() {
+        presenter.onBackPressed();
+    }
+
+    @Override
+    public String getName() {
+        return Const.Screen.JOURNAL;
     }
 }

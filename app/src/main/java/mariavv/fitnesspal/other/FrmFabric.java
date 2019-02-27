@@ -4,5 +4,7 @@ public class FrmFabric {
 
     public interface IFragment {
         void onBackPressed();
+
+        String getName();
     }
 }

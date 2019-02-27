@@ -28,4 +28,8 @@ public class HandBookPresenter extends MvpPresenter<HandBookView> {
     void onFabClick() {
         router.navigateTo(Const.Screen.ADD_FOOD);
     }
+
+    public void onBackPressed() {
+        router.exit();
+    }
 }

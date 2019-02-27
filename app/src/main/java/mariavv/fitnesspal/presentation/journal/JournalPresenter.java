@@ -73,4 +73,8 @@ public class JournalPresenter extends MvpPresenter<JournalView> {
             getViewState().setNextDayImageDrawable(drawResRightBtn);
         }
     }
+
+    public void onBackPressed() {
+        router.exit();
+    }
 }
