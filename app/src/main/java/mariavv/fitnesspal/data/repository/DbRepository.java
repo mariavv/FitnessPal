@@ -10,10 +10,10 @@ import mariavv.fitnesspal.data.db.TName;
 import mariavv.fitnesspal.domain.Dish;
 import mariavv.fitnesspal.domain.Food;
 
-public class DbManager {
+public class DbRepository {
     private SQLiteHelper sqliteHelper;
 
-    DbManager() {
+    DbRepository() {
         sqliteHelper = new SQLiteHelper(null);
     }
 

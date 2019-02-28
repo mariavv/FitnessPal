@@ -80,6 +80,14 @@ public class NavigateActivity extends MvpAppCompatActivity implements NavigateVi
     }
 
     @Override
+    public void showHomeAsUp(boolean enabled) {
+        if (getSupportActionBar() != null) {
+            getSupportActionBar().setDisplayHomeAsUpEnabled(enabled);
+            getSupportActionBar().setDisplayShowHomeEnabled(enabled);
+        }
+    }
+
+    @Override
     public void onBackPressed() {
         Fragment fragment = getSupportFragmentManager().findFragmentById(R.id.container);
         if (fragment instanceof FrmFabric.IFragment) {
@@ -90,6 +98,16 @@ public class NavigateActivity extends MvpAppCompatActivity implements NavigateVi
 
         if (getSupportFragmentManager().getBackStackEntryCount() == 0)
             super.onBackPressed();
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case android.R.id.home:
+                onBackPressed();
+                return true;
+        }
+        return super.onOptionsItemSelected(item);
     }
 
     private BottomNavigationView.OnNavigationItemSelectedListener mOnNavigationItemSelectedListener

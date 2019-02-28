@@ -11,10 +11,10 @@ public class Repo {
 
     private static Repo instance;
 
-    private DbManager db;
+    private DbRepository db;
 
     private Repo() {
-        db = new DbManager();
+        db = new DbRepository();
     }
 
     public static synchronized Repo getInstance() {

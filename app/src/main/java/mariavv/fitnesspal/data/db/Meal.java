@@ -5,8 +5,8 @@ public enum Meal {
     LAUNCH,
     DINNER;
 
-    public static String getValue(Meal meal) {
-        switch (meal) {
+    public String getValue() {
+        switch (this) {
             case BREAKFAST:
                 return "Завтрак";
             case LAUNCH:

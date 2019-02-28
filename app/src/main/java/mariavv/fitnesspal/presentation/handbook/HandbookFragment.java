@@ -74,7 +74,8 @@ public class HandbookFragment extends MvpAppCompatFragment implements HandBookVi
         recycler.setAdapter(adapter);
         recycler.setLayoutManager(new LinearLayoutManager(getContext()));
 
-        DividerItemDecoration decoration = new DividerItemDecoration(recycler.getContext(), DividerItemDecoration.VERTICAL);
+        DividerItemDecoration decoration =
+                new DividerItemDecoration(recycler.getContext(), DividerItemDecoration.VERTICAL);
         recycler.addItemDecoration(decoration);
     }
 

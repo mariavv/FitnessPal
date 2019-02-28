@@ -54,9 +54,9 @@ public class AddDishPresenter extends MvpPresenter<AddDishView> {
 
         meals = new String[4];
         meals[0] = "";
-        meals[1] = Meal.getValue(Meal.BREAKFAST);
-        meals[2] = Meal.getValue(Meal.LAUNCH);
-        meals[3] = Meal.getValue(Meal.DINNER);
+        meals[1] = Meal.BREAKFAST.getValue();
+        meals[2] = Meal.LAUNCH.getValue();
+        meals[3] = Meal.DINNER.getValue();
 
         getViewState().configureMealsSpinner(meals);
     }

@@ -8,8 +8,14 @@ import android.support.v4.app.FragmentManager;
 import com.arellomobile.mvp.InjectViewState;
 import com.arellomobile.mvp.MvpPresenter;
 
+import java.util.Calendar;
+import java.util.Date;
+
 import mariavv.fitnesspal.FitnessPal;
+import mariavv.fitnesspal.data.db.Meal;
 import mariavv.fitnesspal.data.repository.Repo;
+import mariavv.fitnesspal.data.repository.SharedDataRepository;
+import mariavv.fitnesspal.domain.Dish;
 import mariavv.fitnesspal.domain.Food;
 import mariavv.fitnesspal.other.Const;
 import mariavv.fitnesspal.other.FrmFabric;
@@ -26,10 +32,13 @@ public class NavigatePresenter extends MvpPresenter<NavigateView> {
         router = FitnessPal.instance.getRouter();
         router.newRootScreen(Const.Screen.JOURNAL);
 
-//        if (isFirstRun) {
-//            initDB();
-//        }
+        if (!SharedDataRepository.isNotFirstRun()) {
+            initDb();
+            SharedDataRepository.saveNotFirstRun(true);
+        }
+    }
 
+    private void initDb() {
         //test data
         final Repo repo = Repo.getInstance();
         repo.insertFoodInHandbook(new Food("Омлет", 15, 18, 3));
@@ -47,22 +56,22 @@ public class NavigatePresenter extends MvpPresenter<NavigateView> {
         repo.insertFoodInHandbook(new Food("Хлеб", 7, 3, 44));
 
         //test data
-        /*repo.clearJournal();
+        repo.clearJournal();
         final Calendar calendar = Calendar.getInstance();
         calendar.clear();
         calendar.set(Calendar.DAY_OF_MONTH, 20);
         calendar.set(Calendar.MONTH, Calendar.FEBRUARY);
         calendar.set(Calendar.YEAR, 2019);
         Date date = calendar.getTime();
-        repo.insertDishInJournal(new Dish(date, Meal.BREAKFAST, 1, 150));
-        repo.insertDishInJournal(new Dish(date, Meal.BREAKFAST, 2, 250));
-        repo.insertDishInJournal(new Dish(date, Meal.LAUNCH, 5, 250));
+        repo.insertDishInJournal(new Dish(date, Meal.BREAKFAST.getValue(), 1, 150));
+        repo.insertDishInJournal(new Dish(date, Meal.BREAKFAST.getValue(), 2, 250));
+        repo.insertDishInJournal(new Dish(date, Meal.LAUNCH.getValue(), 5, 250));
         calendar.set(Calendar.DAY_OF_MONTH, 21);
         date = calendar.getTime();
-        repo.insertDishInJournal(new Dish(date, Meal.BREAKFAST, 3, 310));
+        repo.insertDishInJournal(new Dish(date, Meal.BREAKFAST.getValue(), 3, 310));
         calendar.set(Calendar.DAY_OF_MONTH, 22);
         date = calendar.getTime();
-        repo.insertDishInJournal(new Dish(date, Meal.BREAKFAST, 4, 50));*/
+        repo.insertDishInJournal(new Dish(date, Meal.BREAKFAST.getValue(), 4, 50));
     }
 
     void onNavigationJournalSelected() {
@@ -86,10 +95,13 @@ public class NavigatePresenter extends MvpPresenter<NavigateView> {
         final boolean needShowMenu = screenName.equals(Const.Screen.HANDBOOK)
                 || screenName.equals(Const.Screen.JOURNAL);
 
-        if (needShowMenu)
+        if (needShowMenu) {
             getViewState().showBottomMenu();
-        else
+            getViewState().showHomeAsUp(false);
+        } else {
             getViewState().hideBottomMenu();
+            getViewState().showHomeAsUp(true);
+        }
     }
 
     @NonNull

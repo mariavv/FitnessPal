@@ -28,7 +28,7 @@ public class MealListItem implements ItemType {
     @Override
     public void onBindViewHolder(RecyclerView.ViewHolder viewHolder) {
         ViewHolderFactory.ListItemViewHolder holder = (ViewHolderFactory.ListItemViewHolder) viewHolder;
-        holder.mealTitleTv.setText(meal.getValue(meal));
+        holder.mealTitleTv.setText(meal.getValue());
         holder.energyTv.setText(String.format("%s %s",
                 String.valueOf(energy),
                 FitnessPal.appContext.getString(R.string.energy_postfix)));

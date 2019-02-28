@@ -13,4 +13,6 @@ public interface NavigateView extends MvpView {
     void hideBottomMenu();
 
     void showBottomMenu();
+
+    void showHomeAsUp(boolean enabled);
 }

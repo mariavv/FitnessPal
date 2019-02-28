@@ -50,11 +50,11 @@ public class DayCardPresenter extends MvpPresenter<DayCardView> {
 
             final int weight = data.getInt(data.getColumnIndex(CName.WEIGHT));
 
-            if (Objects.equals(meal, Meal.getValue(Meal.BREAKFAST))) {
+            if (Objects.equals(meal, Meal.BREAKFAST.getValue())) {
                 addToMealList(food, weight, mealBreakfast, dishesBreakfast);
-            } else if (Objects.equals(meal, Meal.getValue(Meal.LAUNCH))) {
+            } else if (Objects.equals(meal, Meal.LAUNCH.getValue())) {
                 addToMealList(food, weight, mealLanch, dishesLanch);
-            } else if (Objects.equals(meal, Meal.getValue(Meal.DINNER))) {
+            } else if (Objects.equals(meal, Meal.DINNER.getValue())) {
                 addToMealList(food, weight, mealDinner, dishesDinner);
             }
 
