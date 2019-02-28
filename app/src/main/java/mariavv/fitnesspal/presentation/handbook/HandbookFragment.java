@@ -84,6 +84,6 @@ public class HandbookFragment extends MvpAppCompatFragment implements HandBookVi
 
     @Override
     public String getName() {
-        return Const.Screen.ADD_DISH;
+        return Const.Screen.HANDBOOK;
     }
 }

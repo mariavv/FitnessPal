@@ -84,7 +84,8 @@ public class NavigatePresenter extends MvpPresenter<NavigateView> {
 
     void changeFragment(FragmentManager fragmentManager, int containerId) {
         final String screenName = getFragmentName(fragmentManager, containerId);
-        final boolean needShowMenu = screenName.equals(Const.Screen.HANDBOOK) || screenName.equals(Const.Screen.JOURNAL);
+        final boolean needShowMenu = screenName.equals(Const.Screen.HANDBOOK)
+                || screenName.equals(Const.Screen.JOURNAL);
 
         if (needShowMenu)
             getViewState().showBottomMenu();
@@ -94,7 +95,7 @@ public class NavigatePresenter extends MvpPresenter<NavigateView> {
 
     private String getFragmentName(FragmentManager fragmentManager, int containerId) {
         final Fragment fragment = fragmentManager.findFragmentById(containerId);
-        if (fragment != null && fragment instanceof FrmFabric.IFragment) {
+        if (fragment instanceof FrmFabric.IFragment) {
             return ((FrmFabric.IFragment) fragment).getName();
         }
         return "";
