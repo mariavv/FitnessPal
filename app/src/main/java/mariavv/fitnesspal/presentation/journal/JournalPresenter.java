@@ -1,13 +1,9 @@
 package mariavv.fitnesspal.presentation.journal;
 
-import android.support.annotation.DrawableRes;
-import android.util.Log;
-
 import com.arellomobile.mvp.InjectViewState;
 import com.arellomobile.mvp.MvpPresenter;
 
 import mariavv.fitnesspal.FitnessPal;
-import mariavv.fitnesspal.R;
 import mariavv.fitnesspal.data.repository.Repo;
 import mariavv.fitnesspal.other.Const;
 import ru.terrakok.cicerone.Router;
@@ -22,17 +18,18 @@ public class JournalPresenter extends MvpPresenter<JournalView> {
     @Override
     protected void onFirstViewAttach() {
         super.onFirstViewAttach();
+
         router = FitnessPal.instance.getRouter();
-    }
 
-    void onCreateView(int currentPage, int pageCount) {
-        Log.d("test", currentPage + " " + getDate(currentPage));
-        configureDayNavigateBtns(currentPage == 0,
-                R.drawable.ic_chevron_left_black_inactive_24dp,
-                currentPage == pageCount - 1,
-                R.drawable.ic_chevron_right_black_inactive_24dp);
+        getViewState().setTitle();
 
-        getViewState().setDate(getDate(currentPage));
+        getViewState().setAdapterItems(Repo.getInstance().getJournalDates());
+
+        getViewState().setDate(getDate(0));
+        getViewState().setPrevDayDisable();
+        if (Repo.getInstance().getJournalDaysCount() == 1) {
+            getViewState().setNextDayDisable();
+        }
     }
 
     void onFabClick() {
@@ -50,27 +47,22 @@ public class JournalPresenter extends MvpPresenter<JournalView> {
     void onPrevDayClick(int currentPage, int pageCount) {
         moveToPosition(currentPage - 1);
 
-        configureDayNavigateBtns(currentPage == 1,
-                R.drawable.ic_chevron_left_black_inactive_24dp,
-                currentPage == pageCount - 1,
-                R.drawable.ic_chevron_right_black_24dp);
+        if (currentPage == 1) {
+            getViewState().setPrevDayDisable();
+        }
+        if (currentPage == pageCount - 1) {
+            getViewState().setNextDayEnable();
+        }
     }
 
     void onNextDayClick(int currentPage, int pageCount) {
         moveToPosition(currentPage + 1);
 
-        configureDayNavigateBtns(currentPage == 0,
-                R.drawable.ic_chevron_left_black_24dp,
-                currentPage == pageCount - 2,
-                R.drawable.ic_chevron_right_black_inactive_24dp);
-    }
-
-    private void configureDayNavigateBtns(boolean prevCondition, @DrawableRes int drawResLeftBtn,
-                                          boolean nextCondition, @DrawableRes int drawResRightBtn) {
-        if (prevCondition) {
-            getViewState().setPrevDayImageDrawable(drawResLeftBtn);
-        } else if (nextCondition) {
-            getViewState().setNextDayImageDrawable(drawResRightBtn);
+        if (currentPage == 0) {
+            getViewState().setPrevDayEnable();
+        }
+        if (currentPage == pageCount - 2) {
+            getViewState().setNextDayDisable();
         }
     }
 

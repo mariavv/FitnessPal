@@ -42,14 +42,7 @@ public class JournalFragment extends MvpAppCompatFragment implements JournalView
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         final View view = inflater.inflate(R.layout.fragment_journal, container, false);
 
-        final FragmentActivity activity = getActivity();
-        if (activity != null) {
-            activity.setTitle(R.string.journal_title);
-        }
-
         configureViews(view);
-
-        presenter.onCreateView(getCurrentPage(), getPageCount());
 
         return view;
     }
@@ -106,13 +99,36 @@ public class JournalFragment extends MvpAppCompatFragment implements JournalView
     }
 
     @Override
-    public void setPrevDayImageDrawable(int imageRes) {
-        prevDayIv.setImageDrawable(FitnessPal.appContext.getDrawable(imageRes));
+    public void setAdapterItems(long[] journalDates) {
+        pagerAdapter.setItems(journalDates);
     }
 
     @Override
-    public void setNextDayImageDrawable(int imageRes) {
-        nextDayIv.setImageDrawable(FitnessPal.appContext.getDrawable(imageRes));
+    public void setPrevDayEnable() {
+        prevDayIv.setImageDrawable(FitnessPal.appContext.getDrawable(R.drawable.ic_chevron_left_black_24dp));
+    }
+
+    @Override
+    public void setNextDayEnable() {
+        nextDayIv.setImageDrawable(FitnessPal.appContext.getDrawable(R.drawable.ic_chevron_right_black_24dp));
+    }
+
+    @Override
+    public void setPrevDayDisable() {
+        prevDayIv.setImageDrawable(FitnessPal.appContext.getDrawable(R.drawable.ic_chevron_left_black_inactive_24dp));
+    }
+
+    @Override
+    public void setNextDayDisable() {
+        nextDayIv.setImageDrawable(FitnessPal.appContext.getDrawable(R.drawable.ic_chevron_right_black_inactive_24dp));
+    }
+
+    @Override
+    public void setTitle() {
+        final FragmentActivity activity = getActivity();
+        if (activity != null) {
+            activity.setTitle(R.string.journal_title);
+        }
     }
 
     @Override

@@ -20,6 +20,7 @@ public class AddFoodPresenter extends MvpPresenter<AddFoodView> {
     protected void onFirstViewAttach() {
         super.onFirstViewAttach();
         router = FitnessPal.instance.getRouter();
+        getViewState().setTitle();
     }
 
     void onAddClick(Editable foodEdText, Editable proteinEdText, Editable fatEdText, Editable carbEdText) {

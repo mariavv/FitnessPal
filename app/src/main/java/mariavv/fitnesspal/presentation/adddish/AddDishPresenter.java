@@ -35,6 +35,8 @@ public class AddDishPresenter extends MvpPresenter<AddDishView> {
 
         router = FitnessPal.instance.getRouter();
 
+        getViewState().setTitle();
+
         final Calendar cal = new GregorianCalendar();
         final int cYear = cal.get(Calendar.YEAR);
         final int cMonth = cal.get(Calendar.MONTH);

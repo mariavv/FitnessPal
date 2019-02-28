@@ -42,14 +42,7 @@ public class AddFoodFragment extends MvpAppCompatFragment implements AddFoodView
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         view = inflater.inflate(R.layout.fragment_add_food, container, false);
-
-        FragmentActivity activity = getActivity();
-        if (activity != null) {
-            activity.setTitle(R.string.add_food_title);
-        }
-
         configureViews();
-
         return view;
     }
 
@@ -90,5 +83,13 @@ public class AddFoodFragment extends MvpAppCompatFragment implements AddFoodView
     @Override
     public String getName() {
         return Const.Screen.ADD_FOOD;
+    }
+
+    @Override
+    public void setTitle() {
+        FragmentActivity activity = getActivity();
+        if (activity != null) {
+            activity.setTitle(R.string.add_food_title);
+        }
     }
 }

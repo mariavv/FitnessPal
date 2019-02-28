@@ -31,6 +31,67 @@ public class NavigateActivity extends MvpAppCompatActivity implements NavigateVi
 
     private BottomNavigationView navigationMenu;
 
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_navigation);
+
+        navigationMenu = findViewById(R.id.navigation);
+        navigationMenu.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener);
+
+        getSupportFragmentManager().addOnBackStackChangedListener(new FragmentManager.OnBackStackChangedListener() {
+            @Override
+            public void onBackStackChanged() {
+                presenter.changeFragment(getSupportFragmentManager(), R.id.container);
+            }
+        });
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        presenter.onResume();
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        presenter.onPause();
+    }
+
+    @Override
+    public void setNavigator() {
+        FitnessPal.instance.getNavigatorHolder().setNavigator(navigator);
+    }
+
+    @Override
+    public void removeNavigator() {
+        FitnessPal.instance.getNavigatorHolder().removeNavigator();
+    }
+
+    @Override
+    public void hideBottomMenu() {
+        navigationMenu.setVisibility(View.GONE);
+    }
+
+    @Override
+    public void showBottomMenu() {
+        navigationMenu.setVisibility(View.VISIBLE);
+    }
+
+    @Override
+    public void onBackPressed() {
+        Fragment fragment = getSupportFragmentManager().findFragmentById(R.id.container);
+        if (fragment instanceof FrmFabric.IFragment) {
+            ((FrmFabric.IFragment) fragment).onBackPressed();
+        } else {
+            super.onBackPressed();
+        }
+
+        if (getSupportFragmentManager().getBackStackEntryCount() == 0)
+            super.onBackPressed();
+    }
+
     private BottomNavigationView.OnNavigationItemSelectedListener mOnNavigationItemSelectedListener
             = new BottomNavigationView.OnNavigationItemSelectedListener() {
 
@@ -77,66 +138,4 @@ public class NavigateActivity extends MvpAppCompatActivity implements NavigateVi
             finish();
         }
     };
-
-    @Override
-    protected void onResume() {
-        super.onResume();
-        presenter.onResume();
-    }
-
-    @Override
-    protected void onPause() {
-        super.onPause();
-        presenter.onPause();
-    }
-
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_navigation);
-
-        navigationMenu = findViewById(R.id.navigation);
-        navigationMenu.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener);
-
-        getSupportFragmentManager().addOnBackStackChangedListener(new FragmentManager.OnBackStackChangedListener() {
-            @Override
-            public void onBackStackChanged() {
-                presenter.changeFragment(getSupportFragmentManager(), R.id.container);
-            }
-        });
-    }
-
-    @Override
-    public void setNavigator() {
-        FitnessPal.instance.getNavigatorHolder().setNavigator(navigator);
-    }
-
-    @Override
-    public void removeNavigator() {
-        FitnessPal.instance.getNavigatorHolder().removeNavigator();
-    }
-
-    @Override
-    public void hideBottomMenu() {
-        navigationMenu.setVisibility(View.GONE);
-    }
-
-    @Override
-    public void showBottomMenu() {
-        navigationMenu.setVisibility(View.VISIBLE);
-    }
-
-    @Override
-    public void onBackPressed() {
-        Fragment fragment = getSupportFragmentManager().findFragmentById(R.id.container);
-        if (fragment instanceof FrmFabric.IFragment) {
-            ((FrmFabric.IFragment) fragment).onBackPressed();
-        } else {
-            super.onBackPressed();
-        }
-
-        if (getSupportFragmentManager().getBackStackEntryCount() == 0)
-            super.onBackPressed();
-    }
-
 }

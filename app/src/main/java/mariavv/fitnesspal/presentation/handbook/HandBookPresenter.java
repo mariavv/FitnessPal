@@ -1,7 +1,5 @@
 package mariavv.fitnesspal.presentation.handbook;
 
-import android.database.Cursor;
-
 import com.arellomobile.mvp.InjectViewState;
 import com.arellomobile.mvp.MvpPresenter;
 
@@ -18,11 +16,9 @@ public class HandBookPresenter extends MvpPresenter<HandBookView> {
     @Override
     protected void onFirstViewAttach() {
         super.onFirstViewAttach();
-
         router = FitnessPal.instance.getRouter();
-
-        final Cursor c = Repo.getInstance().getFoodsFromHandbook();
-        getViewState().updateFeed(c);
+        getViewState().setTitle();
+        getViewState().updateFeed(Repo.getInstance().getFoodsFromHandbook());
     }
 
     void onFabClick() {

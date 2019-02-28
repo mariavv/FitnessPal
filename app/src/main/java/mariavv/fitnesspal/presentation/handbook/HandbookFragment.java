@@ -33,20 +33,21 @@ public class HandbookFragment extends MvpAppCompatFragment implements HandBookVi
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         view = inflater.inflate(R.layout.fragment_hand_book, container, false);
-
-        FragmentActivity activity = getActivity();
-        if (activity != null) {
-            activity.setTitle(R.string.handbook_title);
-        }
-
         configureViews();
-
         return view;
     }
 
     @Override
     public void updateFeed(Cursor c) {
         adapter.updateItems(c);
+    }
+
+    @Override
+    public void setTitle() {
+        FragmentActivity activity = getActivity();
+        if (activity != null) {
+            activity.setTitle(R.string.handbook_title);
+        }
     }
 
     @Override

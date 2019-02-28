@@ -20,4 +20,6 @@ interface AddDishView extends MvpView {
     void configureMealsSpinner(String[] meals);
 
     void addBtnCallOnClick();
+
+    void setTitle();
 }

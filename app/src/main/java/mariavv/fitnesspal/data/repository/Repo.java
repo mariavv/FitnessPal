@@ -81,4 +81,15 @@ public class Repo {
     public long addFood(Food food) {
         return db.insertFoodInHandbook(food);
     }
+
+    public long[] getJournalDates() {
+        final Cursor c = db.getJournalDates();
+        final long[] dates = new long[c.getCount()];
+        int i = 0;
+        while (c.moveToNext()) {
+            dates[i++] = c.getLong(0);
+        }
+        c.close();
+        return dates;
+    }
 }

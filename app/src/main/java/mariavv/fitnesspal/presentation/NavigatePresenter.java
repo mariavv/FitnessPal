@@ -1,5 +1,7 @@
 package mariavv.fitnesspal.presentation;
 
+import android.support.annotation.IdRes;
+import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 
@@ -28,24 +30,21 @@ public class NavigatePresenter extends MvpPresenter<NavigateView> {
 //            initDB();
 //        }
 
-        try {
-            //test data
-            final Repo repo = Repo.getInstance();
-            repo.insertFoodInHandbook(new Food("Омлет", 15, 18, 3));
-            repo.insertFoodInHandbook(new Food("Кофе с молоком", 1, 1, 3));
-            repo.insertFoodInHandbook(new Food("Мясной салат", 5, 5, 10));
-            repo.insertFoodInHandbook(new Food("Салат овощной", 1, 2, 5));
-            repo.insertFoodInHandbook(new Food("Котлеты", 15, 14, 8));
-            repo.insertFoodInHandbook(new Food("Пюре", 1, 13, 18));
-            repo.insertFoodInHandbook(new Food("Сырники", 5, 15, 25));
-            repo.insertFoodInHandbook(new Food("Малиновый чизкейк", 5, 15, 40));
-            repo.insertFoodInHandbook(new Food("Макароны с сыром", 3, 9, 22));
-            repo.insertFoodInHandbook(new Food("Гуляш", 18, 11, 2));
-            repo.insertFoodInHandbook(new Food("Творог 2%", 18, 2, 0));
-            repo.insertFoodInHandbook(new Food("Фрукты", 1, 1, 10));
-            repo.insertFoodInHandbook(new Food("Хлеб", 7, 3, 44));
-        } catch (Exception e) {
-        }
+        //test data
+        final Repo repo = Repo.getInstance();
+        repo.insertFoodInHandbook(new Food("Омлет", 15, 18, 3));
+        repo.insertFoodInHandbook(new Food("Кофе с молоком", 1, 1, 3));
+        repo.insertFoodInHandbook(new Food("Мясной салат", 5, 5, 10));
+        repo.insertFoodInHandbook(new Food("Салат овощной", 1, 2, 5));
+        repo.insertFoodInHandbook(new Food("Котлеты", 15, 14, 8));
+        repo.insertFoodInHandbook(new Food("Пюре", 1, 13, 18));
+        repo.insertFoodInHandbook(new Food("Сырники", 5, 15, 25));
+        repo.insertFoodInHandbook(new Food("Малиновый чизкейк", 5, 15, 40));
+        repo.insertFoodInHandbook(new Food("Макароны с сыром", 3, 9, 22));
+        repo.insertFoodInHandbook(new Food("Гуляш", 18, 11, 2));
+        repo.insertFoodInHandbook(new Food("Творог 2%", 18, 2, 0));
+        repo.insertFoodInHandbook(new Food("Фрукты", 1, 1, 10));
+        repo.insertFoodInHandbook(new Food("Хлеб", 7, 3, 44));
 
         //test data
         /*repo.clearJournal();
@@ -82,7 +81,7 @@ public class NavigatePresenter extends MvpPresenter<NavigateView> {
         getViewState().removeNavigator();
     }
 
-    void changeFragment(FragmentManager fragmentManager, int containerId) {
+    void changeFragment(FragmentManager fragmentManager, @IdRes int containerId) {
         final String screenName = getFragmentName(fragmentManager, containerId);
         final boolean needShowMenu = screenName.equals(Const.Screen.HANDBOOK)
                 || screenName.equals(Const.Screen.JOURNAL);
@@ -93,7 +92,8 @@ public class NavigatePresenter extends MvpPresenter<NavigateView> {
             getViewState().hideBottomMenu();
     }
 
-    private String getFragmentName(FragmentManager fragmentManager, int containerId) {
+    @NonNull
+    private String getFragmentName(FragmentManager fragmentManager, @IdRes int containerId) {
         final Fragment fragment = fragmentManager.findFragmentById(containerId);
         if (fragment instanceof FrmFabric.IFragment) {
             return ((FrmFabric.IFragment) fragment).getName();

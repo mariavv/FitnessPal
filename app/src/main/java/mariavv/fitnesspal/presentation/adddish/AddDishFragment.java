@@ -47,14 +47,7 @@ public class AddDishFragment extends MvpAppCompatFragment implements AddDishView
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         view = inflater.inflate(R.layout.fragment_add_dish, container, false);
-
-        final FragmentActivity activity = getActivity();
-        if (activity != null) {
-            activity.setTitle(R.string.add_dish_title);
-        }
-
         configureViews();
-
         return view;
     }
 
@@ -148,6 +141,14 @@ public class AddDishFragment extends MvpAppCompatFragment implements AddDishView
     @Override
     public void addBtnCallOnClick() {
         addBtn.callOnClick();
+    }
+
+    @Override
+    public void setTitle() {
+        final FragmentActivity activity = getActivity();
+        if (activity != null) {
+            activity.setTitle(R.string.add_dish_title);
+        }
     }
 
     @Override
