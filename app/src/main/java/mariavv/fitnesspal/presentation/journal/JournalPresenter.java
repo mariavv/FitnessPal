@@ -45,6 +45,10 @@ public class JournalPresenter extends MvpPresenter<JournalView> {
     }
 
     void onPrevDayClick(int currentPage, int pageCount) {
+        if (currentPage < 1) {
+            return;
+        }
+
         moveToPosition(currentPage - 1);
 
         if (currentPage == 1) {
@@ -56,6 +60,10 @@ public class JournalPresenter extends MvpPresenter<JournalView> {
     }
 
     void onNextDayClick(int currentPage, int pageCount) {
+        if (currentPage + 1 >= pageCount) {
+            return;
+        }
+
         moveToPosition(currentPage + 1);
 
         if (currentPage == 0) {

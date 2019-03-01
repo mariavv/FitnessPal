@@ -1,5 +1,6 @@
 package mariavv.fitnesspal.presentation;
 
+import android.annotation.SuppressLint;
 import android.support.annotation.IdRes;
 import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
@@ -8,15 +9,22 @@ import android.support.v4.app.FragmentManager;
 import com.arellomobile.mvp.InjectViewState;
 import com.arellomobile.mvp.MvpPresenter;
 
-import java.util.Calendar;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.Date;
 
+import io.reactivex.Observable;
+import io.reactivex.android.schedulers.AndroidSchedulers;
+import io.reactivex.functions.Function;
+import io.reactivex.schedulers.Schedulers;
 import mariavv.fitnesspal.FitnessPal;
-import mariavv.fitnesspal.data.db.Meal;
+import mariavv.fitnesspal.data.repository.AssetsRepository;
 import mariavv.fitnesspal.data.repository.Repo;
 import mariavv.fitnesspal.data.repository.SharedDataRepository;
 import mariavv.fitnesspal.domain.Dish;
+import mariavv.fitnesspal.domain.Dish2;
 import mariavv.fitnesspal.domain.Food;
+import mariavv.fitnesspal.domain.TestData;
 import mariavv.fitnesspal.other.Const;
 import mariavv.fitnesspal.other.FrmFabric;
 import ru.terrakok.cicerone.Router;
@@ -30,48 +38,13 @@ public class NavigatePresenter extends MvpPresenter<NavigateView> {
     protected void onFirstViewAttach() {
         super.onFirstViewAttach();
         router = FitnessPal.instance.getRouter();
-        router.newRootScreen(Const.Screen.JOURNAL);
 
         if (!SharedDataRepository.isNotFirstRun()) {
             initDb();
             SharedDataRepository.saveNotFirstRun(true);
+        } else {
+            router.newRootScreen(Const.Screen.JOURNAL);
         }
-    }
-
-    private void initDb() {
-        //test data
-        final Repo repo = Repo.getInstance();
-        repo.insertFoodInHandbook(new Food("Омлет", 15, 18, 3));
-        repo.insertFoodInHandbook(new Food("Кофе с молоком", 1, 1, 3));
-        repo.insertFoodInHandbook(new Food("Мясной салат", 5, 5, 10));
-        repo.insertFoodInHandbook(new Food("Салат овощной", 1, 2, 5));
-        repo.insertFoodInHandbook(new Food("Котлеты", 15, 14, 8));
-        repo.insertFoodInHandbook(new Food("Пюре", 1, 13, 18));
-        repo.insertFoodInHandbook(new Food("Сырники", 5, 15, 25));
-        repo.insertFoodInHandbook(new Food("Малиновый чизкейк", 5, 15, 40));
-        repo.insertFoodInHandbook(new Food("Макароны с сыром", 3, 9, 22));
-        repo.insertFoodInHandbook(new Food("Гуляш", 18, 11, 2));
-        repo.insertFoodInHandbook(new Food("Творог 2%", 18, 2, 0));
-        repo.insertFoodInHandbook(new Food("Фрукты", 1, 1, 10));
-        repo.insertFoodInHandbook(new Food("Хлеб", 7, 3, 44));
-
-        //test data
-        repo.clearJournal();
-        final Calendar calendar = Calendar.getInstance();
-        calendar.clear();
-        calendar.set(Calendar.DAY_OF_MONTH, 20);
-        calendar.set(Calendar.MONTH, Calendar.FEBRUARY);
-        calendar.set(Calendar.YEAR, 2019);
-        Date date = calendar.getTime();
-        repo.insertDishInJournal(new Dish(date, Meal.BREAKFAST.getValue(), 1, 150));
-        repo.insertDishInJournal(new Dish(date, Meal.BREAKFAST.getValue(), 2, 250));
-        repo.insertDishInJournal(new Dish(date, Meal.LAUNCH.getValue(), 5, 250));
-        calendar.set(Calendar.DAY_OF_MONTH, 21);
-        date = calendar.getTime();
-        repo.insertDishInJournal(new Dish(date, Meal.BREAKFAST.getValue(), 3, 310));
-        calendar.set(Calendar.DAY_OF_MONTH, 22);
-        date = calendar.getTime();
-        repo.insertDishInJournal(new Dish(date, Meal.BREAKFAST.getValue(), 4, 50));
     }
 
     void onNavigationJournalSelected() {
@@ -111,5 +84,46 @@ public class NavigatePresenter extends MvpPresenter<NavigateView> {
             return ((FrmFabric.IFragment) fragment).getName();
         }
         return "";
+    }
+
+    @SuppressLint("CheckResult")
+    private void initDb() {
+        //test data
+        AssetsRepository repo = new AssetsRepository();
+
+        //todo map
+        Observable.fromCallable(repo.getTestData(FitnessPal.instance.getAssets()))
+                .map(new Function<TestData, TestData>() {
+                    @Override
+                    public TestData apply(TestData testData) throws Exception {
+                        return testData;
+                    }
+                }).subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(this::onGetTestData);
+    }
+
+    private void onGetTestData(TestData data) {
+        final Repo repo = Repo.getInstance();
+
+        for (Food food : data.foods) {
+            repo.insertFoodInHandbook(food);
+        }
+
+        //todo dish2
+        for (Dish2 dish : data.dishes) {
+            //todo
+            SimpleDateFormat format = new SimpleDateFormat();
+            format.applyPattern("dd.MM.yyyy");
+            Date docDate = new Date();
+            try {
+                docDate = format.parse(dish.date);
+            } catch (ParseException e) {
+                e.printStackTrace();
+            }
+            repo.insertDishInJournal(new Dish(docDate, dish.meal, dish.foodId, dish.weight));
+        }
+
+        router.newRootScreen(Const.Screen.JOURNAL);
     }
 }

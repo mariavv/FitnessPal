@@ -4,7 +4,6 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.BottomNavigationView;
 import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentManager;
 import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
@@ -39,12 +38,8 @@ public class NavigateActivity extends MvpAppCompatActivity implements NavigateVi
         navigationMenu = findViewById(R.id.navigation);
         navigationMenu.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener);
 
-        getSupportFragmentManager().addOnBackStackChangedListener(new FragmentManager.OnBackStackChangedListener() {
-            @Override
-            public void onBackStackChanged() {
-                presenter.changeFragment(getSupportFragmentManager(), R.id.container);
-            }
-        });
+        getSupportFragmentManager()
+                .addOnBackStackChangedListener(() -> presenter.changeFragment(getSupportFragmentManager(), R.id.container));
     }
 
     @Override

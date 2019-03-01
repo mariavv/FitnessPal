@@ -46,7 +46,7 @@ public class Repo {
 
     public long getDateByIndex(int i) {
         final Cursor c = db.getJournalDates();
-        if (i < c.getCount()) {
+        if (i > -1 && i < c.getCount()) {
             c.moveToPosition(i);
             final long date = c.getLong(0);
             c.close();

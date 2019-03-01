@@ -13,4 +13,3 @@ interface HandBookView extends MvpView {
 
     void setTitle();
 }
-//import com.arellomobile.mvp.viewstate.strategy.SingleStateStrategy;
