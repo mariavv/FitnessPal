@@ -7,7 +7,7 @@
     tools:context=".presentation.journal.JournalFragment">
 
     <TextView
-        android:id="@+id/date"
+        android:id="@+id/date_tv"
         android:layout_width="match_parent"
         android:layout_height="@dimen/day_card_header_height"
         android:background="@color/colorDayCardHat"

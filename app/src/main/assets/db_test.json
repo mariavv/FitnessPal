@@ -1,0 +1,108 @@
+{
+  "foods": [
+    {
+      "name": "Омлет",
+      "protein": 15,
+      "fat": 18,
+      "carb": 3
+    },
+    {
+      "name": "Кофе с молоком",
+      "protein": 1,
+      "fat": 1,
+      "carb": 3
+    },
+    {
+      "name": "Мясной салат",
+      "protein": 5,
+      "fat": 5,
+      "carb": 10
+    },
+    {
+      "name": "Салат овощной",
+      "protein": 1,
+      "fat": 2,
+      "carb": 5
+    },
+    {
+      "name": "Котлеты",
+      "protein": 15,
+      "fat": 14,
+      "carb": 8
+    },
+    {
+      "name": "Пюре",
+      "protein": 1,
+      "fat": 13,
+      "carb": 18
+    },
+    {
+      "name": "Сырники",
+      "protein": 5,
+      "fat": 15,
+      "carb": 25
+    },
+    {
+      "name": "Малиновый чизкейк",
+      "protein": 5,
+      "fat": 15,
+      "carb": 40
+    },
+    {
+      "name": "Макароны с сыром",
+      "protein": 3,
+      "fat": 9,
+      "carb": 22
+    },
+    {
+      "name": "Гуляш",
+      "protein": 18,
+      "fat": 11,
+      "carb": 2
+    },
+    {
+      "name": "Творог 2%",
+      "protein": 18,
+      "fat": 2,
+      "carb": 0
+    },
+    {
+      "name": "Фрукты",
+      "protein": 1,
+      "fat": 1,
+      "carb": 10
+    },
+    {
+      "name": "Хлеб",
+      "protein": 7,
+      "fat": 3,
+      "carb": 44
+    }
+  ],
+  "dishes": [
+    {
+      "date": "01.03.2019",
+      "meal": "Завтрак",
+      "food_id": 1,
+      "weight": 150
+    },
+    {
+      "date": "01.03.2019",
+      "meal": "Завтрак",
+      "food_id": 2,
+      "weight": 250
+    },
+    {
+      "date": "01.03.2019",
+      "meal": "Обед",
+      "food_id": 3,
+      "weight": 210
+    },
+    {
+      "date": "02.03.2019",
+      "meal": "Обед",
+      "food_id": 3,
+      "weight": 210
+    }
+  ]
+}
