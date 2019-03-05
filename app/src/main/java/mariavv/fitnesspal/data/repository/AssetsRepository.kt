@@ -2,7 +2,7 @@ package mariavv.fitnesspal.data.repository
 
 import android.content.res.AssetManager
 import com.google.gson.GsonBuilder
-import mariavv.fitnesspal.domain.TestData
+import mariavv.fitnesspal.domain.data.TestData
 import java.io.IOException
 import java.io.InputStream
 import java.util.concurrent.Callable
@@ -10,31 +10,14 @@ import java.util.concurrent.Callable
 class AssetsRepository {
 
     fun getTestData(assetManager: AssetManager): Callable<TestData> {
-        val inputStream = openAssert(assetManager)
-
-        if (inputStream != null) {
-
-            val gson = GsonBuilder().create()
-            //val json = loadJSONFromAsset(inputStream)
-            //val data = gson.fromJson<TestData>(json, TestData::class.java)
-
-            return Callable { return@Callable gson.fromJson<TestData>(loadJSONFromAsset(inputStream), TestData::class.java) }
-
-            /*final Dish2[] dish2s = gson.fromJson(json, Dish2[].class);
-            Callable<List<Dish2>> clb = new Callable<List<Dish2>>() {
-                @Override
-                public List<Dish2> call() throws Exception {
-                    return Arrays.asList(dish2s);
-                }
-            };*/
-
-            /* чет не работает
-            return new GsonBuilder().create()
-                    .fromJson(loadJSONFromAsset(inputStream), new TypeToken<TestData>() {
-                    }.getType());*/
+        return Callable {
+            val inputStream = openAssert(assetManager)
+            if (inputStream != null) {
+                val json = loadJSONFromAsset(inputStream)
+                return@Callable GsonBuilder().create().fromJson(json, TestData::class.java)
+            }
+            TestData()
         }
-
-        return Callable { return@Callable TestData() }
     }
 
     private fun loadJSONFromAsset(inputStream: InputStream): String? {
@@ -43,7 +26,7 @@ class AssetsRepository {
             val buffer = ByteArray(size)
             inputStream.read(buffer)
             inputStream.close()
-            String(buffer/*, "UTF-8"*/)
+            String(buffer)
         } catch (ex: IOException) {
             ex.printStackTrace()
             null

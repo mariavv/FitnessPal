@@ -3,14 +3,13 @@ package mariavv.fitnesspal.data.repository
 import android.content.ContentValues
 import android.database.Cursor
 import android.database.sqlite.SQLiteDatabase
-
 import mariavv.fitnesspal.data.db.CName
 import mariavv.fitnesspal.data.db.SQLiteHelper
 import mariavv.fitnesspal.data.db.TName
-import mariavv.fitnesspal.domain.Dish
-import mariavv.fitnesspal.domain.Food
+import mariavv.fitnesspal.domain.data.Dish
+import mariavv.fitnesspal.domain.data.Food
 
-class DbRepository internal constructor() {
+class DbRepository /*internal constructor()*/ {
     private val sqliteHelper: SQLiteHelper
 
     private val sqLiteDatabase: SQLiteDatabase
@@ -112,5 +111,10 @@ class DbRepository internal constructor() {
         val id = c.getInt(0)
         c.close()
         return id
+    }
+
+    companion object {
+        val instance: DbRepository
+            get() = DbRepository()
     }
 }

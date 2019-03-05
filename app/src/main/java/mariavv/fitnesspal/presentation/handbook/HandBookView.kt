@@ -3,9 +3,10 @@ package mariavv.fitnesspal.presentation.handbook
 import android.database.Cursor
 import android.support.annotation.StringRes
 import com.arellomobile.mvp.MvpView
+import com.arellomobile.mvp.viewstate.strategy.AddToEndSingleStrategy
+import com.arellomobile.mvp.viewstate.strategy.StateStrategyType
 
-//todo
-//@StateStrategyType(AddToEndSingleStrategy::class)
+@StateStrategyType(AddToEndSingleStrategy::class)
 interface HandBookView : MvpView {
 
     fun updateFeed(c: Cursor)

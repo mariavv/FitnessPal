@@ -10,10 +10,10 @@ import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
 import mariavv.fitnesspal.App
 import mariavv.fitnesspal.data.repository.AssetsRepository
-import mariavv.fitnesspal.data.repository.Repo
 import mariavv.fitnesspal.data.repository.SharedDataRepository
-import mariavv.fitnesspal.domain.Dish
-import mariavv.fitnesspal.domain.TestData
+import mariavv.fitnesspal.domain.data.Dish
+import mariavv.fitnesspal.domain.data.TestData
+import mariavv.fitnesspal.domain.interact.DbInteractor
 import mariavv.fitnesspal.other.Const
 import mariavv.fitnesspal.other.FrmFabric
 import ru.terrakok.cicerone.Router
@@ -77,20 +77,18 @@ class NavigatePresenter : MvpPresenter<NavigateView>() {
     @SuppressLint("CheckResult")
     private fun initDb() {
         //test data
-        val repo = AssetsRepository()
-
         //todo map
-        Observable.fromCallable(repo.getTestData(App.context.assets))
+        Observable.fromCallable(AssetsRepository().getTestData(App.context.assets))
                 .map { testData -> testData }.subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe { this.onGetTestData(it) }
     }
 
     private fun onGetTestData(data: TestData) {
-        val repo = Repo.instance
+        val repo = DbInteractor.instance
 
         data.foods?.forEach { food ->
-            repo.insertFoodInHandbook(food)
+            repo.addFood(food)
         }
 
         //todo dish2

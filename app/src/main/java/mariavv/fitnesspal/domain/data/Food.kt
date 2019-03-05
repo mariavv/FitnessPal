@@ -1,4 +1,4 @@
-package mariavv.fitnesspal.domain
+package mariavv.fitnesspal.domain.data
 
 class Food(val name: String, val protein: Int, val fat: Int, val carb: Int) {
 
@@ -13,7 +13,6 @@ class Food(val name: String, val protein: Int, val fat: Int, val carb: Int) {
     }
 
     companion object {
-
         private val PER_WEIGHT = 100
         private val PROTEIN_ENERGY = 4
         private val FAT_ENERGY = 9

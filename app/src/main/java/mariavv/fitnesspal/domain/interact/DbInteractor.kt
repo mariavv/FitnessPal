@@ -1,13 +1,15 @@
-package mariavv.fitnesspal.data.repository
+package mariavv.fitnesspal.domain.interact
 
+import android.annotation.SuppressLint
 import android.database.Cursor
-import mariavv.fitnesspal.domain.Dish
-import mariavv.fitnesspal.domain.Food
+import mariavv.fitnesspal.data.repository.DbRepository
+import mariavv.fitnesspal.domain.data.Dish
+import mariavv.fitnesspal.domain.data.Food
 import java.util.*
 
-class Repo /*private constructor()*/ {
+class DbInteractor {
 
-    private val db: DbRepository
+    private val db: DbRepository = DbRepository()
 
     val foodsFromHandbook: Cursor
         get() = db.foodsFromHandbook
@@ -36,28 +38,20 @@ class Repo /*private constructor()*/ {
             return dates
         }
 
-    init {
-        db = DbRepository()
-    }
-
     fun getJournal(date: Long): Cursor {
         return db.getJournal(date)
     }
 
-    fun insertFoodInHandbook(food: Food) {
-        db.insertFoodInHandbook(food)
-    }
-
     fun getDateByIndex(i: Int): Long {
         val c = db.journalDates
-        if (i > -1 && i < c.count) {
+        return if (i > -1 && i < c.count) {
             c.moveToPosition(i)
             val date = c.getLong(0)
             c.close()
-            return date
+            date
         } else {
             c.close()
-            return Date().time
+            Date().time
         }
     }
 
@@ -79,22 +73,15 @@ class Repo /*private constructor()*/ {
         return -1
     }
 
+    @SuppressLint("CheckResult")
     fun addFood(food: Food): Long {
-        return db.insertFoodInHandbook(food)
+        val id = db.insertFoodInHandbook(food)
+//todo listener-HandBook.refrash
+        return id
     }
 
     companion object {
-
-        val instance: Repo
-            get() = Repo()
-
-
-        /*@Synchronized
-        fun getInstance(): Repo {
-            if (instance == null) {
-                instance = Repo()
-            }
-            return instance
-        }*/
+        val instance: DbInteractor
+            get() = DbInteractor()
     }
 }

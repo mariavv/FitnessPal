@@ -5,8 +5,8 @@ import com.arellomobile.mvp.InjectViewState
 import com.arellomobile.mvp.MvpPresenter
 import mariavv.fitnesspal.App
 import mariavv.fitnesspal.R
-import mariavv.fitnesspal.data.repository.Repo
-import mariavv.fitnesspal.domain.Food
+import mariavv.fitnesspal.domain.data.Food
+import mariavv.fitnesspal.domain.interact.DbInteractor
 
 @InjectViewState
 class AddFoodPresenter : MvpPresenter<AddFoodView>() {
@@ -32,7 +32,7 @@ class AddFoodPresenter : MvpPresenter<AddFoodView>() {
         }
 
         val food = Food(foodEdText.toString(), protein, fat, carb)
-        if (Repo.instance.addFood(food) > -1) {
+        if (DbInteractor.instance.addFood(food) > -1) {
             App.getRouter().exitWithMessage(App.getAppString(R.string.add_message))
         } else {
             App.getRouter().showSystemMessage(App.getAppString(R.string.add_fail_message))
