@@ -9,7 +9,7 @@ import mariavv.fitnesspal.domain.data.Food
 import mariavv.fitnesspal.domain.interact.DbInteractor
 
 @InjectViewState
-class AddFoodPresenter : MvpPresenter<AddFoodView>() {
+class AddFoodPresenter : MvpPresenter<AddFoodView>(), DbInteractor.FoodsListener {
 
     override fun onFirstViewAttach() {
         super.onFirstViewAttach()
@@ -32,14 +32,18 @@ class AddFoodPresenter : MvpPresenter<AddFoodView>() {
         }
 
         val food = Food(foodEdText.toString(), protein, fat, carb)
-        if (DbInteractor.instance.addFood(food) > -1) {
-            App.getRouter().exitWithMessage(App.getAppString(R.string.add_message))
-        } else {
-            App.getRouter().showSystemMessage(App.getAppString(R.string.add_fail_message))
-        }
+        DbInteractor.instance.addFood(food, this)
     }
 
     internal fun onBackPressed() {
         App.getRouter().exit()
+    }
+
+    override fun onAddFood(id: Long) {
+        if (id > -1) {
+            App.getRouter().exitWithMessage(App.getAppString(R.string.add_message))
+        } else {
+            App.getRouter().showSystemMessage(App.getAppString(R.string.add_fail_message))
+        }
     }
 }

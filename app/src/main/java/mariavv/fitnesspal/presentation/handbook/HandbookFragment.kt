@@ -34,6 +34,11 @@ class HandbookFragment : BaseFragment(), HandBookView, FrmFabric.IFragment {
         configureViews()
     }
 
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        presenter.onCreate()
+    }
+
     override fun updateFeed(c: Cursor) {
         adapter.updateItems(c)
     }

@@ -9,7 +9,7 @@ import mariavv.fitnesspal.data.db.TName
 import mariavv.fitnesspal.domain.data.Dish
 import mariavv.fitnesspal.domain.data.Food
 
-class DbRepository /*internal constructor()*/ {
+class DbRepository {
     private val sqliteHelper: SQLiteHelper
 
     private val sqLiteDatabase: SQLiteDatabase
@@ -113,8 +113,13 @@ class DbRepository /*internal constructor()*/ {
         return id
     }
 
+    private object Holder {
+        val INSTANCE = DbRepository()
+    }
+
     companion object {
-        val instance: DbRepository
-            get() = DbRepository()
+        val instance: DbRepository by lazy {
+            Holder.INSTANCE
+        }
     }
 }
