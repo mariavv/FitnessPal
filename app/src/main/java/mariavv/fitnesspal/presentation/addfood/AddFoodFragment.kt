@@ -27,10 +27,6 @@ class AddFoodFragment : MvpAppCompatFragment(), AddFoodView, FrmFabric.IFragment
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        configureViews()
-    }
-
-    private fun configureViews() {
         addBtn.setOnClickListener { presenter.onAddClick(foodEd.text, proteinEd.text, fatEd.text, carbEd.text) }
 
         carbEd.setOnEditorActionListener { _, actionId, _ ->

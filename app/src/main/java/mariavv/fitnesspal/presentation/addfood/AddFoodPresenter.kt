@@ -32,7 +32,7 @@ class AddFoodPresenter : MvpPresenter<AddFoodView>(), DbInteractor.FoodsListener
         }
 
         val food = Food(foodEdText.toString(), protein, fat, carb)
-        DbInteractor.instance.addFood(food, this)
+        DbInteractor().addFood(food, this)
     }
 
     internal fun onBackPressed() {

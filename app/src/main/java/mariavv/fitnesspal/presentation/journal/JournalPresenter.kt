@@ -7,6 +7,11 @@ import mariavv.fitnesspal.R
 import mariavv.fitnesspal.domain.interact.DbInteractor
 import mariavv.fitnesspal.other.Const
 import mariavv.fitnesspal.other.Utils.formatDate
+import mariavv.fitnesspal.other.eventbus.AddDishEvent
+import mariavv.fitnesspal.other.eventbus.Status
+import org.greenrobot.eventbus.EventBus
+import org.greenrobot.eventbus.Subscribe
+import org.greenrobot.eventbus.ThreadMode
 
 @InjectViewState
 class JournalPresenter : MvpPresenter<JournalView>() {
@@ -16,11 +21,11 @@ class JournalPresenter : MvpPresenter<JournalView>() {
 
         viewState.setTitle(R.string.journal_title)
 
-        viewState.setAdapterItems(DbInteractor.instance.journalDates)
+        viewState.setAdapterItems(DbInteractor().journalDates)
 
         viewState.setDate(getDate(0))
         viewState.setPrevDayDisable()
-        if (DbInteractor.instance.journalDaysCount == 1) {
+        if (DbInteractor().journalDaysCount == 1) {
             viewState.setNextDayDisable()
         }
     }
@@ -34,7 +39,7 @@ class JournalPresenter : MvpPresenter<JournalView>() {
     }
 
     private fun getDate(position: Int): String {
-        return formatDate(DbInteractor.instance.getDateByIndex(position))
+        return formatDate(DbInteractor().getDateByIndex(position))
     }
 
     internal fun onPrevDayClick(currentPage: Int, pageCount: Int) {
@@ -69,5 +74,24 @@ class JournalPresenter : MvpPresenter<JournalView>() {
 
     fun onBackPressed() {
         App.getRouter().exit()
+    }
+
+    fun onStart() {
+        if (!EventBus.getDefault().isRegistered(this)) {
+            EventBus.getDefault().register(this)
+        }
+    }
+
+    override fun onDestroy() {
+        if (EventBus.getDefault().isRegistered(this)) {
+            EventBus.getDefault().unregister(this)
+        }
+    }
+
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    fun onEvent(event: AddDishEvent) {
+        if (event.status == Status.SUCCESS) {
+            //viewState.setAdapterItems(DbInteractor.instance.journalDates)
+        }
     }
 }

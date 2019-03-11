@@ -18,7 +18,7 @@ class HandBookPresenter : MvpPresenter<HandBookView>() {
     override fun onFirstViewAttach() {
         super.onFirstViewAttach()
         viewState.setTitle(R.string.handbook_title)
-        viewState.updateFeed(DbInteractor.instance.foodsFromHandbook)
+        viewState.updateFeed(DbInteractor().foodsFromHandbook)
     }
 
     internal fun onFabClick() {
@@ -32,12 +32,14 @@ class HandBookPresenter : MvpPresenter<HandBookView>() {
     @Subscribe(threadMode = ThreadMode.MAIN)
     fun onAddFoodEvent(event: AddFoodEvent) {
         if (event.status == Status.SUCCESS) {
-            viewState.updateFeed(DbInteractor.instance.foodsFromHandbook)
+            viewState.updateFeed(DbInteractor().foodsFromHandbook)
         }
     }
 
-    fun onCreate() {
-        EventBus.getDefault().register(this)
+    fun onStart() {
+        if (!EventBus.getDefault().isRegistered(this)) {
+            EventBus.getDefault().register(this)
+        }
     }
 
     override fun onDestroy() {

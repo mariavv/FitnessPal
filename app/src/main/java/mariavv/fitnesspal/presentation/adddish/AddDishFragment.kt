@@ -32,10 +32,6 @@ class AddDishFragment : BaseFragment(), AddDishView, FrmFabric.IFragment, DatePi
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        configureViews()
-    }
-
-    private fun configureViews() {
         calendarIv.setOnClickListener { presenter.onDateChangeClick() }
         addBtn.setOnClickListener { presenter.onAddClick(fatEd.editableText, carbEd.text) }
         carbEd.setOnEditorActionListener { _, actionId, _ -> presenter.onEditorAction(actionId) }

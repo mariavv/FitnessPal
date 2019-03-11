@@ -31,25 +31,21 @@ class HandbookFragment : BaseFragment(), HandBookView, FrmFabric.IFragment {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        configureViews()
-    }
-
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        presenter.onCreate()
-    }
-
-    override fun updateFeed(c: Cursor) {
-        adapter.updateItems(c)
-    }
-
-    private fun configureViews() {
         adapter = FeedAdapter()
         recycler.adapter = adapter
         recycler.layoutManager = LinearLayoutManager(context)
         recycler.addItemDecoration(DividerItemDecoration(recycler.context, DividerItemDecoration.VERTICAL))
 
         fab.setOnClickListener { presenter.onFabClick() }
+    }
+
+    override fun onStart() {
+        super.onStart()
+        presenter.onStart()
+    }
+
+    override fun updateFeed(c: Cursor) {
+        adapter.updateItems(c)
     }
 
     override fun onBackPressed() {

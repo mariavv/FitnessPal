@@ -4,6 +4,7 @@ import android.database.Cursor
 import mariavv.fitnesspal.data.repository.DbRepository
 import mariavv.fitnesspal.domain.data.Dish
 import mariavv.fitnesspal.domain.data.Food
+import mariavv.fitnesspal.other.eventbus.AddDishEvent
 import mariavv.fitnesspal.other.eventbus.AddFoodEvent
 import mariavv.fitnesspal.other.eventbus.Status
 import org.greenrobot.eventbus.EventBus
@@ -11,15 +12,14 @@ import java.util.*
 
 class DbInteractor {
 
-    private val db: DbRepository = DbRepository()
     private var foodsListener: FoodsListener? = null
 
     val foodsFromHandbook: Cursor
-        get() = db.foodsFromHandbook
+        get() = DbRepository.instance.foodsFromHandbook
 
     val journalDaysCount: Int
         get() {
-            val c = db.journalDaysCount
+            val c = DbRepository.instance.journalDaysCount
             c.moveToFirst()
             val count = c.getInt(0)
             c.close()
@@ -27,11 +27,11 @@ class DbInteractor {
         }
 
     val foodList: Cursor
-        get() = db.foodNamesFromHandbook
+        get() = DbRepository.instance.foodNamesFromHandbook
 
     val journalDates: LongArray
         get() {
-            val c = db.journalDates
+            val c = DbRepository.instance.journalDates
             val dates = LongArray(c.count)
             var i = 0
             while (c.moveToNext()) {
@@ -42,11 +42,11 @@ class DbInteractor {
         }
 
     fun getJournal(date: Long): Cursor {
-        return db.getJournal(date)
+        return DbRepository.instance.getJournal(date)
     }
 
     fun getDateByIndex(i: Int): Long {
-        val c = db.journalDates
+        val c = DbRepository.instance.journalDates
         return if (i > -1 && i < c.count) {
             c.moveToPosition(i)
             val date = c.getLong(0)
@@ -58,22 +58,27 @@ class DbInteractor {
         }
     }
 
+    //for test data
     fun insertDishInJournal(dish: Dish): Long {
-        return db.insertDishInJournal(dish)
+        return DbRepository.instance.insertDishInJournal(dish)
     }
 
     fun addDish(date: Date, meal: String, dish: String, weight: Int): Long {
+        var id = Long.MIN_VALUE
         try {
-            return db.insertDishInJournal(Dish(date, meal, db.getFoodIdByName(dish), weight))
+            id = DbRepository.instance.insertDishInJournal(Dish(date, meal, DbRepository.instance.getFoodIdByName(dish), weight))
+            if (id > -1) {
+                EventBus.getDefault().post(AddDishEvent(Status.SUCCESS))
+            }
         } catch (e: Exception) {
             e.printStackTrace()
         }
 
-        return -1
+        return id
     }
 
     fun addFood(food: Food, listener: FoodsListener? = foodsListener) {
-        val id = db.insertFoodInHandbook(food)
+        val id = DbRepository.instance.insertFoodInHandbook(food)
         if (id > -1) {
             EventBus.getDefault().post(AddFoodEvent(Status.SUCCESS))
         }
@@ -85,10 +90,5 @@ class DbInteractor {
 
     interface FoodsListener {
         fun onAddFood(id: Long)
-    }
-
-    companion object {
-        val instance: DbInteractor
-            get() = DbInteractor()
     }
 }

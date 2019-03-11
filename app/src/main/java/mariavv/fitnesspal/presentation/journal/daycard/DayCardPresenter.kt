@@ -14,7 +14,7 @@ import java.util.*
 class DayCardPresenter : MvpPresenter<DayCardView>() {
 
     internal fun onGetDateArg(date: Long) {
-        val data = DbInteractor.instance.getJournal(date)
+        val data = DbInteractor().getJournal(date)
 
         val dataSet = ArrayList<ItemType>()
         data.moveToFirst()

@@ -35,10 +35,6 @@ class JournalFragment : BaseFragment(), JournalView, FrmFabric.IFragment {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        configureViews()
-    }
-
-    private fun configureViews() {
         pagerAdapter = PagerAdapter(childFragmentManager)
         viewPager.adapter = pagerAdapter
 
@@ -79,5 +75,10 @@ class JournalFragment : BaseFragment(), JournalView, FrmFabric.IFragment {
 
     override fun onBackPressed() {
         presenter.onBackPressed()
+    }
+
+    override fun onStart() {
+        super.onStart()
+        presenter.onStart()
     }
 }

@@ -85,10 +85,8 @@ class NavigatePresenter : MvpPresenter<NavigateView>() {
     }
 
     private fun onGetTestData(data: TestData) {
-        val repo = DbInteractor.instance
-
         data.foods?.forEach { food ->
-            repo.addFood(food)
+            DbInteractor().addFood(food)
         }
 
         //todo dish2
@@ -102,7 +100,7 @@ class NavigatePresenter : MvpPresenter<NavigateView>() {
                 e.printStackTrace()
             }
 
-            repo.insertDishInJournal(Dish(docDate, dish.meal, dish.foodId, dish.weight))
+            DbInteractor().insertDishInJournal(Dish(docDate, dish.meal, dish.foodId, dish.weight))
         }
 
         router.newRootScreen(Const.Screen.JOURNAL)

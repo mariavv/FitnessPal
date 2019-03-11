@@ -32,7 +32,7 @@ class AddDishPresenter : MvpPresenter<AddDishView>() {
         viewState.initDatePickerDialog(cYear, cMonth, cDay)
         onDateChange(cYear, cMonth, cDay)
 
-        foodList = DbInteractor.instance.foodList
+        foodList = DbInteractor().foodList
         val fl = Array(foodList.count) { "" }
         foodList.moveToFirst()
         do {
@@ -69,7 +69,7 @@ class AddDishPresenter : MvpPresenter<AddDishView>() {
             return
         }
 
-        val dishId = DbInteractor.instance.addDish(
+        val dishId = DbInteractor().addDish(
                 date,
                 meals[selectedMealListPos],
                 food.toString(),
