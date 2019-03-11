@@ -29,13 +29,12 @@ class DbInteractor {
     val foodList: Cursor
         get() = DbRepository.instance.foodNamesFromHandbook
 
-    val journalDates: LongArray
+    val journalDates: ArrayList<Long>
         get() {
             val c = DbRepository.instance.journalDates
-            val dates = LongArray(c.count)
-            var i = 0
+            val dates = ArrayList<Long>()
             while (c.moveToNext()) {
-                dates[i++] = c.getLong(0)
+                dates.add(c.getLong(0))
             }
             c.close()
             return dates

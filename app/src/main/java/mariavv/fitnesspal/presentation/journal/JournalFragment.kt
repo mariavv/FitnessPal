@@ -49,8 +49,9 @@ class JournalFragment : BaseFragment(), JournalView, FrmFabric.IFragment {
         date_tv.text = date
     }
 
-    override fun setAdapterItems(journalDates: LongArray) {
+    override fun setAdapterItems(journalDates: ArrayList<Long>, adapterPosition: Int) {
         pagerAdapter.setItems(journalDates)
+        //viewPager.currentItem = adapterPosition
     }
 
     override fun setPrevDayEnable() {

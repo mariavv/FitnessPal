@@ -12,7 +12,7 @@ interface JournalView : MvpView {
 
     fun moveToPosition(position: Int, date: String)
 
-    fun setAdapterItems(journalDates: LongArray)
+    fun setAdapterItems(journalDates: ArrayList<Long>, adapterPosition: Int)
 
     fun setPrevDayEnable()
 

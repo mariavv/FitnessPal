@@ -16,12 +16,14 @@ import org.greenrobot.eventbus.ThreadMode
 @InjectViewState
 class JournalPresenter : MvpPresenter<JournalView>() {
 
+    private var adapterPosition: Int = 0
+
     override fun onFirstViewAttach() {
         super.onFirstViewAttach()
 
         viewState.setTitle(R.string.journal_title)
 
-        viewState.setAdapterItems(DbInteractor().journalDates)
+        viewState.setAdapterItems(DbInteractor().journalDates, 0)
 
         viewState.setDate(getDate(0))
         viewState.setPrevDayDisable()
@@ -35,6 +37,7 @@ class JournalPresenter : MvpPresenter<JournalView>() {
     }
 
     private fun moveToPosition(position: Int) {
+        adapterPosition = position
         viewState.moveToPosition(position, getDate(position))
     }
 
@@ -91,7 +94,18 @@ class JournalPresenter : MvpPresenter<JournalView>() {
     @Subscribe(threadMode = ThreadMode.MAIN)
     fun onEvent(event: AddDishEvent) {
         if (event.status == Status.SUCCESS) {
-            //viewState.setAdapterItems(DbInteractor.instance.journalDates)
+            viewState.setAdapterItems(DbInteractor().journalDates, adapterPosition)
+            moveToPosition(adapterPosition)
+            if (adapterPosition != 0) {
+                viewState.setPrevDayDisable()
+            } else {
+                viewState.setPrevDayEnable()
+            }
+            if (adapterPosition + 1 == DbInteractor().journalDaysCount) {
+                viewState.setNextDayDisable()
+            } else {
+                viewState.setNextDayEnable()
+            }
         }
     }
 }

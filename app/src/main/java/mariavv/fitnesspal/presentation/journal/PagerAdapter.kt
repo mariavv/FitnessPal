@@ -8,7 +8,7 @@ import mariavv.fitnesspal.presentation.journal.daycard.DayCardFragment
 
 internal class PagerAdapter(fm: FragmentManager) : FragmentPagerAdapter(fm) {
 
-    private var items: LongArray? = null
+    private var items: ArrayList<Long>? = null
 
     override fun getItem(i: Int): Fragment {
         return DayCardFragment.newInstance(items!![i])
@@ -20,8 +20,13 @@ internal class PagerAdapter(fm: FragmentManager) : FragmentPagerAdapter(fm) {
         } else 0
     }
 
-    fun setItems(journalDaysCount: LongArray) {
-        items = journalDaysCount
+    fun setItems(journalDays: ArrayList<Long>) {
+        items = journalDays
+        notifyDataSetChanged()
+    }
+
+    fun add(position: Int, value: Long) {
+        items?.add(position, value)
         notifyDataSetChanged()
     }
 }
