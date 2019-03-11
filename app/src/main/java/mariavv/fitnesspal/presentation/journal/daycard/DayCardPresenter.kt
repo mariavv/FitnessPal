@@ -4,8 +4,8 @@ import com.arellomobile.mvp.InjectViewState
 import com.arellomobile.mvp.MvpPresenter
 import mariavv.fitnesspal.data.db.CName
 import mariavv.fitnesspal.data.db.Meal
-import mariavv.fitnesspal.domain.data.Food
-import mariavv.fitnesspal.domain.interact.DbInteractor
+import mariavv.fitnesspal.data.repository.DbRepository
+import mariavv.fitnesspal.domain.Food
 import mariavv.fitnesspal.presentation.journal.daycard.listviewtypes.DishListItem
 import mariavv.fitnesspal.presentation.journal.daycard.listviewtypes.MealListItem
 import java.util.*
@@ -14,7 +14,7 @@ import java.util.*
 class DayCardPresenter : MvpPresenter<DayCardView>() {
 
     internal fun onGetDateArg(date: Long) {
-        val data = DbInteractor().getJournal(date)
+        val data = DbRepository.instance.getJournal(date)
 
         val dataSet = ArrayList<ItemType>()
         data.moveToFirst()

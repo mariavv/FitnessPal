@@ -1,4 +1,4 @@
-package mariavv.fitnesspal.domain.data
+package mariavv.fitnesspal.domain
 
 import com.google.gson.annotations.SerializedName
 import java.util.*

@@ -5,11 +5,11 @@ import com.arellomobile.mvp.InjectViewState
 import com.arellomobile.mvp.MvpPresenter
 import mariavv.fitnesspal.App
 import mariavv.fitnesspal.R
-import mariavv.fitnesspal.domain.data.Food
-import mariavv.fitnesspal.domain.interact.DbInteractor
+import mariavv.fitnesspal.data.repository.DbRepository
+import mariavv.fitnesspal.domain.Food
 
 @InjectViewState
-class AddFoodPresenter : MvpPresenter<AddFoodView>(), DbInteractor.FoodsListener {
+class AddFoodPresenter : MvpPresenter<AddFoodView>(), DbRepository.FoodsListener {
 
     override fun onFirstViewAttach() {
         super.onFirstViewAttach()
@@ -32,7 +32,7 @@ class AddFoodPresenter : MvpPresenter<AddFoodView>(), DbInteractor.FoodsListener
         }
 
         val food = Food(foodEdText.toString(), protein, fat, carb)
-        DbInteractor().addFood(food, this)
+        DbRepository.instance.insertFoodInHandbook(food, this)
     }
 
     internal fun onBackPressed() {

@@ -4,7 +4,7 @@ import android.support.v7.widget.RecyclerView
 
 import mariavv.fitnesspal.App
 import mariavv.fitnesspal.R
-import mariavv.fitnesspal.domain.data.Food
+import mariavv.fitnesspal.domain.Food
 import mariavv.fitnesspal.presentation.journal.daycard.ItemType
 import mariavv.fitnesspal.presentation.journal.daycard.ViewHolderFactory
 

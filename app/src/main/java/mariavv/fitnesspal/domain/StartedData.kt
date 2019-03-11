@@ -1,6 +1,6 @@
-package mariavv.fitnesspal.domain.data
+package mariavv.fitnesspal.domain
 
-class TestData {
+class StartedData {
 
     var foods: List<Food>? = null
     var dishes: List<Dish2>? = null

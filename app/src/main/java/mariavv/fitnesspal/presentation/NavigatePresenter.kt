@@ -10,10 +10,10 @@ import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
 import mariavv.fitnesspal.App
 import mariavv.fitnesspal.data.repository.AssetsRepository
+import mariavv.fitnesspal.data.repository.DbRepository
 import mariavv.fitnesspal.data.repository.SharedDataRepository
-import mariavv.fitnesspal.domain.data.Dish
-import mariavv.fitnesspal.domain.data.TestData
-import mariavv.fitnesspal.domain.interact.DbInteractor
+import mariavv.fitnesspal.domain.Dish
+import mariavv.fitnesspal.domain.StartedData
 import mariavv.fitnesspal.other.Const
 import mariavv.fitnesspal.other.FrmFabric
 import ru.terrakok.cicerone.Router
@@ -84,9 +84,9 @@ class NavigatePresenter : MvpPresenter<NavigateView>() {
                 .subscribe { this.onGetTestData(it) }
     }
 
-    private fun onGetTestData(data: TestData) {
+    private fun onGetTestData(data: StartedData) {
         data.foods?.forEach { food ->
-            DbInteractor().addFood(food)
+            DbRepository.instance.insertFoodInHandbook(food)
         }
 
         //todo dish2
@@ -100,7 +100,7 @@ class NavigatePresenter : MvpPresenter<NavigateView>() {
                 e.printStackTrace()
             }
 
-            DbInteractor().insertDishInJournal(Dish(docDate, dish.meal, dish.foodId, dish.weight))
+            DbRepository.instance.insertDishInJournal(Dish(docDate, dish.meal, dish.foodId, dish.weight))
         }
 
         router.newRootScreen(Const.Screen.JOURNAL)

@@ -4,11 +4,10 @@ import com.arellomobile.mvp.InjectViewState
 import com.arellomobile.mvp.MvpPresenter
 import mariavv.fitnesspal.App
 import mariavv.fitnesspal.R
-import mariavv.fitnesspal.domain.interact.DbInteractor
+import mariavv.fitnesspal.data.repository.DbRepository
 import mariavv.fitnesspal.other.Const
 import mariavv.fitnesspal.other.Utils.formatDate
 import mariavv.fitnesspal.other.eventbus.AddDishEvent
-import mariavv.fitnesspal.other.eventbus.Status
 import org.greenrobot.eventbus.EventBus
 import org.greenrobot.eventbus.Subscribe
 import org.greenrobot.eventbus.ThreadMode
@@ -23,11 +22,11 @@ class JournalPresenter : MvpPresenter<JournalView>() {
 
         viewState.setTitle(R.string.journal_title)
 
-        viewState.setAdapterItems(DbInteractor().journalDates, 0)
+        viewState.setAdapterItems(DbRepository.instance.journalDates, 0)
 
         viewState.setDate(getDate(0))
         viewState.setPrevDayDisable()
-        if (DbInteractor().journalDaysCount == 1) {
+        if (DbRepository.instance.journalDaysCount == 1) {
             viewState.setNextDayDisable()
         }
     }
@@ -42,7 +41,7 @@ class JournalPresenter : MvpPresenter<JournalView>() {
     }
 
     private fun getDate(position: Int): String {
-        return formatDate(DbInteractor().getDateByIndex(position))
+        return formatDate(DbRepository.instance.getDateByIndex(position))
     }
 
     internal fun onPrevDayClick(currentPage: Int, pageCount: Int) {
@@ -93,19 +92,17 @@ class JournalPresenter : MvpPresenter<JournalView>() {
 
     @Subscribe(threadMode = ThreadMode.MAIN)
     fun onEvent(event: AddDishEvent) {
-        if (event.status == Status.SUCCESS) {
-            viewState.setAdapterItems(DbInteractor().journalDates, adapterPosition)
-            moveToPosition(adapterPosition)
-            if (adapterPosition != 0) {
-                viewState.setPrevDayDisable()
-            } else {
-                viewState.setPrevDayEnable()
-            }
-            if (adapterPosition + 1 == DbInteractor().journalDaysCount) {
-                viewState.setNextDayDisable()
-            } else {
-                viewState.setNextDayEnable()
-            }
+        viewState.setAdapterItems(DbRepository.instance.journalDates, adapterPosition)
+        moveToPosition(adapterPosition)
+        if (adapterPosition != 0) {
+            viewState.setPrevDayDisable()
+        } else {
+            viewState.setPrevDayEnable()
+        }
+        if (adapterPosition + 1 == DbRepository.instance.journalDaysCount) {
+            viewState.setNextDayDisable()
+        } else {
+            viewState.setNextDayEnable()
         }
     }
 }

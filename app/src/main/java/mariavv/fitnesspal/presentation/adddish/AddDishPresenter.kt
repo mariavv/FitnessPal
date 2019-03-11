@@ -8,7 +8,8 @@ import com.arellomobile.mvp.MvpPresenter
 import mariavv.fitnesspal.App
 import mariavv.fitnesspal.R
 import mariavv.fitnesspal.data.db.Meal
-import mariavv.fitnesspal.domain.interact.DbInteractor
+import mariavv.fitnesspal.data.repository.DbRepository
+import mariavv.fitnesspal.domain.Dish
 import mariavv.fitnesspal.other.Utils
 import java.util.*
 
@@ -32,7 +33,7 @@ class AddDishPresenter : MvpPresenter<AddDishView>() {
         viewState.initDatePickerDialog(cYear, cMonth, cDay)
         onDateChange(cYear, cMonth, cDay)
 
-        foodList = DbInteractor().foodList
+        foodList = DbRepository.instance.foodNamesFromHandbook
         val fl = Array(foodList.count) { "" }
         foodList.moveToFirst()
         do {
@@ -69,11 +70,8 @@ class AddDishPresenter : MvpPresenter<AddDishView>() {
             return
         }
 
-        val dishId = DbInteractor().addDish(
-                date,
-                meals[selectedMealListPos],
-                food.toString(),
-                Integer.valueOf(weight.toString()))
+        val dishId = DbRepository.instance.insertDishInJournal(Dish(date, meals[selectedMealListPos],
+                DbRepository.instance.getFoodIdByName(food.toString()), Integer.valueOf(weight.toString())))
 
         if (dishId > -1) {
             App.getRouter().exitWithMessage(App.getAppString(R.string.add_message))

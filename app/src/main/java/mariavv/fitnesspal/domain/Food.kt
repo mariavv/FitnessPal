@@ -1,4 +1,4 @@
-package mariavv.fitnesspal.domain.data
+package mariavv.fitnesspal.domain
 
 class Food(val name: String, val protein: Int, val fat: Int, val carb: Int) {
 

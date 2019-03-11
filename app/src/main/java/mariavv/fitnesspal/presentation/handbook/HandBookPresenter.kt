@@ -4,10 +4,9 @@ import com.arellomobile.mvp.InjectViewState
 import com.arellomobile.mvp.MvpPresenter
 import mariavv.fitnesspal.App
 import mariavv.fitnesspal.R
-import mariavv.fitnesspal.domain.interact.DbInteractor
+import mariavv.fitnesspal.data.repository.DbRepository
 import mariavv.fitnesspal.other.Const
 import mariavv.fitnesspal.other.eventbus.AddFoodEvent
-import mariavv.fitnesspal.other.eventbus.Status
 import org.greenrobot.eventbus.EventBus
 import org.greenrobot.eventbus.Subscribe
 import org.greenrobot.eventbus.ThreadMode
@@ -18,7 +17,7 @@ class HandBookPresenter : MvpPresenter<HandBookView>() {
     override fun onFirstViewAttach() {
         super.onFirstViewAttach()
         viewState.setTitle(R.string.handbook_title)
-        viewState.updateFeed(DbInteractor().foodsFromHandbook)
+        viewState.updateFeed(DbRepository.instance.foodsFromHandbook)
     }
 
     internal fun onFabClick() {
@@ -31,9 +30,7 @@ class HandBookPresenter : MvpPresenter<HandBookView>() {
 
     @Subscribe(threadMode = ThreadMode.MAIN)
     fun onAddFoodEvent(event: AddFoodEvent) {
-        if (event.status == Status.SUCCESS) {
-            viewState.updateFeed(DbInteractor().foodsFromHandbook)
-        }
+        viewState.updateFeed(DbRepository.instance.foodsFromHandbook)
     }
 
     fun onStart() {

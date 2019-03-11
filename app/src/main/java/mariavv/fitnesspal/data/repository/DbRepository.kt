@@ -6,11 +6,21 @@ import android.database.sqlite.SQLiteDatabase
 import mariavv.fitnesspal.data.db.CName
 import mariavv.fitnesspal.data.db.SQLiteHelper
 import mariavv.fitnesspal.data.db.TName
-import mariavv.fitnesspal.domain.data.Dish
-import mariavv.fitnesspal.domain.data.Food
+import mariavv.fitnesspal.domain.Dish
+import mariavv.fitnesspal.domain.Food
+import mariavv.fitnesspal.other.eventbus.AddDishEvent
+import mariavv.fitnesspal.other.eventbus.AddFoodEvent
+import org.greenrobot.eventbus.EventBus
+import java.util.*
 
 class DbRepository {
     private val sqliteHelper: SQLiteHelper
+
+    private var foodsListener: FoodsListener? = null
+
+    interface FoodsListener {
+        fun onAddFood(id: Long)
+    }
 
     private val sqLiteDatabase: SQLiteDatabase
         get() = sqliteHelper.writableDatabase
@@ -34,32 +44,70 @@ class DbRepository {
             return sqLiteDatabase.rawQuery(q, null)
         }
 
-    internal val journalDaysCount: Cursor
+    internal val journalDaysCount: Int
         get() {
             val q = ("select count( " + CName.DATE + " ) as count"
                     + " from ( select distinct " + CName.DATE + " from " + TName.DISHES + ")")
-            return sqLiteDatabase.rawQuery(q, null)
+            val c = sqLiteDatabase.rawQuery(q, null)
+
+            c.moveToFirst()
+            val count = c.getInt(0)
+            c.close()
+            return count
         }
 
-    internal val journalDates: Cursor
+    private val journalDatesCursor: Cursor
         get() {
             val q = ("select distinct " + CName.DATE
                     + " from " + TName.DISHES + " order by " + CName.DATE)
             return sqLiteDatabase.rawQuery(q, null)
         }
 
+    internal val journalDates: ArrayList<Long>
+        get() {
+            val c = journalDatesCursor
+
+            val dates = ArrayList<Long>()
+            while (c.moveToNext()) {
+                dates.add(c.getLong(0))
+            }
+            c.close()
+            return dates
+        }
+
+    fun getDateByIndex(i: Int): Long {
+        val c = journalDatesCursor
+        return if (i > -1 && i < c.count) {
+            c.moveToPosition(i)
+            val date = c.getLong(0)
+            c.close()
+            date
+        } else {
+            c.close()
+            Date().time
+        }
+    }
+
     init {
         sqliteHelper = SQLiteHelper()
     }
 
-    internal fun insertFoodInHandbook(food: Food): Long {
+    internal fun insertFoodInHandbook(food: Food, listener: FoodsListener? = foodsListener): Long {
         val cv = ContentValues()
         cv.put(CName.NAME, food.name)
         cv.put(CName.PROTEIN, food.protein)
         cv.put(CName.FAT, food.fat)
         cv.put(CName.CARB, food.carb)
         cv.put(CName.SORTABLE_NAME, food.name.toLowerCase())
-        return sqLiteDatabase.insert(TName.FOODS, null, cv)
+
+        val id = sqLiteDatabase.insert(TName.FOODS, null, cv)
+        if (id > -1) {
+            EventBus.getDefault().post(AddFoodEvent())
+        }
+        if (listener != foodsListener) {
+            listener?.onAddFood(id)
+        }
+        return id
     }
 
     internal fun insertDishInJournal(dish: Dish): Long {
@@ -68,7 +116,18 @@ class DbRepository {
         cv.put(CName.DATE, dish.date.time)
         cv.put(CName.DISH_ID, dish.foodId)
         cv.put(CName.WEIGHT, dish.weight)
-        return sqLiteDatabase.insert(TName.DISHES, null, cv)
+
+        var id = Long.MIN_VALUE
+        try {
+            id = sqLiteDatabase.insert(TName.DISHES, null, cv)
+            if (id > -1) {
+                EventBus.getDefault().post(AddDishEvent())
+            }
+        } catch (e: Exception) {
+            e.printStackTrace()
+        }
+
+        return id
     }
 
     internal fun getJournal(date: Long): Cursor {

@@ -2,21 +2,21 @@ package mariavv.fitnesspal.data.repository
 
 import android.content.res.AssetManager
 import com.google.gson.GsonBuilder
-import mariavv.fitnesspal.domain.data.TestData
+import mariavv.fitnesspal.domain.StartedData
 import java.io.IOException
 import java.io.InputStream
 import java.util.concurrent.Callable
 
 class AssetsRepository {
 
-    fun getTestData(assetManager: AssetManager): Callable<TestData> {
+    fun getTestData(assetManager: AssetManager): Callable<StartedData> {
         return Callable {
             val inputStream = openAssert(assetManager)
             if (inputStream != null) {
                 val json = loadJSONFromAsset(inputStream)
-                return@Callable GsonBuilder().create().fromJson(json, TestData::class.java)
+                return@Callable GsonBuilder().create().fromJson(json, StartedData::class.java)
             }
-            TestData()
+            StartedData()
         }
     }
 
