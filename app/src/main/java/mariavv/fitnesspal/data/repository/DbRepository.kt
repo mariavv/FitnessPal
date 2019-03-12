@@ -1,8 +1,11 @@
 package mariavv.fitnesspal.data.repository
 
+import android.arch.persistence.room.Room
 import android.content.ContentValues
 import android.database.Cursor
 import android.database.sqlite.SQLiteDatabase
+import mariavv.fitnesspal.App
+import mariavv.fitnesspal.data.db.AppDatabase
 import mariavv.fitnesspal.data.db.CName
 import mariavv.fitnesspal.data.db.SQLiteHelper
 import mariavv.fitnesspal.data.db.TName
@@ -13,8 +16,12 @@ import mariavv.fitnesspal.other.eventbus.AddFoodEvent
 import org.greenrobot.eventbus.EventBus
 import java.util.*
 
+
 class DbRepository {
-    private val sqliteHelper: SQLiteHelper
+    private val sqliteHelper: SQLiteHelper = SQLiteHelper()
+
+    //private var db: AppDatabase = Room.databaseBuilder(App.context,
+    //        AppDatabase::class.java, SQLiteHelper.DB_NAME).build()
 
     private var foodsListener: FoodsListener? = null
 
@@ -25,8 +32,14 @@ class DbRepository {
     private val sqLiteDatabase: SQLiteDatabase
         get() = sqliteHelper.writableDatabase
 
-    internal val foodsFromHandbook: Cursor
+    internal val foodsFromHandbook: /*Flowable<List<mariavv.fitnesspal.data.db.handbook.Food>>*/Cursor
         get() {
+            var db: AppDatabase = Room.databaseBuilder(App.context,
+                    AppDatabase::class.java, /*SQLiteHelper.DB_NAME*/"fit").fallbackToDestructiveMigration().build()
+            val handbookDao = db.handbookDao()
+            //Completable.fromRunnable { handbookDao.insert(mariavv.fitnesspal.data.db.handbook.Food(1,"f", 1, 1,1,  "f")) }
+            val foods = handbookDao.getAll()
+
             val q = ("select hb." + CName.NAME
                     + " , hb." + CName.PROTEIN
                     + " , hb." + CName.FAT + " , hb." + CName.CARB
@@ -86,10 +99,6 @@ class DbRepository {
             c.close()
             Date().time
         }
-    }
-
-    init {
-        sqliteHelper = SQLiteHelper()
     }
 
     internal fun insertFoodInHandbook(food: Food, listener: FoodsListener? = foodsListener): Long {

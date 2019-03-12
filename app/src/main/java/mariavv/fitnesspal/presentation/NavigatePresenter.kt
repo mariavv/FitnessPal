@@ -1,14 +1,21 @@
 package mariavv.fitnesspal.presentation
 
 import android.annotation.SuppressLint
+import android.arch.persistence.room.Room
 import android.support.annotation.IdRes
 import android.support.v4.app.FragmentManager
+import android.util.Log
 import com.arellomobile.mvp.InjectViewState
 import com.arellomobile.mvp.MvpPresenter
 import io.reactivex.Observable
+import io.reactivex.Single
 import io.reactivex.android.schedulers.AndroidSchedulers
+import io.reactivex.disposables.CompositeDisposable
+import io.reactivex.rxkotlin.addTo
+import io.reactivex.rxkotlin.subscribeBy
 import io.reactivex.schedulers.Schedulers
 import mariavv.fitnesspal.App
+import mariavv.fitnesspal.data.db.AppDatabase
 import mariavv.fitnesspal.data.repository.AssetsRepository
 import mariavv.fitnesspal.data.repository.DbRepository
 import mariavv.fitnesspal.data.repository.SharedDataRepository
@@ -36,6 +43,36 @@ class NavigatePresenter : MvpPresenter<NavigateView>() {
         } else {
             router.newRootScreen(Const.Screen.JOURNAL)
         }
+
+        var db: AppDatabase = Room.databaseBuilder(App.context,
+                AppDatabase::class.java, "fit").fallbackToDestructiveMigration().build()
+        val handbookDao = db.handbookDao()
+
+        /*val x = Single.fromCallable(Callable {
+            handbookDao.insert(mariavv.fitnesspal.data.db.handbook.Food(1,"f", 1, 1,1,  "f"))
+        }).blockingGet()*/
+
+        //val x = Flowable.fromCallable { handbookDao.insert(mariavv.fitnesspal.data.db.handbook.Food(1,"f", 1, 1,1,  "f")) }
+        //        .blockingFirst()
+
+        //val x = Completable
+        //        .fromRunnable { handbookDao.insert(mariavv.fitnesspal.data.db.handbook.Food(1,"f", 1, 1,1,  "f")) }
+        //.toFlowable<Long>().blockingFirst()
+
+        Single.fromCallable {
+            handbookDao.insert(mariavv.fitnesspal.data.db.handbook.Food(1, "f", 1, 1, 1, "f")
+            )
+        }.subscribeOn(
+                Schedulers.io()
+        ).subscribeBy(
+                onError = { t ->
+                    Log.d("!!!", "insert error ${t.message}")
+                },
+                onSuccess = { id ->
+                    Log.d("!!!", "insert success, id = $id")
+                }
+
+        ).addTo(CompositeDisposable())
     }
 
     internal fun onNavigationJournalSelected() {

@@ -34,7 +34,7 @@ class SQLiteHelper() : SQLiteOpenHelper(App.context, DB_NAME, null, DB_VERSION) 
     }
 
     companion object {
-        private val DB_NAME = "fitness_pal"
+        val DB_NAME = "fitness_pal"
         private val DB_VERSION = 2
     }
 }

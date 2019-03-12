@@ -1,5 +1,7 @@
 package mariavv.fitnesspal.presentation.handbook
 
+import android.annotation.SuppressLint
+import android.database.Cursor
 import com.arellomobile.mvp.InjectViewState
 import com.arellomobile.mvp.MvpPresenter
 import mariavv.fitnesspal.App
@@ -17,7 +19,20 @@ class HandBookPresenter : MvpPresenter<HandBookView>() {
     override fun onFirstViewAttach() {
         super.onFirstViewAttach()
         viewState.setTitle(R.string.handbook_title)
+        getFeed()
+    }
+
+    @SuppressLint("CheckResult")
+    private fun getFeed() {
         viewState.updateFeed(DbRepository.instance.foodsFromHandbook)
+/*DbRepository.instance.foodsFromHandbook
+        .subscbeOn(Schedulers.computation())
+        .observeOn(AndroidSchedulers.mainThread())
+        .subscribe(this::onGetFeed, Throwable::printStackTrace)*/
+    }
+
+    private fun onGetFeed(foods: Cursor) {
+        viewState.updateFeed(foods)
     }
 
     internal fun onFabClick() {
@@ -30,7 +45,7 @@ class HandBookPresenter : MvpPresenter<HandBookView>() {
 
     @Subscribe(threadMode = ThreadMode.MAIN)
     fun onAddFoodEvent(event: AddFoodEvent) {
-        viewState.updateFeed(DbRepository.instance.foodsFromHandbook)
+        getFeed()
     }
 
     fun onStart() {
