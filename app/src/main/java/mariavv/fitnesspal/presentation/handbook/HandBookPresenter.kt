@@ -1,10 +1,11 @@
 package mariavv.fitnesspal.presentation.handbook
 
-import android.annotation.SuppressLint
 import android.database.Cursor
 import com.arellomobile.mvp.InjectViewState
 import com.arellomobile.mvp.MvpPresenter
 import io.reactivex.android.schedulers.AndroidSchedulers
+import io.reactivex.disposables.CompositeDisposable
+import io.reactivex.rxkotlin.addTo
 import io.reactivex.schedulers.Schedulers
 import mariavv.fitnesspal.App
 import mariavv.fitnesspal.R
@@ -24,19 +25,12 @@ class HandBookPresenter : MvpPresenter<HandBookView>() {
         getFeed()
     }
 
-    @SuppressLint("CheckResult")
     private fun getFeed() {
-        //viewState.updateFeed(DbRepository.instance.foodsFromHandbook)
-/*DbRepository.instance.foodsFromHandbook
-        .subscbeOn(Schedulers.computation())
-        .observeOn(AndroidSchedulers.mainThread())
-        .subscribe(this::onGetFeed, Throwable::printStackTrace)*/
-
-        DbRepository.instance
-                .foodsFromHandbook
+        DbRepository.instance.foodsFromHandbook
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(this::onGetFeed);
+                .subscribe(this::onGetFeed)
+                .addTo(CompositeDisposable())
     }
 
     private fun onGetFeed(foods: Cursor) {
@@ -47,7 +41,7 @@ class HandBookPresenter : MvpPresenter<HandBookView>() {
         App.getRouter().navigateTo(Const.Screen.ADD_FOOD)
     }
 
-    fun onBackPressed() {
+    internal fun onBackPressed() {
         App.getRouter().exit()
     }
 
@@ -56,7 +50,7 @@ class HandBookPresenter : MvpPresenter<HandBookView>() {
         getFeed()
     }
 
-    fun onStart() {
+    internal fun onStart() {
         if (!EventBus.getDefault().isRegistered(this)) {
             EventBus.getDefault().register(this)
         }

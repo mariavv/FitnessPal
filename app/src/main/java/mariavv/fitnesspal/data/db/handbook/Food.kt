@@ -8,7 +8,7 @@ import android.arch.persistence.room.PrimaryKey
 class Food(
         @PrimaryKey(autoGenerate = true)
         @ColumnInfo(name = "id")
-        var id: Int?,
+        var id: Int = 0,
         @ColumnInfo(name = "name")
         var name: String?,
         @ColumnInfo(name = "protein")
@@ -19,6 +19,4 @@ class Food(
         var carb: Int?,
         @ColumnInfo(name = "sortable_name")
         var sortable_name: String?
-) /*{
-        constructor() : this(0, "", 0, 0, 0, "")
-    }*/
+)

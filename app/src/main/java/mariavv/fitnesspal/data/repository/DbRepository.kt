@@ -22,7 +22,7 @@ class DbRepository {
     private val sqliteHelper: SQLiteHelper = SQLiteHelper()
 
     private var db: AppDatabase = Room.databaseBuilder(App.context,
-            AppDatabase::class.java, /*SQLiteHelper.DB_NAME*/"fit").fallbackToDestructiveMigration().build()
+            AppDatabase::class.java, SQLiteHelper.DB_NAME + "_room").fallbackToDestructiveMigration().build()
 
     private var foodsListener: FoodsListener? = null
 
@@ -33,28 +33,58 @@ class DbRepository {
     private val sqLiteDatabase: SQLiteDatabase
         get() = sqliteHelper.writableDatabase
 
-    internal val foodsFromHandbook: /*Flowable<List<mariavv.fitnesspal.data.db.handbook.Food>>*//*Cursor*/Flowable<Cursor>
+    internal val foodsFromHandbook: Flowable<Cursor>
         get() {
-            //val foods = db.handbookDao().getAll()
-            return Flowable.fromCallable { db.handbookDao().getAll() } //.subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread())
-            //.subscribe(this::save);
-
-            /*val q = ("select hb." + CName.NAME
-                    + " , hb." + CName.PROTEIN
-                    + " , hb." + CName.FAT + " , hb." + CName.CARB
-                    + ", hb." + CName.SORTABLE_NAME
-                    + " from " + TName.FOODS + " as hb "
-                    + " order by " + CName.SORTABLE_NAME + ", " + CName.NAME)
-            return sqLiteDatabase.rawQuery(q, null)*/
+            return Flowable.fromCallable { db.handbookDao().getAll() }
         }
 
-    internal val foodNamesFromHandbook: Cursor
+    internal val foodNamesFromHandbook: Flowable<Cursor>
         get() {
-            val q = ("select hb." + CName.NAME + ", hb." + CName.SORTABLE_NAME
-                    + " from " + TName.FOODS + " as hb "
-                    + " order by " + CName.SORTABLE_NAME + ", " + CName.NAME)
-            return sqLiteDatabase.rawQuery(q, null)
+            return Flowable.fromCallable { db.handbookDao().getFoodNames() }
         }
+
+    //todo  = foodsListener
+    internal fun insertFoodInHandbook(food: Food, listener: FoodsListener? = foodsListener): Long {
+        val id = db.handbookDao().insert(
+                mariavv.fitnesspal.data.db.handbook.Food(
+                        name = food.name, protein = food.protein, fat = food.fat,
+                        carb = food.carb, sortable_name = food.name.toLowerCase()
+                )
+        )
+
+        if (id > -1) {
+            EventBus.getDefault().post(AddFoodEvent())
+        }
+        if (listener != foodsListener) {
+            listener?.onAddFood(id)
+        }
+        return id
+    }
+
+    @Throws(Exception::class)
+    internal fun getFoodIdByName(dish: String): Flowable<Int> {
+        return db.handbookDao().getFoodIdByName(dish)
+    }/*Int {
+        val q = ("select " + CName.ID
+                + " from " + TName.FOODS
+                + " where " + CName.NAME + " = '" + dish + "'")
+        val c = sqLiteDatabase.rawQuery(q, null)
+        c.moveToFirst()
+        if (c.count == 0) {
+            throw Exception("error")
+        }
+        val id = c.getInt(0)
+        c.close()
+        return id
+    }*/
+
+    fun clearHandbook() {
+        deleteTable(TName.FOODS)
+    }
+
+    internal fun clearJournal() {
+        deleteTable(TName.DISHES)
+    }
 
     internal val journalDaysCount: Int
         get() {
@@ -100,24 +130,6 @@ class DbRepository {
         }
     }
 
-    internal fun insertFoodInHandbook(food: Food, listener: FoodsListener? = foodsListener): Long {
-        val cv = ContentValues()
-        cv.put(CName.NAME, food.name)
-        cv.put(CName.PROTEIN, food.protein)
-        cv.put(CName.FAT, food.fat)
-        cv.put(CName.CARB, food.carb)
-        cv.put(CName.SORTABLE_NAME, food.name.toLowerCase())
-
-        val id = sqLiteDatabase.insert(TName.FOODS, null, cv)
-        if (id > -1) {
-            EventBus.getDefault().post(AddFoodEvent())
-        }
-        if (listener != foodsListener) {
-            listener?.onAddFood(id)
-        }
-        return id
-    }
-
     internal fun insertDishInJournal(dish: Dish): Long {
         val cv = ContentValues()
         cv.put(CName.MEAL, dish.meal)
@@ -153,31 +165,8 @@ class DbRepository {
         return sqLiteDatabase.rawQuery(q, null)
     }
 
-    fun clearHandbook() {
-        deleteTable(TName.FOODS)
-    }
-
-    internal fun clearJournal() {
-        deleteTable(TName.DISHES)
-    }
-
     private fun deleteTable(table: String) {
         sqLiteDatabase.delete(table, null, null)
-    }
-
-    @Throws(Exception::class)
-    internal fun getFoodIdByName(dish: String): Int {
-        val q = ("select " + CName.ID
-                + " from " + TName.FOODS
-                + " where " + CName.NAME + " = '" + dish + "'")
-        val c = sqLiteDatabase.rawQuery(q, null)
-        c.moveToFirst()
-        if (c.count == 0) {
-            throw Exception("error")
-        }
-        val id = c.getInt(0)
-        c.close()
-        return id
     }
 
     private object Holder {

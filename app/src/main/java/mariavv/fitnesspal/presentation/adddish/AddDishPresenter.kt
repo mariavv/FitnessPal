@@ -5,6 +5,10 @@ import android.text.Editable
 import android.view.inputmethod.EditorInfo
 import com.arellomobile.mvp.InjectViewState
 import com.arellomobile.mvp.MvpPresenter
+import io.reactivex.android.schedulers.AndroidSchedulers
+import io.reactivex.disposables.CompositeDisposable
+import io.reactivex.rxkotlin.addTo
+import io.reactivex.schedulers.Schedulers
 import mariavv.fitnesspal.App
 import mariavv.fitnesspal.R
 import mariavv.fitnesspal.data.db.Meal
@@ -20,6 +24,8 @@ class AddDishPresenter : MvpPresenter<AddDishView>() {
     private var selectedMealListPos: Int = 0
     private lateinit var meals: Array<String>
 
+    //todo
+    private lateinit var weight: Editable
 
     override fun onFirstViewAttach() {
         super.onFirstViewAttach()
@@ -33,7 +39,14 @@ class AddDishPresenter : MvpPresenter<AddDishView>() {
         viewState.initDatePickerDialog(cYear, cMonth, cDay)
         onDateChange(cYear, cMonth, cDay)
 
-        foodList = DbRepository.instance.foodNamesFromHandbook
+        DbRepository.instance.foodNamesFromHandbook
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(this::onGetFoodNames)
+                .addTo(CompositeDisposable())
+    }
+
+    private fun onGetFoodNames(foodList: Cursor) {
         val fl = Array(foodList.count) { "" }
         foodList.moveToFirst()
         do {
@@ -41,7 +54,7 @@ class AddDishPresenter : MvpPresenter<AddDishView>() {
         } while (foodList.moveToNext())
         viewState.configureFoodList(fl)
 
-        meals = Array(4) { "" }
+        meals = Array(Meal.values().size + 1) { "" }
         meals[0] = ""
         meals[1] = Meal.BREAKFAST.value
         meals[2] = Meal.LAUNCH.value
@@ -65,21 +78,30 @@ class AddDishPresenter : MvpPresenter<AddDishView>() {
     }
 
     internal fun onAddClick(food: Editable, weight: Editable) {
+        this.weight = weight
         if (weight.toString().isEmpty() || food.toString().isEmpty() || selectedMealListPos == 0) {
             App.getRouter().showSystemMessage(App.getAppString(R.string.some_empty_fields_message))
             return
         }
 
+        DbRepository.instance.getFoodIdByName(food.toString())
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(this::onGetFoodId)
+                //.subscribe(id -> onGetFoodId(id))
+                .addTo(CompositeDisposable())
+    }
+
+    private fun onGetFoodId(id: Int) {
         val dishId = DbRepository.instance.insertDishInJournal(Dish(date, meals[selectedMealListPos],
-                DbRepository.instance.getFoodIdByName(food.toString()), Integer.valueOf(weight.toString())))
+                id, Integer.valueOf(this.weight.toString())))
 
         if (dishId > -1) {
             App.getRouter().exitWithMessage(App.getAppString(R.string.add_message))
-            //App.getRouter().showSystemMessage(App.getAppString(R.string.add_message))
-            //viewState.clearFields()
         } else {
             App.getRouter().showSystemMessage(App.getAppString(R.string.add_dish_fail))
         }
+
     }
 
     internal fun onMealSelected(position: Int) {
