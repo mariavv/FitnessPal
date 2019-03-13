@@ -4,6 +4,8 @@ import android.annotation.SuppressLint
 import android.database.Cursor
 import com.arellomobile.mvp.InjectViewState
 import com.arellomobile.mvp.MvpPresenter
+import io.reactivex.android.schedulers.AndroidSchedulers
+import io.reactivex.schedulers.Schedulers
 import mariavv.fitnesspal.App
 import mariavv.fitnesspal.R
 import mariavv.fitnesspal.data.repository.DbRepository
@@ -24,11 +26,17 @@ class HandBookPresenter : MvpPresenter<HandBookView>() {
 
     @SuppressLint("CheckResult")
     private fun getFeed() {
-        viewState.updateFeed(DbRepository.instance.foodsFromHandbook)
+        //viewState.updateFeed(DbRepository.instance.foodsFromHandbook)
 /*DbRepository.instance.foodsFromHandbook
         .subscbeOn(Schedulers.computation())
         .observeOn(AndroidSchedulers.mainThread())
         .subscribe(this::onGetFeed, Throwable::printStackTrace)*/
+
+        DbRepository.instance
+                .foodsFromHandbook
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(this::onGetFeed);
     }
 
     private fun onGetFeed(foods: Cursor) {

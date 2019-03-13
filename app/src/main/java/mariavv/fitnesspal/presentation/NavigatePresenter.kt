@@ -4,15 +4,10 @@ import android.annotation.SuppressLint
 import android.arch.persistence.room.Room
 import android.support.annotation.IdRes
 import android.support.v4.app.FragmentManager
-import android.util.Log
 import com.arellomobile.mvp.InjectViewState
 import com.arellomobile.mvp.MvpPresenter
 import io.reactivex.Observable
-import io.reactivex.Single
 import io.reactivex.android.schedulers.AndroidSchedulers
-import io.reactivex.disposables.CompositeDisposable
-import io.reactivex.rxkotlin.addTo
-import io.reactivex.rxkotlin.subscribeBy
 import io.reactivex.schedulers.Schedulers
 import mariavv.fitnesspal.App
 import mariavv.fitnesspal.data.db.AppDatabase
@@ -59,7 +54,7 @@ class NavigatePresenter : MvpPresenter<NavigateView>() {
         //        .fromRunnable { handbookDao.insert(mariavv.fitnesspal.data.db.handbook.Food(1,"f", 1, 1,1,  "f")) }
         //.toFlowable<Long>().blockingFirst()
 
-        Single.fromCallable {
+        /*Single.fromCallable {
             handbookDao.insert(mariavv.fitnesspal.data.db.handbook.Food(1, "f", 1, 1, 1, "f")
             )
         }.subscribeOn(
@@ -72,7 +67,7 @@ class NavigatePresenter : MvpPresenter<NavigateView>() {
                     Log.d("!!!", "insert success, id = $id")
                 }
 
-        ).addTo(CompositeDisposable())
+        ).addTo(CompositeDisposable())*/
     }
 
     internal fun onNavigationJournalSelected() {
