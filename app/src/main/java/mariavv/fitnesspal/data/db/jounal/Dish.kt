@@ -8,15 +8,13 @@ import android.arch.persistence.room.PrimaryKey
 class Dish(
         @PrimaryKey(autoGenerate = true)
         @ColumnInfo(name = "id")
-        var id: Int?,
+        var id: Int,
         @ColumnInfo(name = "meal_num")
-        var meal_num: Int?,
+        var mealNum: Int,
         @ColumnInfo(name = "date")
-        var date: Long?,
+        var date: Long,
         @ColumnInfo(name = "handbook_id")
-        var handbook_id: Int?,
+        var handbookId: Int,
         @ColumnInfo(name = "mass")
-        var mass: Int?
-) /*{
-    constructor() : this(0, 0, -1, 0, 0)
-}*/
+        var mass: Int
+)

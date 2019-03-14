@@ -17,7 +17,6 @@ class DayCardPresenter : MvpPresenter<DayCardView>() {
         val data = DbRepository.instance.getJournal(date)
 
         val dataSet = ArrayList<ItemType>()
-        data.moveToFirst()
 
         //каша
 
@@ -33,7 +32,7 @@ class DayCardPresenter : MvpPresenter<DayCardView>() {
         val dishesLaunch = ArrayList<DishListItem>()
         val dishesDinner = ArrayList<DishListItem>()
 
-        do {
+        while (data.moveToNext()) {
             val meal = data.getString(data.getColumnIndex(CName.MEAL))
 
             val protein = data.getInt(data.getColumnIndex(CName.PROTEIN))
@@ -55,9 +54,8 @@ class DayCardPresenter : MvpPresenter<DayCardView>() {
             dayProtein += food.getCount(food.protein, weight)
             dayFat += food.getCount(food.fat, weight)
             dayCarb += food.getCount(food.carb, weight)
-        } while (data.moveToNext())
+        }
 
-        //падает
         data.close()
 
         addToDataSet(dataSet, mealBreakfast, dishesBreakfast)

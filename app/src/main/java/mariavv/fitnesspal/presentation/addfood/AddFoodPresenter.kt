@@ -5,6 +5,7 @@ import android.util.Log
 import com.arellomobile.mvp.InjectViewState
 import com.arellomobile.mvp.MvpPresenter
 import io.reactivex.Single
+import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.rxkotlin.addTo
 import io.reactivex.rxkotlin.subscribeBy
@@ -23,7 +24,8 @@ class AddFoodPresenter : MvpPresenter<AddFoodView>(), DbRepository.FoodsListener
         viewState.setTitle()
     }
 
-    internal fun onAddClick(foodEdText: Editable, proteinEdText: Editable, fatEdText: Editable, carbEdText: Editable) {
+    internal fun onAddClick(foodEdText: Editable, proteinEdText: Editable,
+                            fatEdText: Editable, carbEdText: Editable) {
         if (proteinEdText.isEmpty() || fatEdText.isEmpty() || carbEdText.isEmpty()) {
             App.getRouter().showSystemMessage(App.getAppString(R.string.some_empty_fields_message))
             return
@@ -38,32 +40,22 @@ class AddFoodPresenter : MvpPresenter<AddFoodView>(), DbRepository.FoodsListener
             return
         }
 
-        /*Single.fromCallable {
-            DbRepository.instance.db.handbookDao().insert(mariavv.fitnesspal.data.db.handbook.Food(
-                    name = "f", protein = 1, fat = 1, carb = 1, sortable_name = "f"
-            ))
-        }.subscribeOn(
-                Schedulers.io()
-        ).subscribeBy(
-                onError = { t ->
-                    Log.d(Const.LOG_TAG, "-insert error ${t.message}")
-                },
-                onSuccess = { id ->
-                    Log.d(Const.LOG_TAG, "-insert success, id = $id")
-                }
-        ).addTo(CompositeDisposable())*/
         Single.fromCallable {
             DbRepository.instance.insertFoodInHandbook(Food(foodEdText.toString(), protein, fat, carb), this)
         }.subscribeOn(
                 Schedulers.io()
+        ).observeOn(
+                AndroidSchedulers.mainThread()
         ).subscribeBy(
-                onError = { t ->
-                    Log.d(Const.LOG_TAG, "insert error ${t.message}")
-                },
                 onSuccess = { id ->
                     Log.d(Const.LOG_TAG, "insert success, id = $id")
+                },
+                onError = { t ->
+                    Log.d(Const.LOG_TAG, "insert error: ${t.message}")
                 }
-        ).addTo(CompositeDisposable())
+        ).addTo(
+                CompositeDisposable()
+        )
     }
 
     internal fun onBackPressed() {
@@ -79,6 +71,6 @@ class AddFoodPresenter : MvpPresenter<AddFoodView>(), DbRepository.FoodsListener
     }
 
     companion object {
-        val MAX_NUTRIENTS = 100
+        const val MAX_NUTRIENTS = 100
     }
 }

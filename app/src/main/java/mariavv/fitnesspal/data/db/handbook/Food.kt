@@ -10,13 +10,13 @@ class Food(
         @ColumnInfo(name = "id")
         var id: Int = 0,
         @ColumnInfo(name = "name")
-        var name: String?,
+        var name: String,
         @ColumnInfo(name = "protein")
-        var protein: Int?,
+        var protein: Int,
         @ColumnInfo(name = "fat")
-        var fat: Int?,
+        var fat: Int,
         @ColumnInfo(name = "carb")
-        var carb: Int?,
+        var carb: Int,
         @ColumnInfo(name = "sortable_name")
-        var sortable_name: String?
+        var sortableName: String
 )

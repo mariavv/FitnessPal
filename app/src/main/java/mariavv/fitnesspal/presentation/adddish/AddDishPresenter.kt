@@ -20,12 +20,8 @@ import java.util.*
 @InjectViewState
 class AddDishPresenter : MvpPresenter<AddDishView>() {
     private var date: Date = Date()
-    private lateinit var foodList: Cursor
     private var selectedMealListPos: Int = 0
     private lateinit var meals: Array<String>
-
-    //todo
-    private lateinit var weight: Editable
 
     override fun onFirstViewAttach() {
         super.onFirstViewAttach()
@@ -52,6 +48,7 @@ class AddDishPresenter : MvpPresenter<AddDishView>() {
         do {
             fl[foodList.position] = foodList.getString(0)
         } while (foodList.moveToNext())
+        foodList.close()
         viewState.configureFoodList(fl)
 
         meals = Array(Meal.values().size + 1) { "" }
@@ -72,13 +69,7 @@ class AddDishPresenter : MvpPresenter<AddDishView>() {
         viewState.showDatePickerDialog()
     }
 
-    override fun onDestroy() {
-        super.onDestroy()
-        foodList.close()
-    }
-
     internal fun onAddClick(food: Editable, weight: Editable) {
-        this.weight = weight
         if (weight.toString().isEmpty() || food.toString().isEmpty() || selectedMealListPos == 0) {
             App.getRouter().showSystemMessage(App.getAppString(R.string.some_empty_fields_message))
             return
@@ -87,21 +78,19 @@ class AddDishPresenter : MvpPresenter<AddDishView>() {
         DbRepository.instance.getFoodIdByName(food.toString())
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(this::onGetFoodId)
-                //.subscribe(id -> onGetFoodId(id))
+                .subscribe { id -> onGetFoodId(id, weight.toString()) }
                 .addTo(CompositeDisposable())
     }
 
-    private fun onGetFoodId(id: Int) {
+    private fun onGetFoodId(id: Int, weight: String) {
         val dishId = DbRepository.instance.insertDishInJournal(Dish(date, meals[selectedMealListPos],
-                id, Integer.valueOf(this.weight.toString())))
+                id, Integer.valueOf(weight)))
 
         if (dishId > -1) {
             App.getRouter().exitWithMessage(App.getAppString(R.string.add_message))
         } else {
             App.getRouter().showSystemMessage(App.getAppString(R.string.add_dish_fail))
         }
-
     }
 
     internal fun onMealSelected(position: Int) {

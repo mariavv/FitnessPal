@@ -8,7 +8,7 @@ import android.database.Cursor
 import io.reactivex.Flowable
 
 @Dao
-interface HandbookDao {
+interface FoodsDao {
 
     @Query("select * from foods order by sortable_name, name")
     fun getAll(): Cursor

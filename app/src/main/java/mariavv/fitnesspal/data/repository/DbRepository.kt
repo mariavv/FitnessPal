@@ -48,7 +48,7 @@ class DbRepository {
         val id = db.handbookDao().insert(
                 mariavv.fitnesspal.data.db.handbook.Food(
                         name = food.name, protein = food.protein, fat = food.fat,
-                        carb = food.carb, sortable_name = food.name.toLowerCase()
+                        carb = food.carb, sortableName = food.name.toLowerCase()
                 )
         )
 
@@ -64,19 +64,7 @@ class DbRepository {
     @Throws(Exception::class)
     internal fun getFoodIdByName(dish: String): Flowable<Int> {
         return db.handbookDao().getFoodIdByName(dish)
-    }/*Int {
-        val q = ("select " + CName.ID
-                + " from " + TName.FOODS
-                + " where " + CName.NAME + " = '" + dish + "'")
-        val c = sqLiteDatabase.rawQuery(q, null)
-        c.moveToFirst()
-        if (c.count == 0) {
-            throw Exception("error")
-        }
-        val id = c.getInt(0)
-        c.close()
-        return id
-    }*/
+    }
 
     fun clearHandbook() {
         deleteTable(TName.FOODS)
