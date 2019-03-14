@@ -8,9 +8,9 @@ import android.arch.persistence.room.PrimaryKey
 class Dish(
         @PrimaryKey(autoGenerate = true)
         @ColumnInfo(name = "id")
-        var id: Int,
+        var id: Int = 0,
         @ColumnInfo(name = "meal_num")
-        var mealNum: Int,
+        var mealNum: String,
         @ColumnInfo(name = "date")
         var date: Long,
         @ColumnInfo(name = "handbook_id")

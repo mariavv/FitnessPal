@@ -2,18 +2,22 @@ package mariavv.fitnesspal.presentation.adddish
 
 import android.database.Cursor
 import android.text.Editable
+import android.util.Log
 import android.view.inputmethod.EditorInfo
 import com.arellomobile.mvp.InjectViewState
 import com.arellomobile.mvp.MvpPresenter
+import io.reactivex.Single
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.rxkotlin.addTo
+import io.reactivex.rxkotlin.subscribeBy
 import io.reactivex.schedulers.Schedulers
 import mariavv.fitnesspal.App
 import mariavv.fitnesspal.R
 import mariavv.fitnesspal.data.db.Meal
 import mariavv.fitnesspal.data.repository.DbRepository
 import mariavv.fitnesspal.domain.Dish
+import mariavv.fitnesspal.other.Const
 import mariavv.fitnesspal.other.Utils
 import java.util.*
 
@@ -83,14 +87,32 @@ class AddDishPresenter : MvpPresenter<AddDishView>() {
     }
 
     private fun onGetFoodId(id: Int, weight: String) {
-        val dishId = DbRepository.instance.insertDishInJournal(Dish(date, meals[selectedMealListPos],
-                id, Integer.valueOf(weight)))
+        //val dishId = DbRepository.instance.insertDishInJournal(Dish(date, meals[selectedMealListPos],
+        //        id, Integer.valueOf(weight)))
 
-        if (dishId > -1) {
-            App.getRouter().exitWithMessage(App.getAppString(R.string.add_message))
-        } else {
-            App.getRouter().showSystemMessage(App.getAppString(R.string.add_dish_fail))
-        }
+        Single.fromCallable {
+            DbRepository.instance.insertDishInJournal(Dish(
+                    date, meals[selectedMealListPos], id, Integer.valueOf(weight)
+            ))
+        }.subscribeOn(
+                Schedulers.io()
+        ).observeOn(
+                AndroidSchedulers.mainThread()
+        ).subscribeBy(
+                onSuccess = { id ->
+                    App.getRouter().exitWithMessage(App.getAppString(R.string.add_message))
+                    if (id < 1) {
+                        App.getRouter().showSystemMessage(App.getAppString(R.string.add_dish_fail))
+                    }
+                    Log.d(Const.LOG_TAG, "insert dish success, id = $id")
+                },
+                onError = { t ->
+                    App.getRouter().showSystemMessage(App.getAppString(R.string.add_dish_fail))
+                    Log.d(Const.LOG_TAG, "insert dish error: ${t.message}")
+                }
+        ).addTo(
+                CompositeDisposable()
+        )
     }
 
     internal fun onMealSelected(position: Int) {

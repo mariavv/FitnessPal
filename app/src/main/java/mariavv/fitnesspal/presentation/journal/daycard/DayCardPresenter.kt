@@ -1,7 +1,12 @@
 package mariavv.fitnesspal.presentation.journal.daycard
 
+import android.database.Cursor
 import com.arellomobile.mvp.InjectViewState
 import com.arellomobile.mvp.MvpPresenter
+import io.reactivex.android.schedulers.AndroidSchedulers
+import io.reactivex.disposables.CompositeDisposable
+import io.reactivex.rxkotlin.addTo
+import io.reactivex.schedulers.Schedulers
 import mariavv.fitnesspal.data.db.CName
 import mariavv.fitnesspal.data.db.Meal
 import mariavv.fitnesspal.data.repository.DbRepository
@@ -14,8 +19,15 @@ import java.util.*
 class DayCardPresenter : MvpPresenter<DayCardView>() {
 
     internal fun onGetDateArg(date: Long) {
-        val data = DbRepository.instance.getJournal(date)
+        //val data = DbRepository.instance.getJournal(date)
+        DbRepository.instance.getJournal(date)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(this::onGetJournal)
+                .addTo(CompositeDisposable())
+    }
 
+    private fun onGetJournal(journal: Cursor) {
         val dataSet = ArrayList<ItemType>()
 
         //каша
@@ -32,16 +44,17 @@ class DayCardPresenter : MvpPresenter<DayCardView>() {
         val dishesLaunch = ArrayList<DishListItem>()
         val dishesDinner = ArrayList<DishListItem>()
 
-        while (data.moveToNext()) {
-            val meal = data.getString(data.getColumnIndex(CName.MEAL))
+        journal.moveToFirst()
+        while (journal.moveToNext()) {
+            val meal = journal.getString(journal.getColumnIndex(CName.MEAL))
 
-            val protein = data.getInt(data.getColumnIndex(CName.PROTEIN))
-            val fat = data.getInt(data.getColumnIndex(CName.FAT))
-            val carb = data.getInt(data.getColumnIndex(CName.CARB))
+            val protein = journal.getInt(journal.getColumnIndex(CName.PROTEIN))
+            val fat = journal.getInt(journal.getColumnIndex(CName.FAT))
+            val carb = journal.getInt(journal.getColumnIndex(CName.CARB))
 
-            val food = Food(data.getString(data.getColumnIndex(CName.NAME)), protein, fat, carb)
+            val food = Food(journal.getString(journal.getColumnIndex(CName.NAME)), protein, fat, carb)
 
-            val weight = data.getInt(data.getColumnIndex(CName.WEIGHT))
+            val weight = journal.getInt(journal.getColumnIndex(CName.WEIGHT))
 
             if (meal == Meal.BREAKFAST.value) {
                 addToMealList(food, weight, mealBreakfast, dishesBreakfast)
@@ -56,7 +69,7 @@ class DayCardPresenter : MvpPresenter<DayCardView>() {
             dayCarb += food.getCount(food.carb, weight)
         }
 
-        data.close()
+        journal.close()
 
         addToDataSet(dataSet, mealBreakfast, dishesBreakfast)
         addToDataSet(dataSet, mealLanch, dishesLaunch)

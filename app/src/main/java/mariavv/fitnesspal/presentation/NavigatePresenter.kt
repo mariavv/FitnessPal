@@ -14,6 +14,7 @@ import io.reactivex.rxkotlin.addTo
 import io.reactivex.rxkotlin.subscribeBy
 import io.reactivex.schedulers.Schedulers
 import mariavv.fitnesspal.App
+import mariavv.fitnesspal.R
 import mariavv.fitnesspal.data.repository.AssetsRepository
 import mariavv.fitnesspal.data.repository.DbRepository
 import mariavv.fitnesspal.data.repository.SharedDataRepository
@@ -117,7 +118,28 @@ class NavigatePresenter : MvpPresenter<NavigateView>() {
                 e.printStackTrace()
             }
 
-            DbRepository.instance.insertDishInJournal(Dish(docDate, dish.meal, dish.foodId, dish.weight))
+            Single.fromCallable {
+                DbRepository.instance.insertDishInJournal(Dish(
+                        docDate, dish.meal, dish.foodId, dish.weight
+                ))
+            }.subscribeOn(
+                    Schedulers.io()
+            ).observeOn(
+                    AndroidSchedulers.mainThread()
+            ).subscribeBy(
+                    onSuccess = { id ->
+                        if (id < 1) {
+                            App.getRouter().showSystemMessage(App.getAppString(R.string.add_dish_fail))
+                        }
+                        Log.d(Const.LOG_TAG, "insert dish success, id = $id")
+                    },
+                    onError = { t ->
+                        App.getRouter().showSystemMessage(App.getAppString(R.string.add_dish_fail))
+                        Log.d(Const.LOG_TAG, "insert dish error: ${t.message}")
+                    }
+            ).addTo(
+                    CompositeDisposable()
+            )
         }
 
         router.newRootScreen(Const.Screen.JOURNAL)

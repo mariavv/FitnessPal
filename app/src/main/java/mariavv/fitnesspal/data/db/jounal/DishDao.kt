@@ -4,19 +4,21 @@ import android.arch.persistence.room.Dao
 import android.arch.persistence.room.Insert
 import android.arch.persistence.room.OnConflictStrategy
 import android.arch.persistence.room.Query
+import android.database.Cursor
+import io.reactivex.Flowable
 
 @Dao
 interface DishDao {
 
-    @Query("select * from foods order by sortable_name, name")
-    fun getAll(): Cursor
+    @Query("select hb.name, j.meal_num, j.date , j.mass , hb.protein , hb.fat , hb.carb from foods as hb, dishes as j where j.date = :date and j.handbook_id = hb.id order by j.meal_num")
+    fun getJournal(date: Long): Cursor
 
-    @Query("select name, sortable_name from foods order by sortable_name, name")
-    fun getFoodNames(): Cursor
+    @Query("select count(date) as count from ( select distinct date from dishes)")
+    fun getJournalDaysCount(): Flowable<Int>
 
-    @Query("select id from foods where name = :name")
-    fun getFoodIdByName(name: String): Flowable<Int>
+    @Query("select distinct date from dishes order by date")
+    fun getJournalDates(): Cursor
 
-    @Insert(onConflict = OnConflictStrategy.FAIL)
+    @Insert(onConflict = OnConflictStrategy.IGNORE)
     fun insert(dish: Dish): Long
 }

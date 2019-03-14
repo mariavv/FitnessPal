@@ -1,13 +1,11 @@
 package mariavv.fitnesspal.data.repository
 
 import android.arch.persistence.room.Room
-import android.content.ContentValues
 import android.database.Cursor
 import android.database.sqlite.SQLiteDatabase
 import io.reactivex.Flowable
 import mariavv.fitnesspal.App
 import mariavv.fitnesspal.data.db.AppDatabase
-import mariavv.fitnesspal.data.db.CName
 import mariavv.fitnesspal.data.db.SQLiteHelper
 import mariavv.fitnesspal.data.db.TName
 import mariavv.fitnesspal.domain.Dish
@@ -74,52 +72,60 @@ class DbRepository {
         deleteTable(TName.DISHES)
     }
 
-    internal val journalDaysCount: Int
-        get() {
-            val q = ("select count( " + CName.DATE + " ) as count"
-                    + " from ( select distinct " + CName.DATE + " from " + TName.DISHES + ")")
-            val c = sqLiteDatabase.rawQuery(q, null)
+    internal fun journalDaysCount(): Flowable<Int> {
+        return db.dishDao().getJournalDaysCount()
+    }
 
-            c.moveToFirst()
-            val count = c.getInt(0)
-            c.close()
-            return count
-        }
-
-    private val journalDatesCursor: Cursor
-        get() {
-            val q = ("select distinct " + CName.DATE
-                    + " from " + TName.DISHES + " order by " + CName.DATE)
-            return sqLiteDatabase.rawQuery(q, null)
-        }
-
-    internal val journalDates: ArrayList<Long>
-        get() {
-            val c = journalDatesCursor
+    internal fun journalDates(): Flowable<ArrayList<Long>> {
+        return Flowable.fromCallable {
+            val c = db.dishDao().getJournalDates()
 
             val dates = ArrayList<Long>()
+            c.moveToFirst()
             while (c.moveToNext()) {
                 dates.add(c.getLong(0))
             }
             c.close()
-            return dates
+            dates
         }
+    }
 
-    fun getDateByIndex(i: Int): Long {
-        val c = journalDatesCursor
+    fun getDateByIndex(i: Int): Flowable<Long> {
+        return Flowable.fromCallable {
+            val c = db.dishDao().getJournalDates()
+            if (i > -1 && i < c.count) {
+                c.moveToPosition(i)
+                val date = c.getLong(0)
+                c.close()
+                date
+            } else {
+                c.close()
+                Date().time
+            }
+        }
+    }
+
+    /*fun getDateByIndex(i: Int): Flowable<Long> {
+        val c = db.dishDao().getJournalDates()
         return if (i > -1 && i < c.count) {
             c.moveToPosition(i)
             val date = c.getLong(0)
             c.close()
-            date
+            Flowable.fromCallable { date }
         } else {
             c.close()
-            Date().time
+            Flowable.fromCallable { Date().time }
         }
-    }
+    }*/
 
     internal fun insertDishInJournal(dish: Dish): Long {
-        val cv = ContentValues()
+        val id = db.dishDao().insert(
+                mariavv.fitnesspal.data.db.jounal.Dish(
+                        mealNum = dish.meal, date = dish.date.time,
+                        handbookId = dish.foodId, mass = dish.weight
+                )
+        )
+        /*val cv = ContentValues()
         cv.put(CName.MEAL, dish.meal)
         cv.put(CName.DATE, dish.date.time)
         cv.put(CName.DISH_ID, dish.foodId)
@@ -127,30 +133,21 @@ class DbRepository {
 
         var id = Long.MIN_VALUE
         try {
-            id = sqLiteDatabase.insert(TName.DISHES, null, cv)
-            if (id > -1) {
-                EventBus.getDefault().post(AddDishEvent())
-            }
-        } catch (e: Exception) {
-            e.printStackTrace()
+            id = sqLiteDatabase.insert(TName.DISHES, null, cv)*/
+        if (id > -1) {
+            EventBus.getDefault().post(AddDishEvent())
         }
+        /*} catch (e: Exception) {
+            e.printStackTrace()
+        }*/
 
         return id
     }
 
-    internal fun getJournal(date: Long): Cursor {
-        val q = ("select " + " hb." + CName.NAME
-                + ", j." + CName.MEAL
-                + ", j." + CName.DATE
-                + " , j." + CName.WEIGHT
-                + " , hb." + CName.PROTEIN
-                + " , hb." + CName.FAT
-                + " , hb." + CName.CARB
-                + " from " + TName.FOODS + " as hb, "
-                + TName.DISHES + " as j where j." + CName.DATE + " = " + date + " and j."
-                + CName.DISH_ID + " = hb." + CName.ID
-                + " order by j." + CName.MEAL)
-        return sqLiteDatabase.rawQuery(q, null)
+    internal fun getJournal(date: Long): Flowable<Cursor> {
+        return Flowable.fromCallable {
+            db.dishDao().getJournal(date)
+        }
     }
 
     private fun deleteTable(table: String) {
