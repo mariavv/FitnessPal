@@ -41,7 +41,8 @@ class AddFoodPresenter : MvpPresenter<AddFoodView>(), DbRepository.FoodsListener
         }
 
         Single.fromCallable {
-            DbRepository.instance.insertFoodInHandbook(Food(foodEdText.toString(), protein, fat, carb), this)
+            DbRepository.instance.insertFoodInHandbook(Food(
+                    name = foodEdText.toString(), protein = protein, fat = fat, carb = carb), this)
         }.subscribeOn(
                 Schedulers.io()
         ).observeOn(

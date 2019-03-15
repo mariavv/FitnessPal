@@ -36,7 +36,7 @@ class DbRepository {
     //todo  = foodsListener
     internal fun insertFoodInHandbook(food: Food, listener: FoodsListener? = foodsListener): Long {
         val id = db.handbookDao().insert(
-                mariavv.fitnesspal.data.db.handbook.Food(
+                Food(
                         name = food.name, protein = food.protein, fat = food.fat,
                         carb = food.carb, sortableName = food.name.toLowerCase()
                 )
@@ -89,12 +89,8 @@ class DbRepository {
     }
 
     internal fun insertDishInJournal(dish: Dish): Long {
-        val id = db.dishDao().insert(
-                mariavv.fitnesspal.data.db.jounal.Dish(
-                        meal = dish.meal, date = dish.date.time,
-                        foodId = dish.foodId, weight = dish.weight
-                )
-        )
+        val id = db.dishDao().insert(dish)
+
         if (id > -1) {
             EventBus.getDefault().post(AddDishEvent())
         }

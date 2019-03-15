@@ -36,9 +36,9 @@ class NavigatePresenter : MvpPresenter<NavigateView>() {
         super.onFirstViewAttach()
         router = App.getRouter()
 
-        if (!SharedDataRepository.isNotFirstRun) {
+        if (SharedDataRepository.isFirstRun) {
             initDb()
-            SharedDataRepository.saveNotFirstRun(true)
+            SharedDataRepository.saveFirstRun()
         } else {
             router.newRootScreen(Const.Screen.JOURNAL)
         }
@@ -120,7 +120,7 @@ class NavigatePresenter : MvpPresenter<NavigateView>() {
 
             Single.fromCallable {
                 DbRepository.instance.insertDishInJournal(Dish(
-                        docDate, dish.meal, dish.foodId, dish.weight
+                        meal = dish.meal, date = docDate.time, foodId = dish.foodId, weight = dish.weight
                 ))
             }.subscribeOn(
                     Schedulers.io()

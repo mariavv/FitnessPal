@@ -19,7 +19,6 @@ import java.util.*
 class DayCardPresenter : MvpPresenter<DayCardView>() {
 
     internal fun onGetDateArg(date: Long) {
-        //val data = DbRepository.instance.getJournal(date)
         DbRepository.instance.getJournal(date)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
@@ -53,7 +52,11 @@ class DayCardPresenter : MvpPresenter<DayCardView>() {
                 val fat = journal.getInt(journal.getColumnIndex(ColumnName.FAT))
                 val carb = journal.getInt(journal.getColumnIndex(ColumnName.CARB))
 
-                val food = Food(journal.getString(journal.getColumnIndex(ColumnName.NAME)), protein, fat, carb)
+                val food = Food(
+                        name = journal.getString(journal.getColumnIndex(ColumnName.NAME)),
+                        protein = protein,
+                        fat = fat,
+                        carb = carb)
 
                 val weight = journal.getInt(journal.getColumnIndex(ColumnName.WEIGHT))
 
@@ -65,9 +68,9 @@ class DayCardPresenter : MvpPresenter<DayCardView>() {
                     addToMealList(food, weight, mealDinner, dishesDinner)
                 }
 
-                dayProtein += food.getCount(food.protein, weight)
-                dayFat += food.getCount(food.fat, weight)
-                dayCarb += food.getCount(food.carb, weight)
+                dayProtein += Food.getMacronutrientInWeight(food.protein, weight)
+                dayFat += Food.getMacronutrientInWeight(food.fat, weight)
+                dayCarb += Food.getMacronutrientInWeight(food.carb, weight)
             } while (journal.moveToNext())
 
             addToDataSet(dataSet, mealBreakfast, dishesBreakfast)

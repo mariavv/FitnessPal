@@ -6,16 +6,12 @@ import mariavv.fitnesspal.App
 
 object SharedDataRepository {
 
-    private val FIRST_RUN = "first_run"
+    private const val FIRST_RUN = "first_run"
 
     private val sharedPreferences = PreferenceManager.getDefaultSharedPreferences(App.context)
 
-    val isNotFirstRun: Boolean
-        get() = getBoolean(FIRST_RUN)
-
-    fun saveNotFirstRun(isNotFirstRun: Boolean) {
-        saveBoolean(FIRST_RUN, isNotFirstRun)
-    }
+    val isFirstRun: Boolean
+        get() = !getBoolean(FIRST_RUN)
 
     private fun saveBoolean(key: String, value: Boolean) {
         sharedPreferences
@@ -26,5 +22,9 @@ object SharedDataRepository {
 
     private fun getBoolean(key: String): Boolean {
         return sharedPreferences.getBoolean(key, false)
+    }
+
+    fun saveFirstRun() {
+        saveBoolean(FIRST_RUN, true)
     }
 }

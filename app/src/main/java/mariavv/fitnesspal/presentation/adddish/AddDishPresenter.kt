@@ -91,25 +91,22 @@ class AddDishPresenter : MvpPresenter<AddDishView>() {
     private fun onGetFoodId(id: Int, weight: String) {
         Single.fromCallable {
             DbRepository.instance.insertDishInJournal(Dish(
-                    date, meals[selectedMealListPos], id, Integer.valueOf(weight)
+                    meal = meals[selectedMealListPos], date = date.time, foodId = id, weight = Integer.valueOf(weight)
             ))
         }.subscribeOn(
                 Schedulers.io()
         ).observeOn(
                 AndroidSchedulers.mainThread()
-        ).subscribeBy(
-                onSuccess = { id ->
+        ).subscribeBy(onSuccess = { id ->
                     App.getRouter().exitWithMessage(App.getAppString(R.string.add_message))
                     if (id < 1) {
                         App.getRouter().showSystemMessage(App.getAppString(R.string.add_dish_fail))
                     }
                     Log.d(Const.LOG_TAG, "insert dish success, id = $id")
-                },
-                onError = { t ->
+        }, onError = { t ->
                     App.getRouter().showSystemMessage(App.getAppString(R.string.add_dish_fail))
                     Log.d(Const.LOG_TAG, "insert dish error: ${t.message}")
-                }
-        ).addTo(
+        }).addTo(
                 CompositeDisposable()
         )
     }

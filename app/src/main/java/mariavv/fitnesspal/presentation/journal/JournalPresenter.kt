@@ -44,6 +44,14 @@ class JournalPresenter : MvpPresenter<JournalView>() {
                 .addTo(CompositeDisposable())
     }
 
+    private fun setJournalDates() {
+        DbRepository.instance.getJournalDates()
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe { dates: ArrayList<Long> -> onGetJournalDates(dates) }
+                .addTo(CompositeDisposable())
+    }
+
     private fun moveToPosition(position: Int) {
         adapterPosition = position
 
@@ -51,14 +59,6 @@ class JournalPresenter : MvpPresenter<JournalView>() {
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe { date -> viewState.moveToPosition(position, formatDate(date)) }
-                .addTo(CompositeDisposable())
-    }
-
-    private fun setJournalDates() {
-        DbRepository.instance.getJournalDates()
-                .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe { dates: ArrayList<Long> -> onGetJournalDates(dates) }
                 .addTo(CompositeDisposable())
     }
 
@@ -129,9 +129,9 @@ class JournalPresenter : MvpPresenter<JournalView>() {
 
         moveToPosition(adapterPosition)
         if (adapterPosition != 0) {
-            viewState.setPrevDayDisable()
-        } else {
             viewState.setPrevDayEnable()
+        } else {
+            viewState.setPrevDayDisable()
         }
 
         DbRepository.instance.getJournalDaysCount()

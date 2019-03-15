@@ -2,14 +2,16 @@ package mariavv.fitnesspal.data.db
 
 import android.arch.persistence.room.Database
 import android.arch.persistence.room.RoomDatabase
-import mariavv.fitnesspal.data.db.handbook.FoodsDao
-import mariavv.fitnesspal.data.db.jounal.DishDao
+import mariavv.fitnesspal.data.db.dao.DishDao
+import mariavv.fitnesspal.data.db.dao.FoodsDao
+import mariavv.fitnesspal.domain.Dish
+import mariavv.fitnesspal.domain.Food
 
 
 @Database(
         entities = [
-            mariavv.fitnesspal.data.db.handbook.Food::class,
-            mariavv.fitnesspal.data.db.jounal.Dish::class
+            Food::class,
+            Dish::class
         ],
         version = 1
 )
