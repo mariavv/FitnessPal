@@ -7,7 +7,7 @@ import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.rxkotlin.addTo
 import io.reactivex.schedulers.Schedulers
-import mariavv.fitnesspal.data.db.CName
+import mariavv.fitnesspal.data.db.ColumnName
 import mariavv.fitnesspal.data.db.Meal
 import mariavv.fitnesspal.data.repository.DbRepository
 import mariavv.fitnesspal.domain.Food
@@ -47,15 +47,15 @@ class DayCardPresenter : MvpPresenter<DayCardView>() {
             val dishesDinner = ArrayList<DishListItem>()
 
             do {
-                val meal = journal.getString(journal.getColumnIndex(CName.MEAL))
+                val meal = journal.getString(journal.getColumnIndex(ColumnName.MEAL))
 
-                val protein = journal.getInt(journal.getColumnIndex(CName.PROTEIN))
-                val fat = journal.getInt(journal.getColumnIndex(CName.FAT))
-                val carb = journal.getInt(journal.getColumnIndex(CName.CARB))
+                val protein = journal.getInt(journal.getColumnIndex(ColumnName.PROTEIN))
+                val fat = journal.getInt(journal.getColumnIndex(ColumnName.FAT))
+                val carb = journal.getInt(journal.getColumnIndex(ColumnName.CARB))
 
-                val food = Food(journal.getString(journal.getColumnIndex(CName.NAME)), protein, fat, carb)
+                val food = Food(journal.getString(journal.getColumnIndex(ColumnName.NAME)), protein, fat, carb)
 
-                val weight = journal.getInt(journal.getColumnIndex(CName.WEIGHT))
+                val weight = journal.getInt(journal.getColumnIndex(ColumnName.WEIGHT))
 
                 if (meal == Meal.BREAKFAST.value) {
                     addToMealList(food, weight, mealBreakfast, dishesBreakfast)

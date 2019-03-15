@@ -10,7 +10,7 @@ import io.reactivex.Flowable
 @Dao
 interface DishDao {
 
-    @Query("select hb.name, j.meal, j.date , j.weight , hb.protein , hb.fat , hb.carb from foods as hb, dishes as j where j.date = :date and j.food_id = hb.id order by j.meal")
+    @Query("select hb.name, j.meal, j.date , j.weight , hb.protein, hb.fat , hb.carb from foods as hb, dishes as j where j.date = :date and j.food_id = hb.id order by j.meal")
     fun getJournal(date: Long): Cursor
 
     @Query("select count(date) as count from ( select distinct date from dishes)")

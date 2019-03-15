@@ -10,11 +10,11 @@ class Dish(
         @ColumnInfo(name = "id")
         var id: Int = 0,
         @ColumnInfo(name = "meal")
-        var mealNum: String,
+        var meal: String,
         @ColumnInfo(name = "date")
         var date: Long,
         @ColumnInfo(name = "food_id")
-        var handbookId: Int,
+        var foodId: Int,
         @ColumnInfo(name = "weight")
-        var mass: Int
+        var weight: Int
 )

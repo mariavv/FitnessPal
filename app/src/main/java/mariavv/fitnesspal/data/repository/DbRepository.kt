@@ -4,7 +4,7 @@ import android.arch.persistence.room.Room
 import android.database.Cursor
 import io.reactivex.Flowable
 import mariavv.fitnesspal.App
-import mariavv.fitnesspal.data.db.AppDatabase
+import mariavv.fitnesspal.data.db.Db
 import mariavv.fitnesspal.domain.Dish
 import mariavv.fitnesspal.domain.Food
 import mariavv.fitnesspal.other.eventbus.AddDishEvent
@@ -14,8 +14,8 @@ import java.util.*
 
 
 class DbRepository {
-    private var db: AppDatabase = Room.databaseBuilder(App.context,
-            AppDatabase::class.java, DB_NAME).fallbackToDestructiveMigration().build()
+    private var db: Db = Room.databaseBuilder(App.context,
+            Db::class.java, DB_NAME).fallbackToDestructiveMigration().build()
 
     private var foodsListener: FoodsListener? = null
 
@@ -91,8 +91,8 @@ class DbRepository {
     internal fun insertDishInJournal(dish: Dish): Long {
         val id = db.dishDao().insert(
                 mariavv.fitnesspal.data.db.jounal.Dish(
-                        mealNum = dish.meal, date = dish.date.time,
-                        handbookId = dish.foodId, mass = dish.weight
+                        meal = dish.meal, date = dish.date.time,
+                        foodId = dish.foodId, weight = dish.weight
                 )
         )
         if (id > -1) {

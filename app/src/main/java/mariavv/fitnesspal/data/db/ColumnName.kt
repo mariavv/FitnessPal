@@ -1,6 +1,6 @@
 package mariavv.fitnesspal.data.db
 
-object CName {
+object ColumnName {
     const val ID = "id"
     const val MEAL = "meal"
     const val DATE = "date"
