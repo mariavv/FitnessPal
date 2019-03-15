@@ -47,21 +47,23 @@ class AddDishPresenter : MvpPresenter<AddDishView>() {
     }
 
     private fun onGetFoodNames(foodList: Cursor) {
-        val fl = Array(foodList.count) { "" }
-        foodList.moveToFirst()
-        do {
-            fl[foodList.position] = foodList.getString(0)
-        } while (foodList.moveToNext())
+        if (foodList.moveToFirst()) {
+            val fl = Array(foodList.count) { "" }
+            do {
+                fl[foodList.position] = foodList.getString(0)
+            } while (foodList.moveToNext())
+            viewState.configureFoodList(fl)
+
+            meals = Array(Meal.values().size + 1) { "" }
+            meals[0] = ""
+            meals[1] = Meal.BREAKFAST.value
+            meals[2] = Meal.LAUNCH.value
+            meals[3] = Meal.DINNER.value
+
+            viewState.configureMealsSpinner(meals)
+        }
+
         foodList.close()
-        viewState.configureFoodList(fl)
-
-        meals = Array(Meal.values().size + 1) { "" }
-        meals[0] = ""
-        meals[1] = Meal.BREAKFAST.value
-        meals[2] = Meal.LAUNCH.value
-        meals[3] = Meal.DINNER.value
-
-        viewState.configureMealsSpinner(meals)
     }
 
     internal fun onDateChange(year: Int, month: Int, dayOfMonth: Int) {
@@ -87,9 +89,6 @@ class AddDishPresenter : MvpPresenter<AddDishView>() {
     }
 
     private fun onGetFoodId(id: Int, weight: String) {
-        //val dishId = DbRepository.instance.insertDishInJournal(Dish(date, meals[selectedMealListPos],
-        //        id, Integer.valueOf(weight)))
-
         Single.fromCallable {
             DbRepository.instance.insertDishInJournal(Dish(
                     date, meals[selectedMealListPos], id, Integer.valueOf(weight)

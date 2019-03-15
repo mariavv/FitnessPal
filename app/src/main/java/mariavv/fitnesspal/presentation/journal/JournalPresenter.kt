@@ -28,15 +28,15 @@ class JournalPresenter : MvpPresenter<JournalView>() {
 
         setJournalDates()
 
-        DbRepository.instance.getDateByIndex(0)
+        DbRepository.instance.getDateByIndex(adapterPosition)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe { viewState::setDate }
+                .subscribe { { date: String -> viewState.setDate(date) } }
                 .addTo(CompositeDisposable())
-        //viewState.setDate(getDate(0))
+
         viewState.setPrevDayDisable()
 
-        DbRepository.instance.journalDaysCount()
+        DbRepository.instance.getJournalDaysCount()
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(this::firstViewAttachOnGetJournalDaysCount)
@@ -44,10 +44,10 @@ class JournalPresenter : MvpPresenter<JournalView>() {
     }
 
     private fun setJournalDates() {
-        DbRepository.instance.journalDates()
+        DbRepository.instance.getJournalDates()
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe { dates -> OnGetJournalDates(dates) }
+                .subscribe { dates: ArrayList<Long> -> this.onGetJournalDates(dates) }
                 .addTo(CompositeDisposable())
     }
 
@@ -58,7 +58,7 @@ class JournalPresenter : MvpPresenter<JournalView>() {
         }
     }
 
-    private fun OnGetJournalDates(dates: ArrayList<Long>) {
+    private fun onGetJournalDates(dates: ArrayList<Long>) {
         viewState.setAdapterItems(dates, adapterPosition)
     }
 
@@ -74,14 +74,7 @@ class JournalPresenter : MvpPresenter<JournalView>() {
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe { date -> viewState.moveToPosition(position, formatDate(date)) }
                 .addTo(CompositeDisposable())
-
-        //viewState.moveToPosition(position, getDate(position))
     }
-
-    /*private fun getDate(position: Int): String {
-
-        return formatDate(DbRepository.instance.getDateByIndex(position))
-    }*/
 
     internal fun onPrevDayClick(currentPage: Int, pageCount: Int) {
         if (currentPage < 1) {
@@ -140,7 +133,7 @@ class JournalPresenter : MvpPresenter<JournalView>() {
             viewState.setPrevDayEnable()
         }
 
-        DbRepository.instance.journalDaysCount()
+        DbRepository.instance.getJournalDaysCount()
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(this::addDishEventOnGetJournalDaysCount)

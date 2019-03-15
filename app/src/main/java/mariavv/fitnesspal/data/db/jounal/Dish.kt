@@ -9,12 +9,12 @@ class Dish(
         @PrimaryKey(autoGenerate = true)
         @ColumnInfo(name = "id")
         var id: Int = 0,
-        @ColumnInfo(name = "meal_num")
+        @ColumnInfo(name = "meal")
         var mealNum: String,
         @ColumnInfo(name = "date")
         var date: Long,
-        @ColumnInfo(name = "handbook_id")
+        @ColumnInfo(name = "food_id")
         var handbookId: Int,
-        @ColumnInfo(name = "mass")
+        @ColumnInfo(name = "weight")
         var mass: Int
 )

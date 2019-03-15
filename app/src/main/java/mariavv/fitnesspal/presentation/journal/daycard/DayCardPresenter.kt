@@ -28,56 +28,58 @@ class DayCardPresenter : MvpPresenter<DayCardView>() {
     }
 
     private fun onGetJournal(journal: Cursor) {
-        val dataSet = ArrayList<ItemType>()
+        if (journal.moveToFirst()) {
 
-        //каша
+            //каша
 
-        var dayProtein = 0
-        var dayFat = 0
-        var dayCarb = 0
+            val dataSet = ArrayList<ItemType>()
 
-        val mealBreakfast = MealListItem(Meal.BREAKFAST, 0)
-        val mealLanch = MealListItem(Meal.LAUNCH, 0)
-        val mealDinner = MealListItem(Meal.DINNER, 0)
+            var dayProtein = 0
+            var dayFat = 0
+            var dayCarb = 0
 
-        val dishesBreakfast = ArrayList<DishListItem>()
-        val dishesLaunch = ArrayList<DishListItem>()
-        val dishesDinner = ArrayList<DishListItem>()
+            val mealBreakfast = MealListItem(Meal.BREAKFAST, 0)
+            val mealLanch = MealListItem(Meal.LAUNCH, 0)
+            val mealDinner = MealListItem(Meal.DINNER, 0)
 
-        journal.moveToFirst()
-        while (journal.moveToNext()) {
-            val meal = journal.getString(journal.getColumnIndex(CName.MEAL))
+            val dishesBreakfast = ArrayList<DishListItem>()
+            val dishesLaunch = ArrayList<DishListItem>()
+            val dishesDinner = ArrayList<DishListItem>()
 
-            val protein = journal.getInt(journal.getColumnIndex(CName.PROTEIN))
-            val fat = journal.getInt(journal.getColumnIndex(CName.FAT))
-            val carb = journal.getInt(journal.getColumnIndex(CName.CARB))
+            do {
+                val meal = journal.getString(journal.getColumnIndex(CName.MEAL))
 
-            val food = Food(journal.getString(journal.getColumnIndex(CName.NAME)), protein, fat, carb)
+                val protein = journal.getInt(journal.getColumnIndex(CName.PROTEIN))
+                val fat = journal.getInt(journal.getColumnIndex(CName.FAT))
+                val carb = journal.getInt(journal.getColumnIndex(CName.CARB))
 
-            val weight = journal.getInt(journal.getColumnIndex(CName.WEIGHT))
+                val food = Food(journal.getString(journal.getColumnIndex(CName.NAME)), protein, fat, carb)
 
-            if (meal == Meal.BREAKFAST.value) {
-                addToMealList(food, weight, mealBreakfast, dishesBreakfast)
-            } else if (meal == Meal.LAUNCH.value) {
-                addToMealList(food, weight, mealLanch, dishesLaunch)
-            } else if (meal == Meal.DINNER.value) {
-                addToMealList(food, weight, mealDinner, dishesDinner)
-            }
+                val weight = journal.getInt(journal.getColumnIndex(CName.WEIGHT))
 
-            dayProtein += food.getCount(food.protein, weight)
-            dayFat += food.getCount(food.fat, weight)
-            dayCarb += food.getCount(food.carb, weight)
+                if (meal == Meal.BREAKFAST.value) {
+                    addToMealList(food, weight, mealBreakfast, dishesBreakfast)
+                } else if (meal == Meal.LAUNCH.value) {
+                    addToMealList(food, weight, mealLanch, dishesLaunch)
+                } else if (meal == Meal.DINNER.value) {
+                    addToMealList(food, weight, mealDinner, dishesDinner)
+                }
+
+                dayProtein += food.getCount(food.protein, weight)
+                dayFat += food.getCount(food.fat, weight)
+                dayCarb += food.getCount(food.carb, weight)
+            } while (journal.moveToNext())
+
+            addToDataSet(dataSet, mealBreakfast, dishesBreakfast)
+            addToDataSet(dataSet, mealLanch, dishesLaunch)
+            addToDataSet(dataSet, mealDinner, dishesDinner)
+
+            val dayEnergy = mealBreakfast.energy + mealDinner.energy + mealLanch.energy
+
+            viewState.updateCard(dataSet, dayProtein, dayFat, dayCarb, dayEnergy)
         }
 
         journal.close()
-
-        addToDataSet(dataSet, mealBreakfast, dishesBreakfast)
-        addToDataSet(dataSet, mealLanch, dishesLaunch)
-        addToDataSet(dataSet, mealDinner, dishesDinner)
-
-        val dayEnergy = mealBreakfast.energy + mealDinner.energy + mealLanch.energy
-
-        viewState.updateCard(dataSet, dayProtein, dayFat, dayCarb, dayEnergy)
     }
 
     private fun addToMealList(food: Food, weight: Int, meal: MealListItem, dishes: MutableList<DishListItem>) {

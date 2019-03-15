@@ -2,12 +2,9 @@ package mariavv.fitnesspal.data.repository
 
 import android.arch.persistence.room.Room
 import android.database.Cursor
-import android.database.sqlite.SQLiteDatabase
 import io.reactivex.Flowable
 import mariavv.fitnesspal.App
 import mariavv.fitnesspal.data.db.AppDatabase
-import mariavv.fitnesspal.data.db.SQLiteHelper
-import mariavv.fitnesspal.data.db.TName
 import mariavv.fitnesspal.domain.Dish
 import mariavv.fitnesspal.domain.Food
 import mariavv.fitnesspal.other.eventbus.AddDishEvent
@@ -17,19 +14,14 @@ import java.util.*
 
 
 class DbRepository {
-    private val sqliteHelper: SQLiteHelper = SQLiteHelper()
-
     private var db: AppDatabase = Room.databaseBuilder(App.context,
-            AppDatabase::class.java, SQLiteHelper.DB_NAME + "_room").fallbackToDestructiveMigration().build()
+            AppDatabase::class.java, DB_NAME).fallbackToDestructiveMigration().build()
 
     private var foodsListener: FoodsListener? = null
 
     interface FoodsListener {
         fun onAddFood(id: Long)
     }
-
-    private val sqLiteDatabase: SQLiteDatabase
-        get() = sqliteHelper.writableDatabase
 
     internal val foodsFromHandbook: Flowable<Cursor>
         get() {
@@ -64,26 +56,18 @@ class DbRepository {
         return db.handbookDao().getFoodIdByName(dish)
     }
 
-    fun clearHandbook() {
-        deleteTable(TName.FOODS)
-    }
-
-    internal fun clearJournal() {
-        deleteTable(TName.DISHES)
-    }
-
-    internal fun journalDaysCount(): Flowable<Int> {
+    internal fun getJournalDaysCount(): Flowable<Int> {
         return db.dishDao().getJournalDaysCount()
     }
 
-    internal fun journalDates(): Flowable<ArrayList<Long>> {
+    internal fun getJournalDates(): Flowable<ArrayList<Long>> {
         return Flowable.fromCallable {
             val c = db.dishDao().getJournalDates()
-
             val dates = ArrayList<Long>()
-            c.moveToFirst()
-            while (c.moveToNext()) {
-                dates.add(c.getLong(0))
+            if (c.moveToFirst()) {
+                do {
+                    dates.add(c.getLong(0))
+                } while (c.moveToNext())
             }
             c.close()
             dates
@@ -93,8 +77,7 @@ class DbRepository {
     fun getDateByIndex(i: Int): Flowable<Long> {
         return Flowable.fromCallable {
             val c = db.dishDao().getJournalDates()
-            if (i > -1 && i < c.count) {
-                c.moveToPosition(i)
+            if (c.moveToPosition(i)) {
                 val date = c.getLong(0)
                 c.close()
                 date
@@ -105,19 +88,6 @@ class DbRepository {
         }
     }
 
-    /*fun getDateByIndex(i: Int): Flowable<Long> {
-        val c = db.dishDao().getJournalDates()
-        return if (i > -1 && i < c.count) {
-            c.moveToPosition(i)
-            val date = c.getLong(0)
-            c.close()
-            Flowable.fromCallable { date }
-        } else {
-            c.close()
-            Flowable.fromCallable { Date().time }
-        }
-    }*/
-
     internal fun insertDishInJournal(dish: Dish): Long {
         val id = db.dishDao().insert(
                 mariavv.fitnesspal.data.db.jounal.Dish(
@@ -125,22 +95,9 @@ class DbRepository {
                         handbookId = dish.foodId, mass = dish.weight
                 )
         )
-        /*val cv = ContentValues()
-        cv.put(CName.MEAL, dish.meal)
-        cv.put(CName.DATE, dish.date.time)
-        cv.put(CName.DISH_ID, dish.foodId)
-        cv.put(CName.WEIGHT, dish.weight)
-
-        var id = Long.MIN_VALUE
-        try {
-            id = sqLiteDatabase.insert(TName.DISHES, null, cv)*/
         if (id > -1) {
             EventBus.getDefault().post(AddDishEvent())
         }
-        /*} catch (e: Exception) {
-            e.printStackTrace()
-        }*/
-
         return id
     }
 
@@ -150,15 +107,13 @@ class DbRepository {
         }
     }
 
-    private fun deleteTable(table: String) {
-        sqLiteDatabase.delete(table, null, null)
-    }
-
     private object Holder {
         val INSTANCE = DbRepository()
     }
 
     companion object {
+        private const val DB_NAME = "fitness_pal"
+
         val instance: DbRepository by lazy {
             Holder.INSTANCE
         }
