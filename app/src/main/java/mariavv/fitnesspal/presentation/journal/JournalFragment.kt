@@ -19,14 +19,9 @@ class JournalFragment : BaseFragment(), JournalView, FrmFabric.IFragment {
     @InjectPresenter
     lateinit var presenter: JournalPresenter
 
-    private val pageCount: Int
-        get() = pagerAdapter.count
-
-    private val currentPage: Int
-        get() = viewPager.currentItem
-
-    override val name: String
-        get() = Const.Screen.JOURNAL
+    private val pageCount: Int get() = pagerAdapter.count
+    private val currentPage: Int get() = viewPager.currentItem
+    override val name: String get() = Const.Screen.JOURNAL
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         return inflater.inflate(R.layout.fragment_journal, container, false)
@@ -51,7 +46,6 @@ class JournalFragment : BaseFragment(), JournalView, FrmFabric.IFragment {
 
     override fun setAdapterItems(journalDates: ArrayList<Long>, adapterPosition: Int) {
         pagerAdapter.setItems(journalDates)
-        //viewPager.currentItem = adapterPosition
     }
 
     override fun setPrevDayEnable() {

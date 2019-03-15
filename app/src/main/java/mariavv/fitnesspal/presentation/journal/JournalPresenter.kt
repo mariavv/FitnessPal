@@ -10,6 +10,7 @@ import mariavv.fitnesspal.App
 import mariavv.fitnesspal.R
 import mariavv.fitnesspal.data.repository.DbRepository
 import mariavv.fitnesspal.other.Const
+import mariavv.fitnesspal.other.Utils
 import mariavv.fitnesspal.other.Utils.formatDate
 import mariavv.fitnesspal.other.eventbus.AddDishEvent
 import org.greenrobot.eventbus.EventBus
@@ -31,7 +32,7 @@ class JournalPresenter : MvpPresenter<JournalView>() {
         DbRepository.instance.getDateByIndex(adapterPosition)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe { { date: String -> viewState.setDate(date) } }
+                .subscribe { date -> viewState.setDate(Utils.formatDate(date)) }
                 .addTo(CompositeDisposable())
 
         viewState.setPrevDayDisable()
@@ -43,11 +44,21 @@ class JournalPresenter : MvpPresenter<JournalView>() {
                 .addTo(CompositeDisposable())
     }
 
+    private fun moveToPosition(position: Int) {
+        adapterPosition = position
+
+        DbRepository.instance.getDateByIndex(position)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe { date -> viewState.moveToPosition(position, formatDate(date)) }
+                .addTo(CompositeDisposable())
+    }
+
     private fun setJournalDates() {
         DbRepository.instance.getJournalDates()
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe { dates: ArrayList<Long> -> this.onGetJournalDates(dates) }
+                .subscribe { dates: ArrayList<Long> -> onGetJournalDates(dates) }
                 .addTo(CompositeDisposable())
     }
 
@@ -64,16 +75,6 @@ class JournalPresenter : MvpPresenter<JournalView>() {
 
     internal fun onFabClick() {
         App.getRouter().navigateTo(Const.Screen.ADD_DISH)
-    }
-
-    private fun moveToPosition(position: Int) {
-        adapterPosition = position
-
-        DbRepository.instance.getDateByIndex(position)
-                .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe { date -> viewState.moveToPosition(position, formatDate(date)) }
-                .addTo(CompositeDisposable())
     }
 
     internal fun onPrevDayClick(currentPage: Int, pageCount: Int) {
