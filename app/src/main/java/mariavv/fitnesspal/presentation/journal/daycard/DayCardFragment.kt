@@ -11,7 +11,9 @@ import kotlinx.android.synthetic.main.day_header_item.*
 import kotlinx.android.synthetic.main.fragment_day_card.*
 import mariavv.fitnesspal.R
 import mariavv.fitnesspal.other.Const.BundleArg.ARG_DATE
+import mariavv.fitnesspal.other.component.PieChatView
 import mariavv.fitnesspal.presentation.common.BaseFragment
+
 
 class DayCardFragment : BaseFragment(), DayCardView {
 
@@ -28,6 +30,9 @@ class DayCardFragment : BaseFragment(), DayCardView {
         super.onViewCreated(view, savedInstanceState)
         val args = arguments
         if (args != null) {
+            val dr = PieChatView()
+            customPieChat.setBackgroundDrawable(dr)
+
             configureRecyclerView()
             presenter.onGetDateArg(args.getLong(ARG_DATE))
         }
