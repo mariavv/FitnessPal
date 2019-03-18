@@ -2,22 +2,19 @@ package mariavv.fitnesspal.presentation.adddish
 
 import android.database.Cursor
 import android.text.Editable
-import android.util.Log
 import android.view.inputmethod.EditorInfo
 import com.arellomobile.mvp.InjectViewState
 import com.arellomobile.mvp.MvpPresenter
-import io.reactivex.Single
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.rxkotlin.addTo
-import io.reactivex.rxkotlin.subscribeBy
 import io.reactivex.schedulers.Schedulers
+import kotlinx.coroutines.*
 import mariavv.fitnesspal.App
 import mariavv.fitnesspal.R
 import mariavv.fitnesspal.data.db.Meal
 import mariavv.fitnesspal.data.repository.DbRepository
 import mariavv.fitnesspal.domain.Dish
-import mariavv.fitnesspal.other.Const
 import mariavv.fitnesspal.other.Utils
 import java.util.*
 
@@ -88,8 +85,8 @@ class AddDishPresenter : MvpPresenter<AddDishView>() {
                 .addTo(CompositeDisposable())
     }
 
-    private fun onGetFoodId(id: Int, weight: String) {
-        Single.fromCallable {
+    private fun onGetFoodId(id: Int, weight: String) = runBlocking {
+        /*val addTo = Single.fromCallable {
             DbRepository.instance.insertDishInJournal(Dish(
                     meal = meals[selectedMealListPos], date = date.time, foodId = id, weight = Integer.valueOf(weight)
             ))
@@ -98,17 +95,81 @@ class AddDishPresenter : MvpPresenter<AddDishView>() {
         ).observeOn(
                 AndroidSchedulers.mainThread()
         ).subscribeBy(onSuccess = { id ->
-                    App.getRouter().exitWithMessage(App.getAppString(R.string.add_message))
-                    if (id < 1) {
-                        App.getRouter().showSystemMessage(App.getAppString(R.string.add_dish_fail))
-                    }
-                    Log.d(Const.LOG_TAG, "insert dish success, id = $id")
+            App.getRouter().exitWithMessage(App.getAppString(R.string.add_message))
+            if (id < 1) {
+                App.getRouter().showSystemMessage(App.getAppString(R.string.add_dish_fail))
+            }
+            Log.d(Const.LOG_TAG, "insert dish success, id = $id")
         }, onError = { t ->
-                    App.getRouter().showSystemMessage(App.getAppString(R.string.add_dish_fail))
-                    Log.d(Const.LOG_TAG, "insert dish error: ${t.message}")
+            App.getRouter().showSystemMessage(App.getAppString(R.string.add_dish_fail))
+            Log.d(Const.LOG_TAG, "insert dish error: ${t.message}")
         }).addTo(
                 CompositeDisposable()
-        )
+        )*/
+
+        val job = GlobalScope.launch(Dispatchers.IO) {
+            val ind = DbRepository.instance.insertDishInJournal(Dish(
+                    meal = meals[selectedMealListPos], date = date.time, foodId = id, weight = Integer.valueOf(weight)
+            ))
+
+            withContext(Dispatchers.Main) {
+                if (ind > -1) {
+                    App.getRouter().exitWithMessage(App.getAppString(R.string.add_message))
+                } else {
+                    App.getRouter().showSystemMessage(App.getAppString(R.string.add_dish_fail))
+                }
+            }
+        }.start()
+
+        /*fun insert(): Long {
+            return DbRepository.instance.insertDishInJournal(Dish(
+                    meal = meals[selectedMealListPos], date = date.time, foodId = id, weight = Integer.valueOf(weight)
+            ))
+        }
+
+        suspend fun sendEmailSuspending(): Long {
+            val recipient = async { insert() }
+            return recipient.await()
+        }
+
+        val job = GlobalScope.launch {
+            val ind = sendEmailSuspending()
+            if (ind > -1) {
+                App.getRouter().exitWithMessage(App.getAppString(R.string.add_message))
+            } else {
+                App.getRouter().showSystemMessage(App.getAppString(R.string.add_dish_fail))
+            }
+        }
+        job.join()*/
+
+        /*fun CoroutineScope.produceNumbers(side: SendChannel<Long>) = produce<Long> {
+            val num = DbRepository.instance.insertDishInJournal(Dish(
+                    meal = meals[selectedMealListPos], date = date.time, foodId = id, weight = Integer.valueOf(weight)
+            ))
+            select<Unit> {
+                onSend(num) {}
+                side.onSend(num) {}
+            }
+        }
+
+        fun main() = runBlocking<Unit> {
+            val side = Channel<Long>()
+            launch(Dispatchers.IO) {
+                side.consumeEach {
+                    println("Side channel has $it")
+                }
+            }
+            produceNumbers(side).consumeEach {
+                if (it > -1) {
+                    App.getRouter().exitWithMessage(App.getAppString(R.string.add_message))
+                } else {
+                    App.getRouter().showSystemMessage(App.getAppString(R.string.add_dish_fail))
+                }
+            }
+            coroutineContext.cancelChildren()
+        }
+
+        main()*/
     }
 
     internal fun onMealSelected(position: Int) {
