@@ -52,7 +52,7 @@ class DbRepository {
     }
 
     @Throws(Exception::class)
-    internal fun getFoodIdByName(dish: String): Flowable<Int> {
+    internal fun getFoodIdByName(dish: String): Int {
         return db.handbookDao().getFoodIdByName(dish)
     }
 
