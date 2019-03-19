@@ -4,10 +4,11 @@
     android:layout_height="match_parent"
     android:orientation="vertical">
 
-    <View
+    <!--<View
         android:id="@+id/customPieChat"
-        android:layout_width="match_parent"
-        android:layout_height="150dp" />
+        android:layout_width="150dp"
+        android:layout_height="150dp"
+        android:layout_gravity="center_horizontal"/>-->
 
     <include
         android:id="@+id/header_info"
