@@ -2,8 +2,18 @@
     <!-- Default screen margins, per the Android Design guidelines. -->
     <dimen name="activity_horizontal_margin">16dp</dimen>
     <dimen name="activity_vertical_margin">16dp</dimen>
-    <dimen name="handbook_list_margin_top">24dp</dimen>
     <dimen name="hb_name_width">200dp</dimen>
-    <dimen name="hb_nutrent_width">30dp</dimen>
-    <dimen name="day_header_padding">15dp</dimen>
+    <dimen name="hb_c_width">70dp</dimen>
+    <dimen name="hb_pf_width">45dp</dimen>
+    <dimen name="screan_horizontal_border_padding">16dp</dimen>
+    <dimen name="columns_margin">4dp</dimen>
+    <dimen name="row_margin">8dp</dimen>
+    <dimen name="day_card_header_height">36dp</dimen>
+    <dimen name="button_width">48dp</dimen>
+    <dimen name="table_border_padding">8dp</dimen>
+    <dimen name="fab_margin">20dp</dimen>
+    <dimen name="enter_item_margin_top">24dp</dimen>
+    <dimen name="enter_text_size">24sp</dimen>
+    <dimen name="enter_second_column_margin_left">88dp</dimen>
+    <dimen name="handbook_item_height">32dp</dimen>
 </resources>

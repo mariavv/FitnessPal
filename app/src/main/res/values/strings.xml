@@ -7,13 +7,28 @@
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="handbook_food_title">Продукт</string>
-    <string name="handbook_protein_title">Б</string>
-    <string name="handbook_fat_title">Ж</string>
-    <string name="handbook_carb_title">У</string>
+    <string name="handbook_protein_title">Белки</string>
+    <string name="handbook_fat_title">Жиры</string>
+    <string name="handbook_carb_title">Углев.</string>
     <string name="weight_postfix">г.</string>
     <string name="protein_prefix">Б: </string>
     <string name="fat_prefix">Ж: </string>
     <string name="carb_prefix">У: </string>
     <string name="energy_postfix">ккал</string>
     <string name="meal_num_postfix">-й прием пищи</string>
+    <string name="protein_full_prefix">Белки: </string>
+    <string name="fat_full_prefix">Жиры: </string>
+    <string name="carb_full_prefix">Углеводы: </string>
+    <string name="energy_prefix">Калории: </string>
+    <string name="handbook_title">Справочник</string>
+    <string name="add_dish_title">Добавить</string>
+    <string name="journal_title">Журнал</string>
+    <string name="add_food_title">Добавление в справочник</string>
+    <string name="ru_locale">ru</string>
+    <string name="max_food_length">20</string>
+    <string name="add_message">Добавлено</string>
+    <string name="add_fail_message">Продукт с таким названием уже существует</string>
+    <string name="add_dish_fail">Данного продукта нет в справочнике</string>
+    <string name="some_empty_fields_message">Не все поля заполнены</string>
+    <string name="error_pfc_summ_message">Сумма белков, жиров и углеводов превышает 100%</string>
 </resources>

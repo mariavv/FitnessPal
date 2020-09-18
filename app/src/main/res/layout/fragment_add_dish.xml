@@ -1,0 +1,114 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:padding="@dimen/screan_horizontal_border_padding"
+    tools:context=".presentation.adddish.AddDishFragment">
+
+    <TextView
+        android:id="@+id/foodTv"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/enter_item_margin_top"
+        android:text="Дата: "
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/foodEd"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="07-02-2019"
+        android:layout_marginLeft="@dimen/enter_second_column_margin_left"
+        app:layout_constraintBottom_toBottomOf="@id/foodTv"
+        app:layout_constraintLeft_toRightOf="@id/foodTv" />
+
+    <View
+        android:id="@+id/v"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="82dp"
+        app:layout_constraintBottom_toBottomOf="@id/foodTv"
+        app:layout_constraintLeft_toRightOf="@id/foodTv" />
+
+    <ImageView
+        android:id="@+id/calendarIv"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="36dp"
+        android:src="@drawable/icon_calendar"
+        app:layout_constraintBottom_toBottomOf="@id/foodEd"
+        app:layout_constraintLeft_toRightOf="@id/foodEd"
+        app:layout_constraintTop_toTopOf="@id/foodEd" />
+
+    <TextView
+        android:id="@+id/proteinTv"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/enter_item_margin_top"
+        android:text="Прием пищи: "
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/foodTv" />
+
+    <Spinner
+        android:id="@+id/proteinEd"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        app:layout_constraintBottom_toBottomOf="@+id/proteinTv"
+        app:layout_constraintLeft_toLeftOf="@id/v"
+        app:layout_constraintLeft_toRightOf="@id/proteinTv"
+        app:layout_constraintTop_toTopOf="@+id/proteinTv"
+        app:layout_constraintRight_toRightOf="parent" />
+
+    <TextView
+        android:id="@+id/fatTv"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/enter_item_margin_top"
+        android:text="Блюдо: "
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/proteinTv" />
+
+    <AutoCompleteTextView
+        android:id="@+id/fatEd"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:completionThreshold="1"
+        android:imeOptions="actionNext"
+        android:maxLength="@string/max_food_length"
+        android:text=""
+        android:inputType="text"
+        app:layout_constraintBaseline_toBaselineOf="@+id/fatTv"
+        app:layout_constraintLeft_toLeftOf="@id/foodEd"
+        app:layout_constraintRight_toRightOf="parent" />
+
+    <TextView
+        android:id="@+id/carbTv"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/enter_item_margin_top"
+        android:text="Масса: "
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/fatTv" />
+
+    <EditText
+        android:id="@+id/carbEd"
+        android:layout_width="100dp"
+        android:layout_height="wrap_content"
+        android:maxLength="5"
+        android:imeOptions="actionGo"
+        android:inputType="number"
+        android:text=""
+        app:layout_constraintBaseline_toBaselineOf="@+id/carbTv"
+        app:layout_constraintLeft_toLeftOf="@id/foodEd" />
+
+    <Button
+        android:id="@+id/addBtn"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Добавить"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintHorizontal_bias="0.736" />
+</android.support.constraint.ConstraintLayout>
